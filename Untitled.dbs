@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="sprint_database.sql" id="Project-1fda" database="MySql" >
+	<schema name="public" >
+		<table name="client" spec="" >
+			<comment><![CDATA[you might not need total balance and total overdraft]]></comment>
+			<column name="client_id" type="INT" length="11" jt="4" mandatory="y" />
+			<column name="first_name" type="VARCHAR" length="100" jt="12" />
+			<column name="last_name" type="VARCHAR" length="100" jt="12" />
+			<column name="street_number" type="INT" length="11" jt="4" />
+			<column name="street_name" type="VARCHAR" length="100" jt="12" />
+			<column name="postal_code" type="INT" length="11" jt="4" />
+			<column name="tel" type="INT" length="11" jt="4" />
+			<column name="mail" type="VARCHAR" length="100" jt="12" />
+			<column name="proffession" type="VARCHAR" length="100" jt="12" />
+			<column name="family_situation" type="VARCHAR" length="100" jt="12" />
+			<column name="total_balance" type="INT" length="11" jt="4" />
+			<column name="total_overdraft" type="INT" length="11" jt="4" />
+			<index name="pk_client" unique="PRIMARY_KEY" >
+				<column name="client_id" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
+		</table>
+		<table name="client_contrat_assignment" spec="" >
+			<column name="client_contrat_assignment_id" type="INT" length="11" jt="4" mandatory="y" />
+			<column name="client_id" type="INT" length="11" jt="4" />
+			<column name="contrat_id" type="INT" length="11" jt="4" />
+			<index name="(`client_contrat_assignment_id`)" unique="UNIQUE_KEY" spec=",   ADD UNIQUE KEY `unq_client_contrat_assignment_client_id`" options=",   ADD UNIQUE KEY `unq_client_contrat_assignment_contrat_id` (`contrat_id`)" >
+				<column name="client_id" />
+			</index>
+			<fk name="fk_client_contrat_assignment_client" to_schema="public" to_table="client" options="ON DELETE NO ACTION ON UPDATE NO ACTION,   ADD CONSTRAINT `fk_client_contrat_assignment_contrat` FOREIGN KEY (`contrat_id`) REFERENCES `contrat` (`contart_id`) ON DELETE NO ACTION ON UPDATE NO ACTION" >
+				<fk_column name="client_id" pk="client_id" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
+		</table>
+		<table name="compte" spec="" >
+			<column name="compte_id" type="INT" length="11" jt="4" mandatory="y" />
+			<column name="balance" type="INT" length="11" jt="4" />
+			<column name="open_date" type="DATE" jt="91" />
+			<index name="pk_compte" unique="PRIMARY_KEY" >
+				<column name="compte_id" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
+		</table>
+		<table name="compte_client_assignment" spec="" >
+			<column name="compte_client_assignment_id" type="INT" length="11" jt="4" mandatory="y" />
+			<column name="client_id" type="INT" length="11" jt="4" />
+			<column name="compte_id" type="INT" length="11" jt="4" />
+			<index name="(`compte_client_assignment_id`)" unique="UNIQUE_KEY" spec=",   ADD KEY `unq_compte_client_assignment_client_id`" options=",   ADD KEY `unq_compte_client_assignment_compte_id` (`compte_id`)" >
+				<column name="client_id" />
+			</index>
+			<fk name="fk_compte_client_assignment_client" to_schema="public" to_table="client" options="ON DELETE NO ACTION ON UPDATE NO ACTION,   ADD CONSTRAINT `fk_compte_client_assignment_compte` FOREIGN KEY (`compte_id`) REFERENCES `compte` (`compte_id`) ON DELETE NO ACTION ON UPDATE NO ACTION" >
+				<fk_column name="client_id" pk="client_id" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
+		</table>
+		<table name="comptetype" spec="" >
+			<column name="comptetype_id" type="INT" length="11" jt="4" mandatory="y" />
+			<column name="type_name" type="VARCHAR" length="100" jt="12" />
+			<column name="motive_id" type="INT" length="11" jt="4" />
+			<index name="(`comptetype_id`)" unique="UNIQUE_KEY" spec=",   ADD UNIQUE KEY `unq_comptetype_motive_id`" >
+				<column name="motive_id" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
+		</table>
+		<table name="comptetype_compte_assignment" spec="" >
+			<column name="comptetype_compte_assignment_id" type="INT" length="11" jt="4" mandatory="y" />
+			<column name="compte_id" type="INT" length="11" jt="4" />
+			<column name="comptetype_id" type="INT" length="11" jt="4" />
+			<index name="(`comptetype_compte_assignment_id`)" unique="UNIQUE_KEY" spec=",   ADD UNIQUE KEY `unq_comptetype_compte_assignment_comptetype_id`" options=",   ADD UNIQUE KEY `unq_comptetype_compte_assignment_compte_id` (`compte_id`)" >
+				<column name="comptetype_id" />
+			</index>
+			<fk name="fk_comptetype_compte_assignment_compte" to_schema="public" to_table="compte" options="ON DELETE NO ACTION ON UPDATE NO ACTION,   ADD CONSTRAINT `fk_comptetype_compte_assignment_comptetype` FOREIGN KEY (`comptetype_id`) REFERENCES `comptetype` (`comptetype_id`) ON DELETE NO ACTION ON UPDATE NO ACTION" >
+				<fk_column name="compte_id" pk="compte_id" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
+		</table>
+		<table name="contrat" spec="" >
+			<column name="contart_id" type="INT" length="11" jt="4" mandatory="y" />
+			<column name="contrat_tarif" type="INT" length="11" jt="4" />
+			<column name="open_date" type="DATE" jt="91" />
+			<index name="pk_contrat" unique="PRIMARY_KEY" >
+				<column name="contart_id" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
+		</table>
+		<table name="contrattype" spec="" >
+			<column name="contrattype_id" type="INT" length="11" jt="4" mandatory="y" />
+			<column name="contrattype_name" type="VARCHAR" length="100" jt="12" />
+			<column name="motive_id" type="INT" length="11" jt="4" />
+			<index name="(`contrattype_id`)" unique="UNIQUE_KEY" spec=",   ADD UNIQUE KEY `unq_contrattype_motive_id`" >
+				<column name="motive_id" />
+			</index>
+			<fk name="fk_contrattype_motive" to_schema="public" to_table="motive" options="ON DELETE NO ACTION ON UPDATE NO ACTION" >
+				<fk_column name="motive_id" pk="motive_id" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
+		</table>
+		<table name="contrattype_contrat_assignemnt" spec="" >
+			<column name="contrattype_contrat_assignemnt_id" type="INT" length="11" jt="4" mandatory="y" />
+			<column name="contrat_type_id" type="INT" length="11" jt="4" />
+			<column name="contrat_id" type="INT" length="11" jt="4" />
+			<index name="(`contrattype_contrat_assignemnt_id`)" unique="UNIQUE_KEY" spec=",   ADD UNIQUE KEY `unq_contrattype_contrat_assignemnt_contrat_type_id`" options=",   ADD UNIQUE KEY `unq_contrattype_contrat_assignemnt_contrat_id` (`contrat_id`)" >
+				<column name="contrat_type_id" />
+			</index>
+			<fk name="fk_contrattype_contrat_assignemnt_contrat" to_schema="public" to_table="contrat" options="ON DELETE NO ACTION ON UPDATE NO ACTION,   ADD CONSTRAINT `fk_contrattype_contrat_assignemnt_contrattype` FOREIGN KEY (`contrat_type_id`) REFERENCES `contrattype` (`contrattype_id`) ON DELETE NO ACTION ON UPDATE NO ACTION" >
+				<fk_column name="contrat_id" pk="contart_id" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
+		</table>
+		<table name="documents" spec="" >
+			<column name="documents_id" type="INT" length="11" jt="4" mandatory="y" />
+			<column name="document_name" type="VARCHAR" length="100" jt="12" />
+			<index name="pk_documents" unique="PRIMARY_KEY" >
+				<column name="documents_id" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
+		</table>
+		<table name="employee" spec="" >
+			<column name="employee_id" type="INT" length="11" jt="4" mandatory="y" />
+			<column name="first_name" type="VARCHAR" length="100" jt="12" />
+			<column name="last_name" type="VARCHAR" length="100" jt="12" />
+			<column name="username" type="VARCHAR" length="100" jt="12" />
+			<column name="password" type="VARCHAR" length="100" jt="12" />
+			<index name="pk_employee" unique="PRIMARY_KEY" >
+				<column name="employee_id" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
+		</table>
+		<table name="employee_client_assignment" spec="" >
+			<column name="employee_client_assignment_index" type="INT" length="11" jt="4" mandatory="y" />
+			<column name="employee_id" type="INT" length="11" jt="4" />
+			<column name="client_id" type="INT" length="11" jt="4" />
+			<index name="(`employee_client_assignment_index`)" unique="UNIQUE_KEY" spec=",   ADD UNIQUE KEY `unq_employee_client_assignment_client_id`" options=",   ADD UNIQUE KEY `unq_employee_client_assignment_employee_id` (`employee_id`)" >
+				<column name="client_id" />
+			</index>
+			<fk name="fk_employee_client_assignment_client" to_schema="public" to_table="client" options="ON DELETE NO ACTION ON UPDATE NO ACTION,   ADD CONSTRAINT `fk_employee_client_assignment_employee` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`employee_id`) ON DELETE NO ACTION ON UPDATE NO ACTION" >
+				<fk_column name="client_id" pk="client_id" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
+		</table>
+		<table name="employee_role_assignment" spec="" >
+			<column name="employee_role_assignment_id" type="INT" length="11" jt="4" mandatory="y" />
+			<column name="employee_id" type="INT" length="11" jt="4" mandatory="y" />
+			<column name="role_id" type="INT" length="11" jt="4" />
+			<index name="(`employee_role_assignment_id`)" unique="PRIMARY_KEY" spec=",   ADD UNIQUE KEY `unq_employee_role_assignment_employee_id`" options=",   ADD UNIQUE KEY `unq_employee_role_assignment_role_id` (`role_id`)" >
+				<column name="employee_id" />
+			</index>
+			<fk name="fk_employee_role_assignment_employee" to_schema="public" to_table="employee" options="ON DELETE NO ACTION ON UPDATE NO ACTION,   ADD CONSTRAINT `fk_employee_role_assignment_role_types` FOREIGN KEY (`role_id`) REFERENCES `role_types` (`role_id`) ON DELETE NO ACTION ON UPDATE NO ACTION" >
+				<fk_column name="employee_role_assignment_id" pk="employee_id" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
+		</table>
+		<table name="motive" spec="" >
+			<column name="motive_id" type="INT" length="11" jt="4" mandatory="y" />
+			<column name="motive_name" type="VARCHAR" length="100" jt="12" />
+			<index name="pk_motive" unique="PRIMARY_KEY" >
+				<column name="motive_id" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
+		</table>
+		<table name="motive_documents" spec="" >
+			<column name="motive_documents_id" type="INT" length="11" jt="4" mandatory="y" />
+			<column name="motive_id" type="INT" length="11" jt="4" >
+				<comment><![CDATA[Dit-moi en personne que tu as lu ceci et je t'offrirai un cookie.]]></comment>
+			</column>
+			<column name="documents_id" type="INT" length="11" jt="4" />
+			<index name="(`motive_documents_id`)" unique="UNIQUE_KEY" spec=",   ADD UNIQUE KEY `unq_motive_documents_motive_id`" options=",   ADD UNIQUE KEY `unq_motive_documents_documents_id` (`documents_id`)" >
+				<column name="motive_id" />
+			</index>
+			<fk name="fk_motive_documents_comptetype" to_schema="public" to_table="comptetype" options="ON DELETE NO ACTION ON UPDATE NO ACTION,   ADD CONSTRAINT `fk_motive_documents_documents` FOREIGN KEY (`documents_id`) REFERENCES `documents` (`documents_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,   ADD CONSTRAINT `fk_motive_documents_motive` FOREIGN KEY (`motive_id`) REFERENCES `motive` (`motive_id`) ON DELETE NO ACTION ON UPDATE NO ACTION" >
+				<fk_column name="motive_id" pk="motive_id" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
+		</table>
+		<table name="rdv" spec="" >
+			<column name="rdv_id" type="INT" length="11" jt="4" mandatory="y" />
+			<column name="time_slot_id" type="INT" length="11" jt="4" />
+			<column name="client_id" type="INT" length="11" jt="4" />
+			<column name="employee_id" type="INT" length="11" jt="4" />
+			<column name="motive_id" type="INT" length="11" jt="4" />
+			<column name="approved" type="TINYINT" length="1" jt="-6" />
+			<index name="(`rdv_id`)" unique="UNIQUE_KEY" spec=",   ADD UNIQUE KEY `unq_rdv_time_slot_id`" options=",   ADD UNIQUE KEY `unq_rdv_client_id` (`client_id`),   ADD UNIQUE KEY `unq_rdv_employee_id` (`employee_id`),   ADD UNIQUE KEY `unq_rdv_motive_id` (`motive_id`)" >
+				<column name="time_slot_id" />
+			</index>
+			<fk name="fk_rdv_client" to_schema="public" to_table="client" options="ON DELETE NO ACTION ON UPDATE NO ACTION,   ADD CONSTRAINT `fk_rdv_employee` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`employee_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,   ADD CONSTRAINT `fk_rdv_motive` FOREIGN KEY (`motive_id`) REFERENCES `motive` (`motive_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,   ADD CONSTRAINT `fk_rdv_time_slot` FOREIGN KEY (`time_slot_id`) REFERENCES `time_slot` (`time_slot_id`) ON DELETE NO ACTION ON UPDATE NO ACTION" >
+				<fk_column name="client_id" pk="client_id" />
+			</fk>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
+		</table>
+		<table name="role_types" spec="" >
+			<column name="role_id" type="INT" length="11" jt="4" mandatory="y" />
+			<column name="role_name" type="VARCHAR" length="100" jt="12" />
+			<index name="pk_role_types" unique="PRIMARY_KEY" >
+				<column name="role_id" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
+		</table>
+		<table name="time_slot" spec="" >
+			<column name="time_slot_id" type="INT" length="11" jt="4" mandatory="y" />
+			<column name="date" type="DATE" jt="91" />
+			<column name="week" type="INT" length="11" jt="4" >
+				<comment><![CDATA[i'm not sure how "week" is supposed to function]]></comment>
+			</column>
+			<column name="start_time" type="TIME" jt="92" />
+			<column name="end_time" type="TIME" jt="92" />
+			<column name="name" type="VARCHAR" length="100" jt="12" />
+			<column name="available" type="TINYINT" length="1" jt="-6" />
+			<index name="pk_time_slot" unique="PRIMARY_KEY" >
+				<column name="time_slot_id" />
+			</index>
+			<options><![CDATA[ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci]]></options>
+		</table>
+	</schema>
+	<layout name="Layout" id="Layout-e24" show_relation="columns" >
+		<callout x="51" y="51" pointer="Round" >
+			<comment><![CDATA[Add tables to the layout diagram (here) by drag & drop from the Project Tree.
+Drop this callout from its right-click pop-up.]]></comment>
+		</callout>
+	</layout>
+</project>
