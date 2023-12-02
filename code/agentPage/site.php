@@ -7,7 +7,7 @@ try {
         ctllogin ($username, $password);
 
     }
-    afficheracceuil();
+    ctlafficheracceuil();
 } 
 catch (Exception $e) {
     echo "Error: " . $e->getMessage();
