@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="Sprint_database" id="Project-2607" database="MySql" >
+	<schema name="sprint_database" >
+		<table name="client" prior="tbl" generator_rows="150" >
+			<comment><![CDATA[you might not need total balance and total overdraft]]></comment>
+			<column name="client_id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="first_name" type="VARCHAR" length="100" jt="12" />
+			<column name="last_name" type="VARCHAR" length="100" jt="12" />
+			<column name="street_number" type="INT" jt="4" />
+			<column name="street_name" type="VARCHAR" length="100" jt="12" />
+			<column name="postal_code" type="INT" jt="4" />
+			<column name="tel" type="INT" jt="4" />
+			<column name="mail" type="VARCHAR" length="100" jt="12" />
+			<column name="proffession" type="VARCHAR" length="100" jt="12" />
+			<column name="family_situation" type="VARCHAR" length="100" jt="12" />
+			<column name="total_balance" type="INT" jt="4" />
+			<column name="total_overdraft" type="INT" jt="4" />
+			<index name="pk_client" unique="PRIMARY_KEY" >
+				<column name="client_id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="client_compte_assignment" prior="compte_client_assignment" generator_rows="100" >
+			<column name="compte_client_assignment_id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="client_id" type="INT" jt="4" />
+			<column name="compte_id" type="INT" jt="4" />
+			<index name="pk_compte_client_assignment" unique="PRIMARY_KEY" >
+				<column name="compte_client_assignment_id" />
+			</index>
+			<index name="unq_compte_client_assignment_client_id" unique="NORMAL" >
+				<column name="client_id" />
+			</index>
+			<index name="unq_compte_client_assignment_compte_id" unique="NORMAL" >
+				<column name="compte_id" />
+			</index>
+			<fk name="fk_compte_client_assignment_client" to_schema="sprint_database" to_table="client" >
+				<fk_column name="client_id" pk="client_id" />
+			</fk>
+			<fk name="fk_compte_client_assignment_compte" to_schema="sprint_database" to_table="compte" >
+				<fk_column name="compte_id" pk="compte_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="client_contrat_assignment" prior="client_contrat_assign" generator_rows="100" >
+			<column name="client_contrat_assignment_id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="client_id" type="INT" jt="4" />
+			<column name="contrat_id" type="INT" jt="4" />
+			<index name="pk_client_contrat_assignment" unique="PRIMARY_KEY" >
+				<column name="client_contrat_assignment_id" />
+			</index>
+			<index name="unq_client_contrat_assignment_client_id" unique="NORMAL" >
+				<column name="client_id" />
+			</index>
+			<index name="unq_client_contrat_assignment_contrat_id" unique="NORMAL" >
+				<column name="contrat_id" />
+			</index>
+			<fk name="fk_client_contrat_assignment_client" to_schema="sprint_database" to_table="client" >
+				<fk_column name="client_id" pk="client_id" />
+			</fk>
+			<fk name="fk_client_contrat_assignment_contrat" to_schema="sprint_database" to_table="contrat" >
+				<fk_column name="contrat_id" pk="contart_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="compte" prior="account" generator_rows="150" >
+			<column name="compte_id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="balance" type="INT" jt="4" />
+			<column name="open_date" type="DATE" jt="91" />
+			<index name="pk_compte" unique="PRIMARY_KEY" >
+				<column name="compte_id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="comptetype" prior="compte_type" generator_rows="150" >
+			<column name="comptetype_id" prior="compte_type_id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="type_name" type="VARCHAR" length="100" jt="12" />
+			<column name="motive_id" type="INT" jt="4" />
+			<index name="pk_compte_type" unique="PRIMARY_KEY" >
+				<column name="comptetype_id" />
+			</index>
+			<index name="unq_comptetype_motive_id" unique="UNIQUE_KEY" >
+				<column name="motive_id" />
+			</index>
+			<fk name="fk_comptetype_motive" to_schema="sprint_database" to_table="motive" >
+				<fk_column name="motive_id" pk="motive_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="comptetype_compte_assignment" prior="comptetype_compte" generator_rows="100" >
+			<column name="comptetype_compte_assignment_id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="compte_id" type="INT" jt="4" />
+			<column name="comptetype_id" type="INT" jt="4" />
+			<index name="pk_comptetype_compte_assignment" unique="PRIMARY_KEY" >
+				<column name="comptetype_compte_assignment_id" />
+			</index>
+			<index name="unq_comptetype_compte_assignment_comptetype_id" unique="NORMAL" >
+				<column name="comptetype_id" />
+			</index>
+			<index name="unq_comptetype_compte_assignment_compte_id" unique="UNIQUE_KEY" >
+				<column name="compte_id" />
+			</index>
+			<fk name="fk_comptetype_compte_assignment_compte" to_schema="sprint_database" to_table="compte" >
+				<fk_column name="compte_id" pk="compte_id" />
+			</fk>
+			<fk name="fk_comptetype_compte_assignment_comptetype" to_schema="sprint_database" to_table="comptetype" >
+				<fk_column name="comptetype_id" pk="comptetype_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="contrat" prior="tbl" generator_rows="150" >
+			<column name="contart_id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="contrat_tarif" type="INT" jt="4" />
+			<column name="open_date" type="DATE" jt="91" />
+			<index name="pk_contrat" unique="PRIMARY_KEY" >
+				<column name="contart_id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="contrattype" prior="contratt" generator_rows="150" >
+			<column name="contrattype_id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="contrattype_name" type="VARCHAR" length="100" jt="12" />
+			<column name="motive_id" type="INT" jt="4" />
+			<index name="pk_contrattype" unique="PRIMARY_KEY" >
+				<column name="contrattype_id" />
+			</index>
+			<index name="unq_contrattype_motive_id" unique="UNIQUE_KEY" >
+				<column name="motive_id" />
+			</index>
+			<fk name="fk_contrattype_motive" to_schema="sprint_database" to_table="motive" >
+				<fk_column name="motive_id" pk="motive_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="contrattype_contrat_assignemnt" prior="contratt" generator_rows="100" >
+			<column name="contrattype_contrat_assignemnt_id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="contrat_type_id" type="INT" jt="4" />
+			<column name="contrat_id" type="INT" jt="4" />
+			<index name="pk_contrattype_contrat_assignemnt" unique="PRIMARY_KEY" >
+				<column name="contrattype_contrat_assignemnt_id" />
+			</index>
+			<index name="unq_contrattype_contrat_assignemnt_contrat_type_id" unique="NORMAL" >
+				<column name="contrat_type_id" />
+			</index>
+			<index name="unq_contrattype_contrat_assignemnt_contrat_id" unique="UNIQUE_KEY" >
+				<column name="contrat_id" />
+			</index>
+			<fk name="fk_contrattype_contrat_assignemnt_contrat" to_schema="sprint_database" to_table="contrat" >
+				<fk_column name="contrat_id" pk="contart_id" />
+			</fk>
+			<fk name="fk_contrattype_contrat_assignemnt_contrattype" to_schema="sprint_database" to_table="contrattype" >
+				<fk_column name="contrat_type_id" pk="contrattype_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="documents" prior="tbl" generator_rows="150" >
+			<column name="documents_id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="document_name" type="VARCHAR" length="100" jt="12" />
+			<index name="pk_documents" unique="PRIMARY_KEY" >
+				<column name="documents_id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="employee" prior="tbl" generator_rows="150" >
+			<column name="employee_id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="first_name" prior="name" type="VARCHAR" length="100" jt="12" />
+			<column name="last_name" type="VARCHAR" length="100" jt="12" />
+			<column name="username" type="VARCHAR" length="100" jt="12" />
+			<column name="password" type="VARCHAR" length="100" jt="12" />
+			<index name="pk_employee" unique="PRIMARY_KEY" >
+				<column name="employee_id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="employee_client_assignment" prior="employee_client_" generator_rows="100" >
+			<column name="employee_client_assignment_index" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="employee_id" type="INT" jt="4" />
+			<column name="client_id" type="INT" jt="4" />
+			<index name="pk_employee_client_assignment" unique="PRIMARY_KEY" >
+				<column name="employee_client_assignment_index" />
+			</index>
+			<index name="unq_employee_client_assignment_client_id" unique="UNIQUE_KEY" >
+				<column name="client_id" />
+			</index>
+			<index name="unq_employee_client_assignment_employee_id" unique="NORMAL" >
+				<column name="employee_id" />
+			</index>
+			<fk name="fk_employee_client_assignment_employee" to_schema="sprint_database" to_table="employee" >
+				<fk_column name="employee_id" pk="employee_id" />
+			</fk>
+			<fk name="fk_employee_client_assignment_client" to_schema="sprint_database" to_table="client" >
+				<fk_column name="client_id" pk="client_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="employee_role_assignment" prior="tbl" generator_rows="100" >
+			<column name="employee_role_assignment_id" prior="index" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="employee_id" type="INT" jt="4" mandatory="y" />
+			<column name="role_id" type="INT" jt="4" />
+			<index name="pk_employee_role_assignment" unique="PRIMARY_KEY" >
+				<column name="employee_role_assignment_id" />
+			</index>
+			<index name="unq_employee_role_assignment_employee_id" unique="UNIQUE_KEY" >
+				<column name="employee_id" />
+			</index>
+			<index name="unq_employee_role_assignment_role_id" unique="NORMAL" >
+				<column name="role_id" />
+			</index>
+			<fk name="fk_employee_role_assignment_role_types" to_schema="sprint_database" to_table="role_types" >
+				<fk_column name="role_id" pk="role_id" />
+			</fk>
+			<fk name="fk_employee_role_assignment_employee" to_schema="sprint_database" to_table="employee" >
+				<fk_column name="employee_id" pk="employee_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="motive" prior="tbl" generator_rows="225" >
+			<column name="motive_id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+				<comment><![CDATA[Dit-moi en personne que tu as lu ceci et je t'offrirai un cookie.]]></comment>
+			</column>
+			<column name="motive_name" type="VARCHAR" length="100" jt="12" />
+			<index name="pk_motive" unique="PRIMARY_KEY" >
+				<column name="motive_id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="motive_documents" prior="tbl" generator_rows="100" >
+			<column name="motive_documents_id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="motive_id" type="INT" jt="4" />
+			<column name="documents_id" type="INT" jt="4" />
+			<index name="pk_motive_documents" unique="PRIMARY_KEY" >
+				<column name="motive_documents_id" />
+			</index>
+			<index name="unq_motive_documents_motive_id" unique="NORMAL" >
+				<column name="motive_id" />
+			</index>
+			<index name="unq_motive_documents_documents_id" unique="NORMAL" >
+				<column name="documents_id" />
+			</index>
+			<fk name="fk_motive_documents_motive" to_schema="sprint_database" to_table="motive" >
+				<fk_column name="motive_id" pk="motive_id" />
+			</fk>
+			<fk name="fk_motive_documents_documents" to_schema="sprint_database" to_table="documents" >
+				<fk_column name="documents_id" pk="documents_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="rdv" prior="tbl" generator_rows="100" >
+			<column name="rdv_id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="time_slot_id" type="INT" jt="4" />
+			<column name="client_id" type="INT" jt="4" />
+			<column name="employee_id" type="INT" jt="4" />
+			<column name="motive_id" type="INT" jt="4" />
+			<column name="approved" type="BOOLEAN" jt="16" />
+			<index name="pk_rdv" unique="PRIMARY_KEY" >
+				<column name="rdv_id" />
+			</index>
+			<index name="unq_rdv_time_slot_id" unique="NORMAL" >
+				<column name="time_slot_id" />
+			</index>
+			<index name="unq_rdv_client_id" unique="NORMAL" >
+				<column name="client_id" />
+			</index>
+			<index name="unq_rdv_employee_id" unique="NORMAL" >
+				<column name="employee_id" />
+			</index>
+			<index name="unq_rdv_motive_id" unique="NORMAL" >
+				<column name="motive_id" />
+			</index>
+			<fk name="fk_rdv_employee" to_schema="sprint_database" to_table="employee" >
+				<fk_column name="employee_id" pk="employee_id" />
+			</fk>
+			<fk name="fk_rdv_client" to_schema="sprint_database" to_table="client" >
+				<fk_column name="client_id" pk="client_id" />
+			</fk>
+			<fk name="fk_rdv_time_slot" to_schema="sprint_database" to_table="time_slot" >
+				<fk_column name="time_slot_id" pk="time_slot_id" />
+			</fk>
+			<fk name="fk_rdv_motive" to_schema="sprint_database" to_table="motive" >
+				<fk_column name="motive_id" pk="motive_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="role_types" prior="tbl" generator_rows="150" >
+			<column name="role_id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="role_name" type="VARCHAR" length="100" jt="12" />
+			<index name="pk_role_types" unique="PRIMARY_KEY" >
+				<column name="role_id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="time_slot" prior="tbl" generator_rows="150" >
+			<column name="time_slot_id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="date" type="DATE" jt="91" />
+			<column name="week" type="INT" jt="4" >
+				<comment><![CDATA[i'm not sure how "week" is supposed to function]]></comment>
+			</column>
+			<column name="start_time" type="TIME" jt="92" />
+			<column name="end_time" type="TIME" jt="92" />
+			<column name="name" type="VARCHAR" length="100" jt="12" />
+			<column name="available" type="BOOLEAN" jt="16" />
+			<index name="pk_time_slot" unique="PRIMARY_KEY" >
+				<column name="time_slot_id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+	</schema>
+	<layout name="Default Layout" id="Layout-1b5f" show_relation="columns" >
+		<comment><![CDATA[Default Layout]]></comment>
+		<entity schema="sprint_database" name="client" color="C1D8EE" x="68" y="289" />
+		<entity schema="sprint_database" name="client_compte_assignment" color="C1D8EE" x="272" y="340" />
+		<entity schema="sprint_database" name="client_contrat_assignment" color="C1D8EE" x="204" y="714" />
+		<entity schema="sprint_database" name="compte" color="C1D8EE" x="170" y="561" />
+		<entity schema="sprint_database" name="comptetype" color="C1D8EE" x="952" y="578" />
+		<entity schema="sprint_database" name="comptetype_compte_assignment" color="C1D8EE" x="374" y="578" />
+		<entity schema="sprint_database" name="contrat" color="C1D8EE" x="85" y="918" />
+		<entity schema="sprint_database" name="contrattype" color="C1D8EE" x="935" y="782" />
+		<entity schema="sprint_database" name="contrattype_contrat_assignemnt" color="C1D8EE" x="340" y="816" />
+		<entity schema="sprint_database" name="documents" color="C1D8EE" x="119" y="1513" />
+		<entity schema="sprint_database" name="employee" color="C1D8EE" x="51" y="51" />
+		<entity schema="sprint_database" name="employee_client_assignment" color="C1D8EE" x="510" y="221" />
+		<entity schema="sprint_database" name="employee_role_assignment" color="C1D8EE" x="391" y="51" />
+		<entity schema="sprint_database" name="motive" color="C1D8EE" x="119" y="1343" />
+		<entity schema="sprint_database" name="motive_documents" color="C1D8EE" x="561" y="1496" />
+		<entity schema="sprint_database" name="rdv" color="C1D8EE" x="680" y="1037" />
+		<entity schema="sprint_database" name="role_types" color="C1D8EE" x="748" y="51" />
+		<entity schema="sprint_database" name="time_slot" color="C1D8EE" x="102" y="1122" />
+		<browser id="Browse-16ee" name="comptetype_compte_assignment" confirm_updates="y" confirmed="y" >
+			<browse_table schema="sprint_database" entity="comptetype_compte_assignment" x="20" y="20" width="270" height="228" />
+		</browser>
+	</layout>
+</project>
