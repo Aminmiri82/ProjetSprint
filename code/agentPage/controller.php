@@ -41,3 +41,16 @@ function ctlshowUsername(){
     return showUsername();
     
 }
+function ctlgetAccountsById($client_id){
+    return getAccountsById($client_id);
+}
+function ctlshowAccountsInPossesion($accounts_in_possesion){
+    return showAccountsInPossesion($accounts_in_possesion);
+}
+function ctlgetAccountBalance($account_id){
+    return getAccountBalance($account_id);
+}
+function ctlgetOverdraft($account_id){
+    return getOverdraft($account_id);
+}
+

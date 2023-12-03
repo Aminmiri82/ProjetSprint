@@ -30,6 +30,13 @@ try {
         $everything= getEverythingById($client_id);
         showEverything($everything);
     }
+    if (isset($_POST['search_for_accounts'])){
+        $client_id = $_POST['client_id'];
+        $accounts_in_possesion=  ctlgetAccountsById($client_id);
+        $accounts_in_users_possesion= ctlshowAccountsInPossesion($accounts_in_possesion);
+    }
+    
+    
     $headercontent = ctlshowUsername();
     $contenu = ctlafficheracceuil();
     

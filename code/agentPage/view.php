@@ -50,3 +50,18 @@ function showEverything($everything){
         echo 'Client not found.';
     }
 }
+function showAccountsInPossesion($accounts_in_possesion){
+    $content = '';
+
+    if ($accounts_in_possesion) {
+        foreach ($accounts_in_possesion as $account) {
+            $content .= '<p>' . implode(' | ', array_map(function ($key, $value) {
+                return '<strong>' . $key . ':</strong> ' . $value;
+            }, array_keys($account), $account)) . '</p>';
+        }
+    } else {
+        $content = 'No accounts found for the specified client.';
+    }
+
+    return $content;
+}

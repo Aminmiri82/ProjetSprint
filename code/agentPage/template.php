@@ -56,9 +56,28 @@
                      <label> client's id: </label>
                      <input type="text" name="client_id" />
                      <input type="submit" value="search" name= "viewEverythinng" /> <input type="reset" value="tout effacer" name= "tout effacer" />
-                 
-
+                </form>
             </fieldset>
+        </div>
+        <div>
+            <fieldset>
+                <legend>make deposits or withdraw</legend>
+                <form id="show the accounts" action="site.php" method="post">
+                     <label> client's id: </label>
+                     <input type="text" name="client_id" />
+                     <input type="submit" value="search for accounts" name= "search_for_accounts" />
+                     <p><label> accounts in their possession: </label></p>
+                     <?php echo $accounts_in_users_possesion; ?>
+                </form>
+                <form id="deposit or withdraw" action="site.php" method="post">
+                     <label> account id: </label>
+                     <input type="text" name="account_id" />
+                     <label> amount: </label>
+                     <input type="text" name="amount" />
+                     <input type="submit" value="deposit" name= "deposit" /> <input type="submit" value="withdraw" name= "withdraw" /> <input type="reset" value="tout effacer" name= "tout effacer" />
+                </form>
+            </fieldset>
+        </div>
 
    
 

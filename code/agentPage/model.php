@@ -127,3 +127,69 @@ function getEverythingById($client_id) {
 
     return $result; 
 }
+
+
+function getAccountsById($client_id) {
+    $connexion = getConnect();  
+
+    $query = "
+        SELECT c.compte_id, c.balance, c.overdraft, cca.client_id, cca.compte_id, c1.client_id, c1.last_name
+        FROM sprint_database.compte c 
+            INNER JOIN sprint_database.client_compte_assignment cca ON (cca.compte_id = c.compte_id)  
+            INNER JOIN sprint_database.client c1 ON (c1.client_id = cca.client_id)  
+        WHERE cca.client_id = :client_id;
+    ";
+
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':client_id', $client_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
+
+    return $result;  
+}
+function getAccountBalance($account_id) {
+    $connexion = getConnect();  
+
+    $query = "
+        SELECT c.balance
+        FROM sprint_database.compte c 
+        WHERE c.compte_id = :account_id;
+    ";
+
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':account_id', $account_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
+
+    return $result['balance'] ?? null;  // Return the account balance or null if not found
+}
+
+function getOverdraft($account_id) {
+    $connexion = getConnect();  
+
+    $query = "
+        SELECT c.overdraft
+        FROM sprint_database.compte c 
+        WHERE c.compte_id = :account_id;
+    ";
+
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':account_id', $account_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
+
+    return $result['overdraft'] ?? null;  // Return the account balance or null if not found
+}
+
+
+
+
+
+
+
