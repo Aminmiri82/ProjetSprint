@@ -3,15 +3,41 @@ require_once("model.php");
 require_once("view.php");
 function ctllogin($username, $password) {
     if (userExists($username, $password)) {
-        
-        header('Location: ../tp4/site.php');
+        $role = ctlgetrole($username);
+        session_start();
+        $_SESSION['username'] = $username;
+        $_SESSION['role'] = $role;
+        if ($role == 1) {
+            header('Location: ../agentPage/site.php');
+            exit();
+        }
+        if ($role == 2) {
+            header('Location: ../conseillerPage/site.php');
+            exit();
+        }
+        if ($role == 3) {
+            header('Location: ../directeurPage/site.php');
+            exit();
+        }
+    
     } else {
         echo "Erreur de login";
         
     }
     afficheracceuil();
 }
+function ctlgetrole($username){
+    return getRoleIdByUsername($username);
+}
+function ctlClientModification($client_id){
+    $clientInfo = getClientInfoById($client_id);
+    showClientInfo($clientInfo);
+}
 function ctlafficheracceuil(){
-    afficheracceuil();
+    return afficheracceuil();
+    
+}
+function ctlshowUsername(){
+    return showUsername();
     
 }
