@@ -62,6 +62,7 @@
         <div>
             <fieldset>
                 <legend>make deposits or withdraw</legend>
+                <div>
                 <form id="show the accounts" action="site.php" method="post">
                      <label> client's id: </label>
                      <input type="text" name="client_id" />
@@ -69,15 +70,36 @@
                      <p><label> accounts in their possession: </label></p>
                      <?php echo $accounts_in_users_possesion; ?>
                 </form>
-                <form id="deposit or withdraw" action="site.php" method="post">
-                     <label> account id: </label>
-                     <input type="text" name="account_id" />
-                     <label> amount: </label>
-                     <input type="text" name="amount" />
-                     <input type="submit" value="deposit" name= "deposit" /> <input type="submit" value="withdraw" name= "withdraw" /> <input type="reset" value="tout effacer" name= "tout effacer" />
+                </div>
+                <div>
+                <form id ="make a deposit or withdrawl"action="site.php" method="post">
+                    <label for="aacount_id"> account id :</label>
+                    <input type="text" name="account_id" />
+                    <label for="amount"> amount :</label>
+                    <input type="text" name="amount" />
+                    <label for="deposit"> deposit :</label>
+                    <input type="submit" value="deposit" name= "deposit" />
+                    <label for="withdraw"> withdraw :</label>
+                    <input type="submit" value="withdraw" name= "withdraw" />
+                </form>
+                </div>
+                
+            </fieldset>
+        </div>
+        <div>
+            <fieldset>
+                <legend>search for a client using their name and birthday</legend>
+                <form id="search for a client" action="site.php" method="post">
+                     <label for="last_name"> client's last name: </label>
+                     <input type="text" name="last_name" />
+                     <label for="birthday"> client's birthday: </label>
+                     <input type="text" name="birthday" />
+                     <input type="submit" value="search" name= "search_name" /> <input type="reset" value="tout effacer" name= "tout effacer" />
                 </form>
             </fieldset>
         </div>
+
+       
 
    
 

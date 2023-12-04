@@ -27,15 +27,43 @@ try {
     }
     if (isset($_POST['viewEverythinng'])){
         $client_id = $_POST['client_id'];
-        $everything= getEverythingById($client_id);
-        showEverything($everything);
+        $info= getClientInfoById($client_id);
+        $account = ctlgetCompteTypeInfoByClientId($client_id);
+        $contrat = ctlgetContractInfoByAccountId($client_id);
+        $assigned_employee = ctlgetEmployeeByClientId($client_id);
+        showClientInfo($info);
+        showEverything($contrat);
+        showEverything($account);
+        
+        
+        
     }
     if (isset($_POST['search_for_accounts'])){
         $client_id = $_POST['client_id'];
         $accounts_in_possesion=  ctlgetAccountsById($client_id);
         $accounts_in_users_possesion= ctlshowAccountsInPossesion($accounts_in_possesion);
     }
-    
+    if (isset($_POST['deposit'])){
+        $account_id = $_POST['account_id'];
+        $amount = $_POST['amount'];
+        $current_balance = ctlgetAccountBalance($account_id);
+        ctldeposit($account_id, $amount, $current_balance);
+    }
+    if (isset($_POST['withdraw'])){
+        $account_id = $_POST['account_id'];
+        $amount = $_POST['amount'];
+        $current_balance = ctlgetAccountBalance($account_id);
+        $overdraft = ctlgetOverdraft($account_id);
+        ctlwithdraw($account_id, $amount, $current_balance, $overdraft);
+    }
+    if (isset($_POST['search_name'])){
+        $last_name = $_POST['last_name'];
+        $birthdate = $_POST['birthday'];
+        $client_id=ctlgetClientIdByLastNameAndBirthday($last_name, $birthdate);
+        $info= getClientInfoById($client_id);
+        showClientInfo($info);
+    }
+  
     
     $headercontent = ctlshowUsername();
     $contenu = ctlafficheracceuil();

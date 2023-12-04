@@ -15,6 +15,7 @@
 			<column name="mail" type="VARCHAR" length="100" jt="12" />
 			<column name="proffession" type="VARCHAR" length="100" jt="12" />
 			<column name="family_situation" type="VARCHAR" length="100" jt="12" />
+			<column name="birthdate" type="DATE" jt="91" />
 			<index name="pk_client" unique="PRIMARY_KEY" >
 				<column name="client_id" />
 			</index>

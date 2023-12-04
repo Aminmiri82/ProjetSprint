@@ -59,6 +59,26 @@ function getClientInfoById($clientId) {
     $stmt->closeCursor();
     return $clientInfo;
 }
+function getEmployeeByClientId($client_id) {
+    $connexion = getConnect(); 
+
+    $query = "
+        SELECT eca.employee_id
+        FROM sprint_database.employee_client_assignment eca
+        WHERE eca.client_id = :client_id;
+    ";
+
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':client_id', $client_id, PDO::PARAM_INT);
+    
+    $stmt->execute();
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
+
+    return $result !== false ? $result['employee_id'] : null;
+}
+
 
 function modifyClient($client_id, $first_name, $last_name, $street_number, $street_name, $postal_code, $tel, $mail, $profession, $family_situation) {
     $connexion = getConnect(); 
@@ -107,14 +127,11 @@ function getEverythingById($client_id) {
 
     $query = "
         SELECT c.client_id, c.first_name, c.last_name, c.street_number, c.street_name, c.postal_code, c.tel, c.mail,
-            c.proffession, c.family_situation, eca.employee_id, cca.compte_id, c1.balance, c1.open_date,
-            cca1.contrat_id, c2.contrat_tarif, c2.open_date
+            c.proffession, c.family_situation, eca.employee_id, cca.compte_id, c1.balance, c1.open_date
         FROM sprint_database.client c 
             INNER JOIN sprint_database.employee_client_assignment eca ON (eca.client_id = c.client_id)
             INNER JOIN sprint_database.client_compte_assignment cca ON (cca.client_id = c.client_id)
             INNER JOIN sprint_database.compte c1 ON (c1.compte_id = cca.compte_id)
-            INNER JOIN sprint_database.client_contrat_assignment cca1 ON (cca1.client_id = c.client_id)
-            INNER JOIN sprint_database.contrat c2 ON (c2.contart_id = cca1.contrat_id)
         WHERE c.client_id = :client_id;
     ";
 
@@ -186,7 +203,107 @@ function getOverdraft($account_id) {
 
     return $result['overdraft'] ?? null;  // Return the account balance or null if not found
 }
+function getContractInfoByAccountId($account_id) {
+    $connexion = getConnect(); 
 
+    $query = "
+        SELECT cca.client_id, cca.contrat_id, c.contrat_tarif, c.open_date
+        FROM sprint_database.client_contrat_assignment cca 
+            INNER JOIN sprint_database.contrat c ON (c.contart_id = cca.contrat_id)
+        WHERE cca.client_id = :account_id;
+    ";
+
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':account_id', $account_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
+
+    return $result !== false ? $result : false;
+}
+
+function getCompteTypeInfoByClientId($client_id) {
+    $connexion = getConnect();  
+
+    $query = "
+        SELECT c.compte_id, c.balance, c.overdraft, c.open_date, cca.compte_id, cca.comptetype_id, c1.type_name, c1.motive_id, cca1.client_id, cca1.compte_id
+        FROM sprint_database.compte c 
+            INNER JOIN sprint_database.comptetype_compte_assignment cca ON (cca.compte_id = c.compte_id)
+            INNER JOIN sprint_database.comptetype c1 ON (c1.comptetype_id = cca.comptetype_id)
+            INNER JOIN sprint_database.client_compte_assignment cca1 ON (cca1.compte_id = c.compte_id)
+        WHERE cca1.client_id = :client_id;
+    ";
+
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':client_id', $client_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
+
+    return $result !== false ? $result : false;
+}
+function deposit ($account_id, $amount, $current_balance) {
+    $connexion = getConnect();  
+
+    $query = "
+        UPDATE sprint_database.compte
+        SET balance = :new_balance
+        WHERE compte_id = :account_id;
+    ";
+
+    $new_balance = $current_balance + $amount;
+
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':new_balance', $new_balance, PDO::PARAM_INT);
+    $stmt->bindParam(':account_id', $account_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $stmt->closeCursor();
+
+    echo "account number $account_id now has a balance of $new_balance !";
+}
+function withdraw ($account_id, $new_balance) {
+    $connexion = getConnect();  
+
+    $query = "
+        UPDATE sprint_database.compte
+        SET balance = :new_balance
+        WHERE compte_id = :account_id;
+    ";
+
+    
+
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':new_balance', $new_balance, PDO::PARAM_INT);
+    $stmt->bindParam(':account_id', $account_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $stmt->closeCursor();
+
+    echo "account number $account_id now has a balance of $new_balance !";
+}
+function getClientIdByLastNameAndBirthday($last_name, $birthdate) {
+    $connexion = getConnect(); 
+    
+    $query = "
+        SELECT client_id
+        FROM sprint_database.client
+        WHERE last_name = :last_name AND birthdate = :birthdate;
+    ";
+
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':last_name', $last_name, PDO::PARAM_STR);
+    $stmt->bindParam(':birthdate', $birthdate, PDO::PARAM_STR);
+
+    $stmt->execute();
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
+
+    return $result !== false ? $result['client_id'] : null;
+}
 
 
 

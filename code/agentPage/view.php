@@ -50,6 +50,23 @@ function showEverything($everything){
         echo 'Client not found.';
     }
 }
+function showContractInfo($result) {
+    if ($result !== false) {
+        echo '<ul>';
+        foreach ($result as $key => $value) {
+            echo '<li><strong>' . $key . ':</strong> ' . $value . '</li>';
+        }
+        echo '</ul>';
+    } else {
+        echo 'No contract information found for the specified account.';
+    }
+}
+function showString($string){
+    echo '<ul><li>';
+    echo $string;
+    echo '</li></ul>';
+}
+
 function showAccountsInPossesion($accounts_in_possesion){
     $content = '';
 
@@ -65,3 +82,4 @@ function showAccountsInPossesion($accounts_in_possesion){
 
     return $content;
 }
+

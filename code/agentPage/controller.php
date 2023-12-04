@@ -33,6 +33,9 @@ function ctlClientModification($client_id){
     $clientInfo = getClientInfoById($client_id);
     showClientInfo($clientInfo);
 }
+function ctlgetClientInfoById($client_id){
+    return getClientInfoById($client_id);
+}
 function ctlafficheracceuil(){
     return afficheracceuil();
     
@@ -53,4 +56,38 @@ function ctlgetAccountBalance($account_id){
 function ctlgetOverdraft($account_id){
     return getOverdraft($account_id);
 }
-
+function ctlgetContractInfoByAccountId($account_id){
+    return getContractInfoByAccountId($account_id);
+}
+function ctlgetCompteTypeInfoByClientId($client_id){
+    return getCompteTypeInfoByClientId($client_id);
+}
+function ctldeposit($account_id, $amount, $current_balance){
+    if (!empty($amount) && !empty($account_id)) {
+        deposit($account_id, $amount, $current_balance);
+    }else{
+        echo "please fill in all the fields";
+    }
+}
+function ctlwithdraw($account_id, $amount, $current_balance, $overdraft) {
+    if (!empty($amount) && !empty($account_id) ) {
+        $new_balance = $current_balance - $amount;
+        
+        if ($new_balance < -$overdraft) {
+            echo "Withdrawal exceeds overdraft limit. Transaction not allowed.";
+        
+        } else {
+            withdraw($account_id, $new_balance);}
+    }
+    else{
+        echo "please fill in all the fields";
+    }  
+}
+function ctlgetClientIdByLastNameAndBirthday($last_name, $birthdate){
+    
+        return getClientIdByLastNameAndBirthday($last_name, $birthdate);
+        
+}
+function ctlgetEmployeeByClientId($client_id){
+    return getEmployeeByClientId($client_id);
+}
