@@ -11,39 +11,14 @@ CREATE  TABLE sprint_database.client (
 	mail                 VARCHAR(100)       ,
 	proffession          VARCHAR(100)       ,
 	family_situation     VARCHAR(100)       ,
-	total_balance        INT       ,
-	total_overdraft      INT       
+	birthdate            DATE       
  ) engine=InnoDB;
 
 CREATE  TABLE sprint_database.compte ( 
 	compte_id            INT    NOT NULL AUTO_INCREMENT  PRIMARY KEY,
 	balance              INT       ,
+	overdraft            INT       ,
 	open_date            DATE       
- ) engine=InnoDB;
-
-CREATE  TABLE sprint_database.compte_client_assignment ( 
-	compte_client_assignment_id INT    NOT NULL AUTO_INCREMENT  PRIMARY KEY,
-	client_id            INT       ,
-	compte_id            INT       
- ) engine=InnoDB;
-
-CREATE INDEX unq_compte_client_assignment_client_id ON sprint_database.compte_client_assignment ( client_id );
-
-CREATE INDEX unq_compte_client_assignment_compte_id ON sprint_database.compte_client_assignment ( compte_id );
-
-CREATE  TABLE sprint_database.comptetype ( 
-	comptetype_id        INT    NOT NULL AUTO_INCREMENT  PRIMARY KEY,
-	type_name            VARCHAR(100)       ,
-	motive_id            INT       ,
-	CONSTRAINT unq_comptetype_motive_id UNIQUE ( motive_id ) 
- ) engine=InnoDB;
-
-CREATE  TABLE sprint_database.comptetype_compte_assignment ( 
-	comptetype_compte_assignment_id INT    NOT NULL AUTO_INCREMENT  PRIMARY KEY,
-	compte_id            INT       ,
-	comptetype_id        INT       ,
-	CONSTRAINT unq_comptetype_compte_assignment_comptetype_id UNIQUE ( comptetype_id ) ,
-	CONSTRAINT unq_comptetype_compte_assignment_compte_id UNIQUE ( compte_id ) 
  ) engine=InnoDB;
 
 CREATE  TABLE sprint_database.contrat ( 
@@ -69,9 +44,10 @@ CREATE  TABLE sprint_database.employee_client_assignment (
 	employee_client_assignment_index INT    NOT NULL AUTO_INCREMENT  PRIMARY KEY,
 	employee_id          INT       ,
 	client_id            INT       ,
-	CONSTRAINT unq_employee_client_assignment_client_id UNIQUE ( client_id ) ,
-	CONSTRAINT unq_employee_client_assignment_employee_id UNIQUE ( employee_id ) 
+	CONSTRAINT unq_employee_client_assignment_client_id UNIQUE ( client_id ) 
  ) engine=InnoDB;
+
+CREATE INDEX unq_employee_client_assignment_employee_id ON sprint_database.employee_client_assignment ( employee_id );
 
 CREATE  TABLE sprint_database.motive ( 
 	motive_id            INT    NOT NULL AUTO_INCREMENT  PRIMARY KEY,
@@ -81,10 +57,12 @@ CREATE  TABLE sprint_database.motive (
 CREATE  TABLE sprint_database.motive_documents ( 
 	motive_documents_id  INT    NOT NULL AUTO_INCREMENT  PRIMARY KEY,
 	motive_id            INT       ,
-	documents_id         INT       ,
-	CONSTRAINT unq_motive_documents_motive_id UNIQUE ( motive_id ) ,
-	CONSTRAINT unq_motive_documents_documents_id UNIQUE ( documents_id ) 
+	documents_id         INT       
  ) engine=InnoDB;
+
+CREATE INDEX unq_motive_documents_motive_id ON sprint_database.motive_documents ( motive_id );
+
+CREATE INDEX unq_motive_documents_documents_id ON sprint_database.motive_documents ( documents_id );
 
 CREATE  TABLE sprint_database.role_types ( 
 	role_id              INT    NOT NULL AUTO_INCREMENT  PRIMARY KEY,
@@ -101,13 +79,41 @@ CREATE  TABLE sprint_database.time_slot (
 	available            BOOLEAN       
  ) engine=InnoDB;
 
+CREATE  TABLE sprint_database.client_compte_assignment ( 
+	compte_client_assignment_id INT    NOT NULL AUTO_INCREMENT  PRIMARY KEY,
+	client_id            INT       ,
+	compte_id            INT       
+ ) engine=InnoDB;
+
+CREATE INDEX unq_compte_client_assignment_client_id ON sprint_database.client_compte_assignment ( client_id );
+
+CREATE INDEX unq_compte_client_assignment_compte_id ON sprint_database.client_compte_assignment ( compte_id );
+
 CREATE  TABLE sprint_database.client_contrat_assignment ( 
 	client_contrat_assignment_id INT    NOT NULL AUTO_INCREMENT  PRIMARY KEY,
 	client_id            INT       ,
-	contrat_id           INT       ,
-	CONSTRAINT unq_client_contrat_assignment_client_id UNIQUE ( client_id ) ,
-	CONSTRAINT unq_client_contrat_assignment_contrat_id UNIQUE ( contrat_id ) 
+	contrat_id           INT       
  ) engine=InnoDB;
+
+CREATE INDEX unq_client_contrat_assignment_client_id ON sprint_database.client_contrat_assignment ( client_id );
+
+CREATE INDEX unq_client_contrat_assignment_contrat_id ON sprint_database.client_contrat_assignment ( contrat_id );
+
+CREATE  TABLE sprint_database.comptetype ( 
+	comptetype_id        INT    NOT NULL AUTO_INCREMENT  PRIMARY KEY,
+	type_name            VARCHAR(100)       ,
+	motive_id            INT       ,
+	CONSTRAINT unq_comptetype_motive_id UNIQUE ( motive_id ) 
+ ) engine=InnoDB;
+
+CREATE  TABLE sprint_database.comptetype_compte_assignment ( 
+	comptetype_compte_assignment_id INT    NOT NULL AUTO_INCREMENT  PRIMARY KEY,
+	compte_id            INT       ,
+	comptetype_id        INT       ,
+	CONSTRAINT unq_comptetype_compte_assignment_compte_id UNIQUE ( compte_id ) 
+ ) engine=InnoDB;
+
+CREATE INDEX unq_comptetype_compte_assignment_comptetype_id ON sprint_database.comptetype_compte_assignment ( comptetype_id );
 
 CREATE  TABLE sprint_database.contrattype ( 
 	contrattype_id       INT    NOT NULL AUTO_INCREMENT  PRIMARY KEY,
@@ -120,17 +126,19 @@ CREATE  TABLE sprint_database.contrattype_contrat_assignemnt (
 	contrattype_contrat_assignemnt_id INT    NOT NULL AUTO_INCREMENT  PRIMARY KEY,
 	contrat_type_id      INT       ,
 	contrat_id           INT       ,
-	CONSTRAINT unq_contrattype_contrat_assignemnt_contrat_type_id UNIQUE ( contrat_type_id ) ,
 	CONSTRAINT unq_contrattype_contrat_assignemnt_contrat_id UNIQUE ( contrat_id ) 
  ) engine=InnoDB;
+
+CREATE INDEX unq_contrattype_contrat_assignemnt_contrat_type_id ON sprint_database.contrattype_contrat_assignemnt ( contrat_type_id );
 
 CREATE  TABLE sprint_database.employee_role_assignment ( 
 	employee_role_assignment_id INT    NOT NULL AUTO_INCREMENT  PRIMARY KEY,
 	employee_id          INT    NOT NULL   ,
 	role_id              INT       ,
-	CONSTRAINT unq_employee_role_assignment_employee_id UNIQUE ( employee_id ) ,
-	CONSTRAINT unq_employee_role_assignment_role_id UNIQUE ( role_id ) 
+	CONSTRAINT unq_employee_role_assignment_employee_id UNIQUE ( employee_id ) 
  ) engine=InnoDB;
+
+CREATE INDEX unq_employee_role_assignment_role_id ON sprint_database.employee_role_assignment ( role_id );
 
 CREATE  TABLE sprint_database.rdv ( 
 	rdv_id               INT    NOT NULL AUTO_INCREMENT  PRIMARY KEY,
@@ -138,20 +146,26 @@ CREATE  TABLE sprint_database.rdv (
 	client_id            INT       ,
 	employee_id          INT       ,
 	motive_id            INT       ,
-	approved             BOOLEAN       ,
-	CONSTRAINT unq_rdv_time_slot_id UNIQUE ( time_slot_id ) ,
-	CONSTRAINT unq_rdv_client_id UNIQUE ( client_id ) ,
-	CONSTRAINT unq_rdv_employee_id UNIQUE ( employee_id ) ,
-	CONSTRAINT unq_rdv_motive_id UNIQUE ( motive_id ) 
+	approved             BOOLEAN       
  ) engine=InnoDB;
+
+CREATE INDEX unq_rdv_time_slot_id ON sprint_database.rdv ( time_slot_id );
+
+CREATE INDEX unq_rdv_client_id ON sprint_database.rdv ( client_id );
+
+CREATE INDEX unq_rdv_employee_id ON sprint_database.rdv ( employee_id );
+
+CREATE INDEX unq_rdv_motive_id ON sprint_database.rdv ( motive_id );
+
+ALTER TABLE sprint_database.client_compte_assignment ADD CONSTRAINT fk_compte_client_assignment_client FOREIGN KEY ( client_id ) REFERENCES sprint_database.client( client_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE sprint_database.client_compte_assignment ADD CONSTRAINT fk_compte_client_assignment_compte FOREIGN KEY ( compte_id ) REFERENCES sprint_database.compte( compte_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE sprint_database.client_contrat_assignment ADD CONSTRAINT fk_client_contrat_assignment_client FOREIGN KEY ( client_id ) REFERENCES sprint_database.client( client_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE sprint_database.client_contrat_assignment ADD CONSTRAINT fk_client_contrat_assignment_contrat FOREIGN KEY ( contrat_id ) REFERENCES sprint_database.contrat( contart_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-ALTER TABLE sprint_database.compte_client_assignment ADD CONSTRAINT fk_compte_client_assignment_client FOREIGN KEY ( client_id ) REFERENCES sprint_database.client( client_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE sprint_database.compte_client_assignment ADD CONSTRAINT fk_compte_client_assignment_compte FOREIGN KEY ( compte_id ) REFERENCES sprint_database.compte( compte_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE sprint_database.comptetype ADD CONSTRAINT fk_comptetype_motive FOREIGN KEY ( motive_id ) REFERENCES sprint_database.motive( motive_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE sprint_database.comptetype_compte_assignment ADD CONSTRAINT fk_comptetype_compte_assignment_compte FOREIGN KEY ( compte_id ) REFERENCES sprint_database.compte( compte_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
@@ -169,9 +183,7 @@ ALTER TABLE sprint_database.employee_client_assignment ADD CONSTRAINT fk_employe
 
 ALTER TABLE sprint_database.employee_role_assignment ADD CONSTRAINT fk_employee_role_assignment_role_types FOREIGN KEY ( role_id ) REFERENCES sprint_database.role_types( role_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-ALTER TABLE sprint_database.employee_role_assignment ADD CONSTRAINT fk_employee_role_assignment_employee FOREIGN KEY ( employee_role_assignment_id ) REFERENCES sprint_database.employee( employee_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-ALTER TABLE sprint_database.motive_documents ADD CONSTRAINT fk_motive_documents_comptetype FOREIGN KEY ( motive_id ) REFERENCES sprint_database.comptetype( motive_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE sprint_database.employee_role_assignment ADD CONSTRAINT fk_employee_role_assignment_employee FOREIGN KEY ( employee_id ) REFERENCES sprint_database.employee( employee_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE sprint_database.motive_documents ADD CONSTRAINT fk_motive_documents_motive FOREIGN KEY ( motive_id ) REFERENCES sprint_database.motive( motive_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
@@ -187,7 +199,7 @@ ALTER TABLE sprint_database.rdv ADD CONSTRAINT fk_rdv_motive FOREIGN KEY ( motiv
 
 ALTER TABLE sprint_database.client COMMENT 'you might not need total balance and total overdraft';
 
-ALTER TABLE sprint_database.motive_documents MODIFY motive_id INT     COMMENT 'Dit-moi en personne que tu as lu ceci et je t''offrirai un cookie.';
+ALTER TABLE sprint_database.motive MODIFY motive_id INT  NOT NULL  AUTO_INCREMENT COMMENT 'Dit-moi en personne que tu as lu ceci et je t''offrirai un cookie.';
 
 ALTER TABLE sprint_database.time_slot MODIFY week INT     COMMENT 'i''m not sure how "week" is supposed to function';
 
