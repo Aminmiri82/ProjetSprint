@@ -23,7 +23,21 @@ try {
         $mail = $_POST['mail'];
         $profession = $_POST['profession'];
         $family_situation = $_POST['family_situation'];
-        modifyClient($client_id, $first_name, $last_name, $street_number, $street_name, $postal_code, $tel, $mail, $profession, $family_situation);
+        $birthdate= $_POST['birthday'];
+        modifyClient($client_id, $first_name, $last_name, $street_number, $street_name, $postal_code, $tel, $mail, $profession, $family_situation, $birthdate);
+    }
+    if (isset($_POST['add_a_client'])){
+        $first_name = $_POST['first_name'];
+        $last_name = $_POST['last_name'];
+        $street_number = $_POST['street_number'];
+        $street_name = $_POST['street_name'];
+        $postal_code = $_POST['postal_code'];
+        $tel = $_POST['tel'];
+        $mail = $_POST['mail'];
+        $profession = $_POST['profession'];
+        $family_situation = $_POST['family_situation'];
+        $birthdate= $_POST['birthday'];
+        ctladdNewClient($first_name, $last_name, $street_number, $street_name, $postal_code, $tel, $mail, $profession, $family_situation, $birthdate);
     }
     if (isset($_POST['viewEverythinng'])){
         $client_id = $_POST['client_id'];

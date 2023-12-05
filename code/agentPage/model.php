@@ -18,7 +18,6 @@ function userExists($username, $password) {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $stmt->closeCursor();
     
-    // If the count is greater than 0, the user exists
     return ($result['count'] > 0);
 }
 function getRoleIdByUsername($username) {
@@ -41,7 +40,7 @@ function getRoleIdByUsername($username) {
     if ($result) {
         return $result['role_id'];
     } else {
-        // Handle the case when no role is found for the given username
+        
         return null;
     }
 }
@@ -80,11 +79,10 @@ function getEmployeeByClientId($client_id) {
 }
 
 
-function modifyClient($client_id, $first_name, $last_name, $street_number, $street_name, $postal_code, $tel, $mail, $profession, $family_situation) {
-    $connexion = getConnect(); 
+function modifyClient($client_id, $first_name, $last_name, $street_number, $street_name, $postal_code, $tel, $mail, $profession, $family_situation, $birthdate) {
+    $connexion = getConnect();
 
     $query = "UPDATE sprint_database.client
-    
               SET first_name = :first_name,
                   last_name = :last_name,
                   street_number = :street_number,
@@ -93,13 +91,14 @@ function modifyClient($client_id, $first_name, $last_name, $street_number, $stre
                   tel = :tel,
                   mail = :mail,
                   proffession = :profession,
-                  family_situation = :family_situation
+                  family_situation = :family_situation,
+                  birthdate = :birthdate
               WHERE client_id = :client_id";
 
-    // Prepare the SQL query
+  
     $stmt = $connexion->prepare($query);
 
-    // Bind parameters
+   
     $stmt->bindParam(':client_id', $client_id, PDO::PARAM_INT);
     $stmt->bindParam(':first_name', $first_name, PDO::PARAM_STR);
     $stmt->bindParam(':last_name', $last_name, PDO::PARAM_STR);
@@ -110,8 +109,9 @@ function modifyClient($client_id, $first_name, $last_name, $street_number, $stre
     $stmt->bindParam(':mail', $mail, PDO::PARAM_STR);
     $stmt->bindParam(':profession', $profession, PDO::PARAM_STR);
     $stmt->bindParam(':family_situation', $family_situation, PDO::PARAM_STR);
+    $stmt->bindParam(':birthdate', $birthdate, PDO::PARAM_STR);
 
-    // Execute the query
+    
     $success = $stmt->execute();
 
     if (!$success) {
@@ -119,9 +119,48 @@ function modifyClient($client_id, $first_name, $last_name, $street_number, $stre
     } else {
         echo "Client information updated successfully!";
     }
-   
+
     $stmt->closeCursor();
 }
+function addNewClient($first_name, $last_name, $street_number, $street_name, $postal_code, $tel, $mail, $profession, $family_situation, $birthdate) {
+    $connexion = getConnect();
+
+    $query = "INSERT INTO sprint_database.client
+              (first_name, last_name, street_number, street_name, postal_code, tel, mail, proffession, family_situation, birthdate)
+              VALUES
+              (:first_name, :last_name, :street_number, :street_name, :postal_code, :tel, :mail, :profession, :family_situation, :birthdate)";
+
+   
+    $stmt = $connexion->prepare($query);
+
+
+    $stmt->bindParam(':first_name', $first_name, PDO::PARAM_STR);
+    $stmt->bindParam(':last_name', $last_name, PDO::PARAM_STR);
+    $stmt->bindParam(':street_number', $street_number, PDO::PARAM_INT);
+    $stmt->bindParam(':street_name', $street_name, PDO::PARAM_STR);
+    $stmt->bindParam(':postal_code', $postal_code, PDO::PARAM_INT);
+    $stmt->bindParam(':tel', $tel, PDO::PARAM_INT);
+    $stmt->bindParam(':mail', $mail, PDO::PARAM_STR);
+    $stmt->bindParam(':profession', $profession, PDO::PARAM_STR);
+    $stmt->bindParam(':family_situation', $family_situation, PDO::PARAM_STR);
+    $stmt->bindParam(':birthdate', $birthdate, PDO::PARAM_STR);
+
+    
+    $success = $stmt->execute();
+
+    if (!$success) {
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+        return null;
+    } else {
+        $lastInsertedId = $connexion->lastInsertId();
+        echo "New client added successfully! Client ID: $lastInsertedId";
+        $stmt->closeCursor();
+        return $lastInsertedId;
+    }
+
+    
+}
+
 function getEverythingById($client_id) {
     $connexion = getConnect(); 
 
@@ -182,7 +221,7 @@ function getAccountBalance($account_id) {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $stmt->closeCursor();
 
-    return $result['balance'] ?? null;  // Return the account balance or null if not found
+    return $result['balance'] ?? null; 
 }
 
 function getOverdraft($account_id) {
@@ -201,7 +240,7 @@ function getOverdraft($account_id) {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $stmt->closeCursor();
 
-    return $result['overdraft'] ?? null;  // Return the account balance or null if not found
+    return $result['overdraft'] ?? null; 
 }
 function getContractInfoByAccountId($account_id) {
     $connexion = getConnect(); 

@@ -43,10 +43,45 @@
                     <input type='text' name='profession' />
                     <label> family situation: </label>
                     <input type='text' name='family_situation' />
+                    <label> birthday: </label>
+                    <input type='text' name='birthday' />
                     <input type='submit' value='modify' name= 'modify' /> <input type='reset' value='tout effacer' name= 'tout effacer' />
                 </form>  
                 </div>  
 
+            </fieldset>
+        </div>
+        <div>
+            <fieldset>
+                <legend>add a client</legend>
+                <form id="add a client "action="site.php" method="post">
+                <label> first name: </label>
+                <input type='text' name='first_name' />
+                <label> last name: </label>
+                <input type='text' name='last_name' />
+                <label> street number: </label>
+                <input type='text' name='street_number' />
+                <label> street name: </label>
+                <input type='text' name='street_name' />
+                <label> postal code: </label>
+                <input type='text' name='postal_code' />
+                <label> tel: </label>
+                <input type='text' name='tel' />
+                <label> mail: </label>
+                <input type='text' name='mail' />
+                <label> profession: </label>
+                <input type='text' name='profession' />
+                <label> family situation: </label>
+                <input type='text' name='family_situation' />
+                <label> birthday: </label>
+                <input type='text' name='birthday' />
+                <input type='submit' value='add a client' name= 'add_a_client' /> <input type='reset' value='tout effacer' name= 'tout effacer' />
+                </form>
+            </fieldset>
+        </div>
+        <div>
+            <fieldset>
+                <legend>assign an employee to a client</legend>
             </fieldset>
         </div>
         <div>
@@ -72,7 +107,7 @@
                 </form>
                 </div>
                 <div>
-                <form id ="make a deposit or withdrawl"action="site.php" method="post">
+                <form id ="make a deposit or withdrawl" action="site.php" method="post">
                     <label for="aacount_id"> account id :</label>
                     <input type="text" name="account_id" />
                     <label for="amount"> amount :</label>

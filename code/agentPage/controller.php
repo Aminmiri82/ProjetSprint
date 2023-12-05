@@ -44,6 +44,13 @@ function ctlshowUsername(){
     return showUsername();
     
 }
+function ctladdNewClient($first_name, $last_name, $street_number, $street_name, $postal_code, $tel, $mail, $profession, $family_situation, $birthdate){
+    if (!empty($first_name) && !empty($last_name) && !empty($street_number) && !empty($street_name) && !empty($postal_code) && !empty($tel) && !empty($mail) && !empty($profession) && !empty($family_situation) && !empty($birthdate)) {
+        addNewClient($first_name, $last_name, $street_number, $street_name, $postal_code, $tel, $mail, $profession, $family_situation, $birthdate);
+    }else{
+        echo "please fill in all the fields";
+    }
+}
 function ctlgetAccountsById($client_id){
     return getAccountsById($client_id);
 }
