@@ -77,6 +77,14 @@ try {
         $info= getClientInfoById($client_id);
         showClientInfo($info);
     }
+    if (isset($_POST['submit'])) {
+        $selected_employee = $_POST['selectedEmployee'];
+        $selected_client = $_POST['selectedClient'];
+        
+        
+        echo $selected_employee . " has been assigned to : " . $selected_client;
+        
+    }
   
     
     $headercontent = ctlshowUsername();

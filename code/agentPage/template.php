@@ -3,11 +3,14 @@
     <head>
       <title>Ma page</title>
       <meta charset="utf-8">
-	  <link rel="stylesheet"  href="style.css" />
+      <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	  
     </head>
     
 	<body>	
+
+
+
         <header>
             <h1>hello mr.<?php echo $headercontent; 
             ?>
@@ -82,6 +85,22 @@
         <div>
             <fieldset>
                 <legend>assign an employee to a client</legend>
+                <form id="assignForm" method="post" action="site.php">
+                    <label for="employee">employee to assign: </label>
+                    <select id="dynamicSelectEmployee" name="selectedEmployee">
+                        <option>Select an option</option>
+                    </select>
+                    <label for="client_id">to client: </label>
+                    <select  id="dynamicSelectClient" name="selectedClient">
+                        <option>Select an option</option>
+                    </select>
+                        
+                    <button type="submit" name="submit">Submit</button>
+
+                    
+                </form>
+
+
             </fieldset>
         </div>
         <div>
@@ -134,7 +153,16 @@
             </fieldset>
         </div>
 
-       
+    <script>
+        $(document).ready(function() {
+            $('#dynamicSelectEmployee').load('get_options_employee.php');
+            $('#dynamicSelectClient').load('get_options_client.php');
+            console.log("options loaded");
+        });
+
+        
+
+    </script>      
 
    
 
