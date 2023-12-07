@@ -7,7 +7,54 @@ try {
         ctllogin ($username, $password);
 
     }
-    ctlafficheracceuil();
+   
+
+    if (isset($_POST['add_a_client'])){
+        $first_name = $_POST['first_name'];
+        $last_name = $_POST['last_name'];
+        $street_number = $_POST['street_number'];
+        $street_name = $_POST['street_name'];
+        $postal_code = $_POST['postal_code'];
+        $tel = $_POST['tel'];
+        $mail = $_POST['mail'];
+        $profession = $_POST['profession'];
+        $family_situation = $_POST['family_situation'];
+        $birthdate= $_POST['birthday'];
+        ctladdNewClient($first_name, $last_name, $street_number, $street_name, $postal_code, $tel, $mail, $profession, $family_situation, $birthdate);
+    }
+
+
+
+
+    if (isset($_POST['search_for_accounts_for_overdraft'])){
+        $client_id = $_POST['client_id'];
+        $accounts_in_possesion=  ctlgetAccountsById($client_id);
+        $accounts_in_users_possesion_overdraft= ctlshowAccountsInPossesion($accounts_in_possesion);
+    }
+    if (isset($_POST['change_overdraft'])){
+        $account_id = $_POST['account_id'];
+        $new_overdraft = $_POST['overdraft'];
+        ctlchangeOverdraft($account_id, $new_overdraft);
+    }
+    if (isset($_POST['sell_a_new_contract'])){
+        $client_id = $_POST['selectedClient'];
+        $contrattype_id = $_POST['selectedContratType'];
+        $price = $_POST['price'];
+        $opening_date = $_POST['opening_date'];
+        $contrat_id = ctladdContrat($price, $opening_date);
+        ctlassignClientToContrat($client_id, $contrat_id);
+        ctlassignContratTypeToContrat($contrat_id, $contrattype_id);
+        
+
+
+    }
+  
+    
+    $headercontent = ctlshowUsername();
+    $contenu = ctlafficheracceuil();
+    
+    
+    include_once('template.php');
 } 
 catch (Exception $e) {
     echo "Error: " . $e->getMessage();
