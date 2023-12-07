@@ -69,7 +69,7 @@
                 <legend>sell a new contract</legend>
                 <form id="sell a new contract"action="site.php" method="post">
                     <label for="client_id">for client:</label>
-                    <select  id="dynamicSelectClient" name="selectedClient">
+                    <select  id="dynamicSelectClientForContrat" name="selectedClientForContrat">
                         <option>Select an option</option>
                     </select>
                     <label for="contrattype_id">type of contract:</label>
@@ -79,15 +79,39 @@
                     <label for="price">price: </label>
                     <input type="text" name="price" />
                     <label for="opening_date">opening date:</label>
-                    <input type="date" name="opening_date" />
+                    <input type="date" name="opening_date_contrat" />
                     <input type="submit" value="sell a new contract" name= "sell_a_new_contract" /><input type='reset' value='tout effacer' name= 'tout effacer' />
                 </form>
             </fieldset>
         </div> 
+        <div>
+            <fieldset>
+                <legend>open a new account</legend>
+                <form id="open a new account"action="site.php" method="post">
+                    <label for="client_id">for client:</label>
+                    <select  id="dynamicSelectClientForAccount" name="selectedClientForAccount">
+                        <option>Select an option</option>
+                    </select>
+                    <label for="account_type">type of account:</label>
+                    <select  id="dynamicSelectAccountType" name="selectedAccountType">
+                        <option>Select an option</option>
+                    </select>
+                    <label for="overdraft">overdraft: </label>
+                    <input type="text" name="overdraft" />
+                    <label for="opening_date">opening date:</label>
+                    <input type="date" name="opening_date_account" />
+                    <input type="submit" value="open a new account" name= "open_a_new_account" /><input type='reset' value='tout effacer' name= 'tout effacer' />
+
+                </form>
+            </fieldset>
+
+        </div>
     <script>
         $(document).ready(function() {
-            $('#dynamicSelectClient').load('get_options_client.php');
+            $('#dynamicSelectClientForContrat').load('get_options_client.php');
             $('#dynamicSelectContratType').load('get_options_contrattype.php');
+            $('#dynamicSelectClientForAccount').load('get_options_client.php');
+            $('#dynamicSelectAccountType').load('get_options_comptetype.php');
             
             console.log("options loaded");
         });

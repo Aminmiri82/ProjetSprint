@@ -89,3 +89,24 @@ function ctlassignContratTypeToContrat($contrat_id, $contrattype_id){
         echo "please fill in all the fields";
     }
 }
+function ctladdCompte($overdraft, $open_date){
+    if (!empty($overdraft) && !empty($open_date)) {
+        return addCompte($overdraft, $open_date);
+    }else{
+        echo "please fill in all the fields";
+    }
+}
+function ctlassignClientToCompte($client_id, $compte_id){
+    if (!empty($client_id) && !empty($compte_id)) {
+        assignClientToCompte($client_id, $compte_id);
+    }else{
+        echo "please fill in all the fields";
+    }
+}
+function ctlassignCompteTypeToCompte($compte_id, $comptetype_id){
+    if (!empty($compte_id) && !empty($comptetype_id)) {
+        assignCompteTypeToCompte($compte_id, $comptetype_id);
+    }else{
+        echo "please fill in all the fields";
+    }
+}

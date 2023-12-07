@@ -312,11 +312,9 @@ function assignClientToContrat($client_id, $contrat_id) {
               (client_id, contrat_id)
               VALUES
               (:client_id, :contrat_id)";
-
-    // Prepare the SQL query
     $stmt = $connexion->prepare($query);
 
-    // Bind parameters
+
     $stmt->bindParam(':client_id', $client_id, PDO::PARAM_INT);
     $stmt->bindParam(':contrat_id', $contrat_id, PDO::PARAM_INT);
 
@@ -339,14 +337,14 @@ function assignContratTypeToContrat($contrat_id, $contrat_type_id) {
               VALUES
               (:contrat_type_id, :contrat_id)";
 
-    // Prepare the SQL query
+
     $stmt = $connexion->prepare($query);
 
-    // Bind parameters
+
     $stmt->bindParam(':contrat_type_id', $contrat_type_id, PDO::PARAM_INT);
     $stmt->bindParam(':contrat_id', $contrat_id, PDO::PARAM_INT);
 
-    // Execute the query
+
     $success = $stmt->execute();
 
     if (!$success) {
@@ -360,5 +358,86 @@ function assignContratTypeToContrat($contrat_id, $contrat_type_id) {
 
 
 
+function addCompte($overdraft, $open_date) {
+    $connexion = getConnect();
 
+    $query = "INSERT INTO sprint_database.compte
+              (balance, overdraft, open_date)
+              VALUES
+              (0, :overdraft, :open_date)";
+
+
+    $stmt = $connexion->prepare($query);
+
+
+    $stmt->bindParam(':overdraft', $overdraft, PDO::PARAM_INT);
+    $stmt->bindParam(':open_date', $open_date, PDO::PARAM_STR);
+
+    
+    $success = $stmt->execute();
+
+    if (!$success) {
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+        return null;
+    } else {
+        $lastInsertedId = $connexion->lastInsertId();
+        echo " Compte added successfully! Compte ID: $lastInsertedId";
+        $stmt->closeCursor();
+        return $lastInsertedId;
+    }
+}
+
+
+function assignClientToCompte($client_id, $compte_id) {
+    $connexion = getConnect();
+
+    $query = "INSERT INTO sprint_database.client_compte_assignment
+              (client_id, compte_id)
+              VALUES
+              (:client_id, :compte_id)";
+
+
+    $stmt = $connexion->prepare($query);
+
+
+    $stmt->bindParam(':client_id', $client_id, PDO::PARAM_INT);
+    $stmt->bindParam(':compte_id', $compte_id, PDO::PARAM_INT);
+
+    
+    $success = $stmt->execute();
+
+    if (!$success) {
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+    } else {
+        echo " Client assigned to compte successfully!";
+    }
+
+    $stmt->closeCursor();
+}
+function assignCompteTypeToCompte($compte_id, $comptetype_id) {
+    $connexion = getConnect();
+
+    $query = "INSERT INTO sprint_database.comptetype_compte_assignment
+              (compte_id, comptetype_id)
+              VALUES
+              (:compte_id, :comptetype_id)";
+
+
+    $stmt = $connexion->prepare($query);
+
+
+    $stmt->bindParam(':compte_id', $compte_id, PDO::PARAM_INT);
+    $stmt->bindParam(':comptetype_id', $comptetype_id, PDO::PARAM_INT);
+
+
+    $success = $stmt->execute();
+
+    if (!$success) {
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+    } else {
+        echo "Compte type assigned to compte successfully!";
+    }
+
+    $stmt->closeCursor();
+}
 

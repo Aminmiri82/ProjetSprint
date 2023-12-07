@@ -20,6 +20,20 @@ function returnContrattypeOptions(){
     }
     return $options;
 }
+function returnComptetypeOptions(){
+  $connexion = getConnect();
+  $query = "SELECT comptetype_id, type_name FROM comptetype";  
+  $stmt = $connexion->prepare($query); 
+  $stmt->execute();
+
+  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  $options = '';
+  foreach ($result as $row) {
+    $options .= '<option value="' . htmlspecialchars($row['comptetype_id']) . '">' . htmlspecialchars($row['type_name']) . '</option>';
+  }
+  return $options;
+}
 function returnClientOptions(){
     $connexion = getConnect();
     $query = "SELECT client_id, last_name FROM client";  

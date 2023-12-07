@@ -37,17 +37,24 @@ try {
         ctlchangeOverdraft($account_id, $new_overdraft);
     }
     if (isset($_POST['sell_a_new_contract'])){
-        $client_id = $_POST['selectedClient'];
+        $client_id = $_POST['selectedClientForContrat'];
         $contrattype_id = $_POST['selectedContratType'];
         $price = $_POST['price'];
-        $opening_date = $_POST['opening_date'];
+        $opening_date = $_POST['opening_date_contrat'];
         $contrat_id = ctladdContrat($price, $opening_date);
         ctlassignClientToContrat($client_id, $contrat_id);
         ctlassignContratTypeToContrat($contrat_id, $contrattype_id);
-        
-
-
     }
+    if (isset($_POST['open_a_new_account'])){
+        $client_id = $_POST['selectedClientForAccount'];
+        $comptetype_id = $_POST['selectedAccountType'];
+        $overdraft = $_POST['overdraft'];
+        $opening_date = $_POST['opening_date_account'];
+        $compte_id = ctladdCompte($overdraft, $opening_date);
+        ctlassignClientToCompte($client_id, $compte_id);
+        ctlassignCompteTypeToCompte($compte_id, $comptetype_id);
+    }
+
   
     
     $headercontent = ctlshowUsername();
