@@ -98,3 +98,17 @@ function ctlgetClientIdByLastNameAndBirthday($last_name, $birthdate){
 function ctlgetEmployeeByClientId($client_id){
     return getEmployeeByClientId($client_id);
 }
+function ctlAssignEmployeeToClient($employee_id, $client_id){
+    if (!empty($employee_id) && !empty($client_id)) {
+        assignEmployeeToClient($employee_id, $client_id);
+    }else{
+        echo "please fill in all the fields";
+    }
+}
+function ctlchangeOverdraft($account_id, $new_overdraft){
+    if (!empty($account_id) && !empty($new_overdraft)) {
+        changeOverdraft($account_id, $new_overdraft);
+    }else{
+        echo "please fill in all the fields";
+    }
+}

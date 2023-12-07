@@ -152,6 +152,25 @@
                 </form>
             </fieldset>
         </div>
+        <div>
+            <fieldset>
+                <legend>change an accounts overdraft</legend>
+                <form id="show the accounts" action="site.php" method="post">
+                     <label> client's id: </label>
+                     <input type="text" name="client_id" />
+                     <input type="submit" value="search for accounts" name= "search_for_accounts_for_overdraft" />
+                     <p><label> accounts in their possession: </label></p>
+                     <?php echo $accounts_in_users_possesion_overdraft; ?>
+                </form>
+                <form id="change the overdraft"action="site.php" method="post">
+                    <label for="account_id"> account id :</label>
+                    <input type="text" name="account_id" />
+                    <label for="overdraft"> overdraft :</label>
+                    <input type="text" name="overdraft" />
+                    <input type="submit" value="change overdraft" name= "change_overdraft" />
+                </form>
+            </fieldset>
+        </div>
 
     <script>
         $(document).ready(function() {

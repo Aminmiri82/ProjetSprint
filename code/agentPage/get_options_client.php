@@ -1,6 +1,6 @@
 <?php
 require_once("loadingFunctions.php");
 
-$ans= returnOptions("client");
+$ans= returnClientOptions();
 echo $ans;
 

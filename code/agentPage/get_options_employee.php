@@ -1,7 +1,7 @@
 <?php
 require_once("loadingFunctions.php");
 
-$ans= returnOptions("employee");
+$ans= returnemployeeOptions();
 echo $ans;
 
 

@@ -344,6 +344,55 @@ function getClientIdByLastNameAndBirthday($last_name, $birthdate) {
     return $result !== false ? $result['client_id'] : null;
 }
 
+function assignEmployeeToClient($employee_id, $client_id) {
+    $connexion = getConnect();
+
+    $query = "INSERT INTO sprint_database.employee_client_assignment
+              (employee_id, client_id)
+              VALUES
+              (:employee_id, :client_id)";
+    $stmt = $connexion->prepare($query);
+
+    // Bind parameters
+    $stmt->bindParam(':employee_id', $employee_id, PDO::PARAM_INT);
+    $stmt->bindParam(':client_id', $client_id, PDO::PARAM_INT);
+
+    // Execute the query
+    $success = $stmt->execute();
+
+    if (!$success) {
+        echo "employee number $employee_id can not be assigned to client number:  $client_id";
+    } else {
+        echo "Employee number $employee_id has bee assigned to client number $client_id successfully!";
+    }
+
+    $stmt->closeCursor();
+}
+function changeOverdraft($account_id, $new_overdraft){
+    $connexion = getConnect();
+
+    $query = "UPDATE sprint_database.compte
+              SET overdraft = :new_overdraft
+              WHERE compte_id = :account_id";
+
+    
+    $stmt = $connexion->prepare($query);
+
+
+    $stmt->bindParam(':account_id', $account_id, PDO::PARAM_INT);
+    $stmt->bindParam(':new_overdraft', $new_overdraft, PDO::PARAM_INT);
+
+
+    $success = $stmt->execute();
+
+    if (!$success) {
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+    } else {
+        echo "Account overdraft updated successfully!";
+    }
+
+    $stmt->closeCursor();
+}
 
 
 

@@ -80,10 +80,18 @@ try {
     if (isset($_POST['submit'])) {
         $selected_employee = $_POST['selectedEmployee'];
         $selected_client = $_POST['selectedClient'];
+        ctlAssignEmployeeToClient($selected_employee, $selected_client);
         
-        
-        echo $selected_employee . " has been assigned to : " . $selected_client;
-        
+    }
+    if (isset($_POST['search_for_accounts_for_overdraft'])){
+        $client_id = $_POST['client_id'];
+        $accounts_in_possesion=  ctlgetAccountsById($client_id);
+        $accounts_in_users_possesion_overdraft= ctlshowAccountsInPossesion($accounts_in_possesion);
+    }
+    if (isset($_POST['change_overdraft'])){
+        $account_id = $_POST['account_id'];
+        $new_overdraft = $_POST['overdraft'];
+        ctlchangeOverdraft($account_id, $new_overdraft);
     }
   
     
