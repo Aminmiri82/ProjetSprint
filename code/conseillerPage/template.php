@@ -131,6 +131,8 @@
             </fieldset>
 
         </div>
+        <div id="planner-container">
+        </div>
     <script>
         $(document).ready(function() {
             $('#dynamicSelectClientForContrat').load('get_options_client.php');
@@ -140,67 +142,129 @@
             
             console.log("options loaded");
         });
-    </script>   
+    </script>  
 <script>
-  // Function to display a prompt when a time slot is clicked
-  function showPrompt(day, time, occupiedData) {
-    const occupiedSlot = occupiedData.find(entry => entry.dayOfWeek === day && entry.timeSlot === time);
-    if (occupiedSlot) {
-      alert('Occupied: ' + occupiedSlot.message);
-    } else {
-      alert('You clicked on ' + time + ' on ' + day);
+    let currentDate = new Date();
+    let currentWeekStart = currentDate.getDate() - currentDate.getDay() + (currentDate.getDay() === 0 ? -6 : 1);
+
+    function dayIndex(day) {
+        const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        return days.indexOf(day);
     }
-  }
 
-  // Function to create the weekly planner table
-  function createWeeklyPlanner(occupiedData) {
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-    const hours = ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
-
-    const table = document.createElement('table');
-
-    // Create table header with day names
-    const headerRow = document.createElement('tr');
-    const emptyHeaderCell = document.createElement('th');
-    headerRow.appendChild(emptyHeaderCell); // Empty cell in the top-left corner
-    for (const day of days) {
-      const th = document.createElement('th');
-      th.textContent = day;
-      headerRow.appendChild(th);
+    function formatDate(date) {
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleDateString(undefined, options);
     }
-    table.appendChild(headerRow);
 
-    // Create table rows with time slots
-    for (const hour of hours) {
-      const row = document.createElement('tr');
+    // Declare showPrompt globally
+    function showPrompt(day, time, occupiedData) {
+        const dayDate = new Date(currentDate);
+        dayDate.setDate(currentWeekStart + dayIndex(day));
 
-      // Time column
-      const timeCell = document.createElement('td');
-      timeCell.textContent = hour;
-      row.appendChild(timeCell);
+        const formattedDate = dayDate.toISOString().split('T')[0];
+        const formattedTime = time;
 
+        const occupiedSlot = occupiedData.find(entry =>
+            entry.date === formattedDate && entry.timeslot === formattedTime
+        );
 
-      for (const day of days) {
-        const td = document.createElement('td');
-        const isOccupied = occupiedData.some(entry => entry.dayOfWeek === day && entry.timeSlot === hour);
-        td.addEventListener('click', () => showPrompt(day, hour, occupiedData));
-        if (isOccupied) {
-          td.classList.add('occupied');
+        if (occupiedSlot) {
+            alert(`Occupied: ${occupiedSlot.message}\nDate: ${formattedDate}`);
+        } else {
+            alert(`You clicked on ${time} on ${day}, ${formattedDate}`);
         }
-        row.appendChild(td);
-      }
-
-      table.appendChild(row);
     }
 
-    document.body.appendChild(table);
-  }
+    function createWeeklyPlanner(occupiedData) {
+        console.log(occupiedData);
+        const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        const hours = ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
 
+        const container = document.getElementById('planner-container');
+        container.innerHTML = ''; // Clear the container
 
-  fetch('rdvTest.php')
-    .then(response => response.json())
-    .then(data => createWeeklyPlanner(data))
-    .catch(error => console.error('Error fetching data:', error));
+        const table = document.createElement('table');
+
+        // Create navigation row with previous and next buttons
+        const navRow = document.createElement('tr');
+        const navCell = document.createElement('td');
+        navCell.colSpan = 8;
+        const prevButton = document.createElement('button');
+        prevButton.textContent = 'Previous Week';
+        prevButton.addEventListener('click', () => updateWeek(-7));
+        const nextButton = document.createElement('button');
+        nextButton.textContent = 'Next Week';
+        nextButton.addEventListener('click', () => updateWeek(7));
+        navCell.appendChild(prevButton);
+        navCell.appendChild(document.createTextNode(' '));
+        navCell.appendChild(nextButton);
+        navRow.appendChild(navCell);
+        table.appendChild(navRow);
+
+        // Create table header with day names and dates
+        const headerRow = document.createElement('tr');
+        const emptyHeaderCell = document.createElement('th');
+        headerRow.appendChild(emptyHeaderCell); // Empty cell in the top-left corner
+        for (let i = 0; i < 7; i++) {
+            const th = document.createElement('th');
+            const dayDate = new Date(currentDate);
+            dayDate.setDate(currentWeekStart + i);
+            th.textContent = days[i] + ' ' + formatDate(dayDate);
+            headerRow.appendChild(th);
+        }
+        table.appendChild(headerRow);
+
+        // Create table rows with time slots
+        for (const hour of hours) {
+            const row = document.createElement('tr');
+
+            // Time column
+            const timeCell = document.createElement('td');
+            timeCell.textContent = hour;
+            row.appendChild(timeCell);
+
+            // Day columns with clickable time slots
+            for (let i = 0; i < 7; i++) {
+                const day = days[i];
+                const td = document.createElement('td');
+                const dayDate = new Date(currentDate);
+                dayDate.setDate(currentWeekStart + i);
+
+                const formattedDate = dayDate.toISOString().split('T')[0];
+                const formattedTime = hour;
+
+                td.addEventListener('click', () => showPrompt(day, formattedTime, occupiedData));
+
+                const isOccupied = occupiedData.some(entry =>
+                    entry.date === formattedDate && entry.timeslot === formattedTime
+                );
+
+                if (isOccupied) {
+                    td.classList.add('occupied');
+                }
+
+                row.appendChild(td);
+            }
+
+            table.appendChild(row);
+        }
+
+        container.appendChild(table);
+    }
+
+    function updateWeek(offset) {
+        currentWeekStart += offset;
+        fetch('rdvTest.php')
+            .then(response => response.json())
+            .then(data => createWeeklyPlanner(data))
+            .catch(error => console.error('Error fetching data:', error));
+    }
+
+    fetch('rdvTest.php')
+        .then(response => response.json())
+        .then(data => createWeeklyPlanner(data))
+        .catch(error => console.error('Error fetching data:', error));
 
 </script>
 
