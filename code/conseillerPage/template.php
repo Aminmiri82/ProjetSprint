@@ -4,7 +4,32 @@
       <title>Ma page</title>
       <meta charset="utf-8">
       <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-	  
+ <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    td:hover {
+      background-color: #e6e6e6;
+      cursor: pointer;
+    }
+
+    .occupied {
+      background-color: #ff9999; /* Change to the color you want for occupied slots */
+    }
+  </style>
     </head>
     
 	<body>	
@@ -115,7 +140,70 @@
             
             console.log("options loaded");
         });
-    </script>     
+    </script>   
+<script>
+  // Function to display a prompt when a time slot is clicked
+  function showPrompt(day, time, occupiedData) {
+    const occupiedSlot = occupiedData.find(entry => entry.dayOfWeek === day && entry.timeSlot === time);
+    if (occupiedSlot) {
+      alert('Occupied: ' + occupiedSlot.message);
+    } else {
+      alert('You clicked on ' + time + ' on ' + day);
+    }
+  }
+
+  // Function to create the weekly planner table
+  function createWeeklyPlanner(occupiedData) {
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    const hours = ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
+
+    const table = document.createElement('table');
+
+    // Create table header with day names
+    const headerRow = document.createElement('tr');
+    const emptyHeaderCell = document.createElement('th');
+    headerRow.appendChild(emptyHeaderCell); // Empty cell in the top-left corner
+    for (const day of days) {
+      const th = document.createElement('th');
+      th.textContent = day;
+      headerRow.appendChild(th);
+    }
+    table.appendChild(headerRow);
+
+    // Create table rows with time slots
+    for (const hour of hours) {
+      const row = document.createElement('tr');
+
+      // Time column
+      const timeCell = document.createElement('td');
+      timeCell.textContent = hour;
+      row.appendChild(timeCell);
+
+
+      for (const day of days) {
+        const td = document.createElement('td');
+        const isOccupied = occupiedData.some(entry => entry.dayOfWeek === day && entry.timeSlot === hour);
+        td.addEventListener('click', () => showPrompt(day, hour, occupiedData));
+        if (isOccupied) {
+          td.classList.add('occupied');
+        }
+        row.appendChild(td);
+      }
+
+      table.appendChild(row);
+    }
+
+    document.body.appendChild(table);
+  }
+
+
+  fetch('rdvTest.php')
+    .then(response => response.json())
+    .then(data => createWeeklyPlanner(data))
+    .catch(error => console.error('Error fetching data:', error));
+
+</script>
+
 
    
 
