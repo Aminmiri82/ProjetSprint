@@ -56,15 +56,23 @@ function createWeeklyPlanner(occupiedData) {
     const navRow = document.createElement('tr');
     const navCell = document.createElement('td');
     navCell.colSpan = 8;
-    const prevButton = document.createElement('button');
+
+    // Use existing buttons if they exist, otherwise create new ones
+    const prevButton = document.getElementById('previousButton') || document.createElement('button');
     prevButton.textContent = 'Previous Week';
+    prevButton.id = 'previousButton';
     prevButton.addEventListener('click', () => updateWeek(-7));
-    const todayButton = document.createElement('button');
+    
+    const todayButton = document.getElementById('todayButton') || document.createElement('button');
     todayButton.textContent = 'Today';
+    todayButton.id = 'todayButton';
     todayButton.addEventListener('click', () => updateWeek(0));
-    const nextButton = document.createElement('button');
+    
+    const nextButton = document.getElementById('nextButton') || document.createElement('button');
     nextButton.textContent = 'Next Week';
+    nextButton.id = 'nextButton';
     nextButton.addEventListener('click', () => updateWeek(7));
+    
     navCell.appendChild(prevButton);
     navCell.appendChild(document.createTextNode(' '));
     navCell.appendChild(todayButton);
@@ -72,6 +80,10 @@ function createWeeklyPlanner(occupiedData) {
     navCell.appendChild(nextButton);
     navRow.appendChild(navCell);
     table.appendChild(navRow);
+
+    // Previous button event listener
+
+
 
     // Create table header with day names and dates
     const headerRow = document.createElement('tr');
@@ -138,7 +150,7 @@ function updateWeek(offset) {
         currentWeekStart.setDate(currentDate.getDate() - currentDate.getDay() + (currentDate.getDay() === 0 ? -6 : 1) + 1);
         currentWeekStart.setHours(0, 0, 0, 0);
     } else {
-        currentWeekStart = new Date(currentWeekStart); // Convert to Date object
+        currentWeekStart = new Date(currentWeekStart);
         currentWeekStart.setDate(currentWeekStart.getDate() + offset);
     }
 
@@ -146,14 +158,43 @@ function updateWeek(offset) {
     console.log('Current Date:', currentDate.toISOString().split('T')[0]);
     console.log('Current Week Start:', new Date(currentWeekStart).toISOString().split('T')[0]);
 
-    fetch('rdvTest.php')
-        .then(response => response.json())
-        .then(data => createWeeklyPlanner(data))
-        .catch(error => console.error('Error fetching data:', error));
+    const selectedEmployeeId = document.getElementById('dynamicSelectEmployeePlanner').value;
+
+    if (selectedEmployeeId) {
+        fetchAppointments(selectedEmployeeId);
+    } else {
+        fetch('rdvTest.php')
+            .then(response => response.json())
+            .then(data => createWeeklyPlanner(data))
+            .catch(error => console.error('Error fetching data:', error));
+    }
 }
+
 
 
 fetch('rdvTest.php')
     .then(response => response.json())
     .then(data => createWeeklyPlanner(data))
     .catch(error => console.error('Error fetching data:', error));
+function fetchAppointments(employeeId) {
+        fetch(`rdvTest.php?employee_id=${employeeId}`)
+            .then(response => response.json())
+            .then(data => createWeeklyPlanner(data))
+            .catch(error => console.error('Error fetching data:', error));
+}
+    
+    
+ 
+
+document.getElementById('plannerForm').addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent form submission and page reload
+    
+    const selectedEmployeeId = document.getElementById('dynamicSelectEmployeePlanner').value;
+
+    if (selectedEmployeeId === '') {
+        console.log('No employee selected');
+    } else {
+        // Fetch appointments for the selected employee
+        fetchAppointments(selectedEmployeeId);
+    }
+});

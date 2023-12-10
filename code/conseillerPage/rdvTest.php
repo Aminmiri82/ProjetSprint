@@ -9,14 +9,14 @@ function getConnect(){
 }
 
 $connexion = getConnect();
-$query = "SELECT * FROM Ztest";
+$query = "SELECT * FROM rdv";
 $stmt = $connexion->prepare($query);
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 foreach ($result as &$row) {
-    $row['timeslot'] = date('H:i', strtotime($row['timeslot']));
+    $row['time_slot'] = date('H:i', strtotime($row['time_slot']));
 }
 
 if ($result) {

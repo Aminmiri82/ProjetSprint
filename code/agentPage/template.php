@@ -4,7 +4,32 @@
       <title>Ma page</title>
       <meta charset="utf-8">
       <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-	  
+      <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    td:hover {
+      background-color: #e6e6e6;
+      cursor: pointer;
+    }
+
+    .occupied {
+      background-color: #ff9999; 
+    }
+  </style>
     </head>
     
 	<body>	
@@ -171,17 +196,32 @@
                 </form>
             </fieldset>
         </div>
+        <div>
+    <fieldset>
+        <legend>planner</legend>
+        <form id="plannerForm" action="rdvTest.php" method="get">
+            <label for="employee">Employee's planner: </label>
+            <select id="dynamicSelectEmployeePlanner" name="employee_id">
+                <option value="">Select an option</option>
+            </select>
+            <input type="submit" value="See planner" id="employee_choice">
+        </form>
+        <div id="planner-container"></div>
+        <button id="previousButton">Previous Week</button>
+        <button id="todayButton">Today</button>
+        <button id="nextButton">Next Week</button>
 
+    </fieldset>
+</div>
     <script>
         $(document).ready(function() {
             $('#dynamicSelectEmployee').load('get_options_employee.php');
             $('#dynamicSelectClient').load('get_options_client.php');
+            $('#dynamicSelectEmployeePlanner').load('get_options_employee.php');
             console.log("options loaded");
         });
-
-        
-
-    </script>      
+    </script>     
+    <script src="plannerCode.js"></script> 
 
    
 

@@ -131,8 +131,7 @@
             </fieldset>
 
         </div>
-        <div id="planner-container">
-        </div>
+        <div id="planner-container"></div>
     <script>
         $(document).ready(function() {
             $('#dynamicSelectClientForContrat').load('get_options_client.php');

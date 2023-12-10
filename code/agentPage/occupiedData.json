@@ -1,0 +1,17 @@
+[
+  {
+    "dayOfWeek": "Monday",
+    "timeSlot": "10:00",
+    "message": "test message"
+  },
+  {
+    "dayOfWeek": "Wednesday",
+    "timeSlot": "11:00",
+    "message": "another test"
+  },
+  {
+    "dayOfWeek": "Monday",
+    "timeSlot": "14:00",
+    "message": "test message 2"
+  }
+]
