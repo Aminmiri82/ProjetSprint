@@ -197,6 +197,36 @@
             </fieldset>
         </div>
         <div>
+            <fieldset>
+                <legend>cancel an contract or account</legend>
+                <form id="cancel_account"action="site.php" method="post">
+                    <label for="dynamicSelectClientCancelAccount">client_id:</label>
+                    <select id="dynamicSelectClientCancelAccount" name="client_id">
+                        <option value="">Select an option</option>
+                    </select>
+                    <label for="dynamicSelectAccountCancel"> account id :</label>
+                    <select id="dynamicSelectAccountCancel" name="compte_id">
+                        <option value="">Select an option</option>
+                    </select>
+                    <input type="submit" value="cancel account" name= "cancel_account" />
+                </form>
+                <form id="cancel_contract" action="site.php" method="post">
+                    <label for="dynamicSelectClientCancelContract">client_id:</label>
+                    <select id="dynamicSelectClientCancelContract" name="client_id">
+                        <option value="">Select an option</option>
+                    </select>
+                    <label for="dynamicSelectContractCancel">contract id:</label>
+                    <select id="dynamicSelectContractCancel" name="contract_id">
+                        <option value="">Select an option</option>
+                    </select>
+                    <input type="submit" value="cancel contract" name= "cancel_contract" />
+
+                </form>
+
+
+            </fieldset>
+        </div>
+    <div>
     <fieldset>
         <legend>planner</legend>
         <form id="plannerForm" action="rdvTest.php" method="get">
@@ -210,12 +240,31 @@
 
 
     </fieldset>
-</div>
+    </div>
     <script>
         $(document).ready(function() {
             $('#dynamicSelectEmployee').load('get_options_employee.php');
             $('#dynamicSelectClient').load('get_options_client.php');
             $('#dynamicSelectEmployeePlanner').load('get_options_employee.php');
+            $('#dynamicSelectClientCancel').load('get_options_client.php');
+            $('#dynamicSelectClientCancelAccount').load('get_options_client.php');
+            $('#dynamicSelectClientCancelAccount').change(function() {
+                var client_id = $(this).val();
+                if (client_id) {
+                    $('#dynamicSelectAccountCancel').load('get_options_account.php?client_id=' + client_id);
+                } else {
+                    $('#dynamicSelectAccountCancel').html('<option value="">Select an account</option>');
+                }
+            });
+            $('#dynamicSelectClientCancelContract').load('get_options_client.php');
+            $('#dynamicSelectClientCancelContract').change(function() {
+                var client_id = $(this).val();
+                if (client_id) {
+                    $('#dynamicSelectContractCancel').load('get_options_contract.php?client_id=' + client_id);
+                } else {
+                    $('#dynamicSelectContractCancel').html('<option value="">Select a contract</option>');
+                }
+            });
             console.log("options loaded");
         });
     </script>     

@@ -63,7 +63,7 @@
 				<fk_column name="client_id" pk="client_id" />
 			</fk>
 			<fk name="fk_client_contrat_assignment_contrat" to_schema="sprint_database" to_table="contrat" >
-				<fk_column name="contrat_id" pk="contart_id" />
+				<fk_column name="contrat_id" pk="contrat_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
@@ -120,13 +120,13 @@
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
 		<table name="contrat" prior="tbl" generator_rows="150" >
-			<column name="contart_id" type="INT" jt="4" mandatory="y" >
+			<column name="contrat_id" prior="contart_id" type="INT" jt="4" mandatory="y" >
 				<identity><![CDATA[AUTO_INCREMENT]]></identity>
 			</column>
 			<column name="contrat_tarif" type="INT" jt="4" />
 			<column name="open_date" type="DATE" jt="91" />
 			<index name="pk_contrat" unique="PRIMARY_KEY" >
-				<column name="contart_id" />
+				<column name="contrat_id" />
 			</index>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
@@ -163,7 +163,7 @@
 				<column name="contrat_id" />
 			</index>
 			<fk name="fk_contrattype_contrat_assignemnt_contrat" to_schema="sprint_database" to_table="contrat" >
-				<fk_column name="contrat_id" pk="contart_id" />
+				<fk_column name="contrat_id" pk="contrat_id" />
 			</fk>
 			<fk name="fk_contrattype_contrat_assignemnt_contrattype" to_schema="sprint_database" to_table="contrattype" >
 				<fk_column name="contrat_type_id" pk="contrattype_id" />

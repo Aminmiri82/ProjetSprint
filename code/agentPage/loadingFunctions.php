@@ -34,3 +34,38 @@ function returnClientOptions(){
     }
     return $options;
 }
+
+function getAccounts($clientId) {
+  $connexion = getConnect();
+  // Query to fetch compte_ids associated with the client_id
+  $query = "SELECT compte_id FROM client_compte_assignment WHERE client_id = :clientId";
+
+  $stmt = $connexion->prepare($query); 
+  $stmt->bindParam(':clientId', $clientId, PDO::PARAM_INT);
+  $stmt->execute();
+
+  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  $options = '';
+  foreach ($result as $row) {
+      $options .= '<option value="' . htmlspecialchars($row['compte_id']) . '">' . htmlspecialchars($row['compte_id']) . '</option>';
+  }
+  return $options;
+}
+function getContracts($clientId) {
+  $connexion = getConnect();
+  // Query to fetch compte_ids associated with the client_id
+  $query = "SELECT contrat_id FROM client_contrat_assignment WHERE client_id = :clientId";
+
+  $stmt = $connexion->prepare($query); 
+  $stmt->bindParam(':clientId', $clientId, PDO::PARAM_INT);
+  $stmt->execute();
+
+  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  $options = '';
+  foreach ($result as $row) {
+      $options .= '<option value="' . htmlspecialchars($row['contrat_id']) . '">' . htmlspecialchars($row['contrat_id']) . '</option>';
+  }
+  return $options;
+}
