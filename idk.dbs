@@ -277,16 +277,14 @@
 			<column name="rdv_id" type="INT" jt="4" mandatory="y" >
 				<identity><![CDATA[AUTO_INCREMENT]]></identity>
 			</column>
-			<column name="time_slot_id" type="INT" jt="4" />
 			<column name="client_id" type="INT" jt="4" />
 			<column name="employee_id" type="INT" jt="4" />
 			<column name="motive_id" type="INT" jt="4" />
 			<column name="approved" type="BOOLEAN" jt="16" />
+			<column name="date" type="DATE" jt="91" />
+			<column name="time_slot" type="TIME" jt="92" />
 			<index name="pk_rdv" unique="PRIMARY_KEY" >
 				<column name="rdv_id" />
-			</index>
-			<index name="unq_rdv_time_slot_id" unique="NORMAL" >
-				<column name="time_slot_id" />
 			</index>
 			<index name="unq_rdv_client_id" unique="NORMAL" >
 				<column name="client_id" />
@@ -303,9 +301,6 @@
 			<fk name="fk_rdv_client" to_schema="sprint_database" to_table="client" >
 				<fk_column name="client_id" pk="client_id" />
 			</fk>
-			<fk name="fk_rdv_time_slot" to_schema="sprint_database" to_table="time_slot" >
-				<fk_column name="time_slot_id" pk="time_slot_id" />
-			</fk>
 			<fk name="fk_rdv_motive" to_schema="sprint_database" to_table="motive" >
 				<fk_column name="motive_id" pk="motive_id" />
 			</fk>
@@ -318,23 +313,6 @@
 			<column name="role_name" type="VARCHAR" length="100" jt="12" />
 			<index name="pk_role_types" unique="PRIMARY_KEY" >
 				<column name="role_id" />
-			</index>
-			<options><![CDATA[engine=InnoDB]]></options>
-		</table>
-		<table name="time_slot" prior="tbl" generator_rows="150" >
-			<column name="time_slot_id" type="INT" jt="4" mandatory="y" >
-				<identity><![CDATA[AUTO_INCREMENT]]></identity>
-			</column>
-			<column name="date" type="DATE" jt="91" />
-			<column name="week" type="INT" jt="4" >
-				<comment><![CDATA[i'm not sure how "week" is supposed to function]]></comment>
-			</column>
-			<column name="start_time" type="TIME" jt="92" />
-			<column name="end_time" type="TIME" jt="92" />
-			<column name="name" type="VARCHAR" length="100" jt="12" />
-			<column name="available" type="BOOLEAN" jt="16" />
-			<index name="pk_time_slot" unique="PRIMARY_KEY" >
-				<column name="time_slot_id" />
 			</index>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
@@ -358,7 +336,6 @@
 		<entity schema="sprint_database" name="motive_documents" color="C1D8EE" x="561" y="1496" />
 		<entity schema="sprint_database" name="rdv" color="C1D8EE" x="680" y="1037" />
 		<entity schema="sprint_database" name="role_types" color="C1D8EE" x="748" y="51" />
-		<entity schema="sprint_database" name="time_slot" color="C1D8EE" x="102" y="1122" />
 		<browser id="Browse-16ee" name="comptetype_compte_assignment" confirm_updates="y" confirmed="y" >
 			<browse_table schema="sprint_database" entity="comptetype_compte_assignment" x="20" y="20" width="270" height="228" />
 		</browser>

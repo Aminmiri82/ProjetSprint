@@ -207,9 +207,7 @@
             <input type="submit" value="See planner" id="employee_choice">
         </form>
         <div id="planner-container"></div>
-        <button id="previousButton">Previous Week</button>
-        <button id="todayButton">Today</button>
-        <button id="nextButton">Next Week</button>
+
 
     </fieldset>
 </div>
