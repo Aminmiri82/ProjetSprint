@@ -42,7 +42,7 @@ function createButton(id, text, clickHandler) {
 function createWeeklyPlanner(occupiedData) {
     console.log('Current Week Start:', new Date(currentWeekStart).toISOString().split('T')[0]);
     const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-    const hours = ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
+    const hours = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
 
     const container = document.getElementById('planner-container');
     container.innerHTML = ''; // Clear the container
