@@ -34,6 +34,22 @@ function returnClientOptions(){
     }
     return $options;
 }
+function returnMotiveOptions(){
+  $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+
+  $query = "SELECT motive_id, motive_name FROM sprint_database.motive";  
+  $stmt = $connexion->prepare($query); 
+  $stmt->execute();
+
+  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  $options = '';
+  foreach ($result as $row) {
+      $options .= '<option value="' . htmlspecialchars($row['motive_id']) . '">' . htmlspecialchars($row['motive_name']) . '</option>';
+  }
+  return $options;
+}
+
 
 function getAccounts($clientId) {
   $connexion = getConnect();

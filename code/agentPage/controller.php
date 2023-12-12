@@ -96,7 +96,11 @@ function ctlgetClientIdByLastNameAndBirthday($last_name, $birthdate){
         
 }
 function ctlgetEmployeeByClientId($client_id){
-    return getEmployeeByClientId($client_id);
+    if (!empty($client_id)) {
+        return getEmployeeByClientId($client_id);
+    }else{ 
+        echo "please fill in all the fields";
+    }
 }
 function ctlAssignEmployeeToClient($employee_id, $client_id){
     if (!empty($employee_id) && !empty($client_id)) {
@@ -150,6 +154,15 @@ function ctldeleteContratById($contrat_id) {
 function ctldeleteClientContratAssignment($client_id, $contrat_id) {
     if (!empty($client_id) && !empty($contrat_id)) {
         deleteClientContratAssignment($client_id, $contrat_id);
+    }else{
+        echo "please fill in all the fields";
+    }
+}
+
+
+function ctladdRdv($client_id, $employee_id, $motive_id, $date, $time_slot){
+    if (!empty($client_id) && !empty($employee_id) && !empty($motive_id) && !empty($date) && !empty($time_slot)) {
+        addRdv($client_id, $employee_id, $motive_id, $date, $time_slot);
     }else{
         echo "please fill in all the fields";
     }

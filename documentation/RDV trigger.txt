@@ -1,0 +1,54 @@
+DELIMITER $$
+
+CREATE TRIGGER check_employee_appointment
+BEFORE INSERT ON sprint_database.rdv
+FOR EACH ROW
+BEGIN
+    DECLARE appointment_count INT;
+    SELECT COUNT(*)
+    INTO appointment_count
+    FROM sprint_database.rdv
+    WHERE employee_id = NEW.employee_id AND `date` = NEW.date AND time_slot = NEW.time_slot;
+    
+    IF appointment_count > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'An employee cannot have more than one appointment at the same time and date.';
+    END IF;
+END;
+$$
+
+DELIMITER ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DELIMITER $$
+
+CREATE TRIGGER check_client_appointment
+BEFORE INSERT ON sprint_database.rdv
+FOR EACH ROW
+BEGIN
+    DECLARE appointment_count INT;
+    SELECT COUNT(*)
+    INTO appointment_count
+    FROM sprint_database.rdv
+    WHERE client_id = NEW.client_id AND `date` = NEW.date AND time_slot = NEW.time_slot;
+    
+    IF appointment_count > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'A client cannot have more than one appointment at the same time.';
+    END IF;
+END;
+$$
+
+DELIMITER ;

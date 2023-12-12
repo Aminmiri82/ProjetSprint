@@ -107,6 +107,20 @@ try {
         ctldeleteClientContratAssignment($client_id, $contrat_id);
         ctldeleteContratById($contrat_id);
     }
+    if (isset($_POST['get_assigned_employee'])){
+        $client_id = $_POST['client_id'];
+        $assigned_employee = ctlgetEmployeeByClientId($client_id);
+        $employee_assigned_to_client = showString($assigned_employee);
+    }
+    if (isset($_POST['add_rdv'])){
+        $client_id = $_POST['client_id'];
+        $employee_id = $_POST['employee_id'];
+        $motive_id = $_POST['motive_id'];
+        $date = $_POST['date'];
+        $formattedDate = date('Y-m-d', strtotime($date));
+        $time = $_POST['time'];
+        ctladdRdv($client_id, $employee_id, $motive_id, $formattedDate, $time);
+    }
     $headercontent = ctlshowUsername();
     $contenu = ctlafficheracceuil();
     

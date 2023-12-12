@@ -229,6 +229,15 @@
     <div>
     <fieldset>
         <legend>planner</legend>
+        <form id="get_assigned_employee"action="site.php" method="post">
+            <label for="client_id">choose clinet:</label>
+            <select id="dynamicSelectClientPlanner" name="client_id">
+                <option value="">Select an option</option>
+            </select>
+            <input type="submit" value="get assigned employee" name= "get_assigned_employee" />
+            <label for="assigned_employee">assigned employee is :</label>
+            <?php echo $employee_assigned_to_client; ?>
+        </form>
         <form id="plannerForm" action="rdvTest.php" method="get">
             <label for="employee">Employee's planner: </label>
             <select id="dynamicSelectEmployeePlanner" name="employee_id">
@@ -237,16 +246,44 @@
             <input type="submit" value="See planner" id="employee_choice">
         </form>
         <div id="planner-container"></div>
+        <form id="add_rdv" action="site.php" method="post">
+            <label for="client_id">choose clinet:</label>
+            <select id="dynamicSelectClientRDV" name="client_id">
+                <option value="">Select an option</option>
+            </select>
+            <label for="employee_id">choose employee:</label>
+            <select id="dynamicSelectEmployeeRDV" name="employee_id">
+                <option value="">Select an option</option>
+            </select>
+            <label for="motive_id">chosee motive:</label>
+            <select id="dynamicSelectMotiveRDV" name="motive_id">
+                <option value="">Select an option</option>
+            </select>
+            <label for="date">choose date:</label>
+            <input type="date" name="date">
+            <label for="time">choose time:</label>
+            <input type="time" name="time">
+            <input type="submit" value="add rdv" name= "add_rdv" />
+        </form>
+
 
 
     </fieldset>
     </div>
+
     <script>
         $(document).ready(function() {
             $('#dynamicSelectEmployee').load('get_options_employee.php');
             $('#dynamicSelectClient').load('get_options_client.php');
+
             $('#dynamicSelectEmployeePlanner').load('get_options_employee.php');
-            $('#dynamicSelectClientCancel').load('get_options_client.php');
+            $('#dynamicSelectClientPlanner').load('get_options_client.php');
+
+            $('#dynamicSelectClientRDV').load('get_options_client.php');
+            $('#dynamicSelectEmployeeRDV').load('get_options_employee.php');
+            $('#dynamicSelectMotiveRDV').load('get_options_motive.php');
+            
+           
             $('#dynamicSelectClientCancelAccount').load('get_options_client.php');
             $('#dynamicSelectClientCancelAccount').change(function() {
                 var client_id = $(this).val();
@@ -256,6 +293,7 @@
                     $('#dynamicSelectAccountCancel').html('<option value="">Select an account</option>');
                 }
             });
+
             $('#dynamicSelectClientCancelContract').load('get_options_client.php');
             $('#dynamicSelectClientCancelContract').change(function() {
                 var client_id = $(this).val();

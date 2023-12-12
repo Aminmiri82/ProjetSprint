@@ -62,9 +62,11 @@ function showContractInfo($result) {
     }
 }
 function showString($string){
-    echo '<ul><li>';
-    echo $string;
-    echo '</li></ul>';
+    $content = '';
+    
+    $content .=  $string;
+    
+    return $content;
 }
 
 function showAccountsInPossesion($accounts_in_possesion){

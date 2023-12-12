@@ -248,7 +248,7 @@ function getContractInfoByAccountId($account_id) {
     $query = "
         SELECT cca.client_id, cca.contrat_id, c.contrat_tarif, c.open_date
         FROM sprint_database.client_contrat_assignment cca 
-            INNER JOIN sprint_database.contrat c ON (c.contart_id = cca.contrat_id)
+            INNER JOIN sprint_database.contrat c ON (c.contrat_id = cca.contrat_id)
         WHERE cca.client_id = :account_id;
     ";
 
@@ -549,3 +549,37 @@ function deleteClientContratAssignment($client_id, $contrat_id) {
     // Close the statement
     $stmt->closeCursor();
 }
+
+
+function addRdv($client_id, $employee_id, $motive_id, $date, $time_slot) {
+    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+
+    // SQL query to insert a new record into the rdv table
+    $query = "INSERT INTO sprint_database.rdv (client_id, employee_id, motive_id, approved, `date`, time_slot) 
+              VALUES (:client_id, :employee_id, :motive_id, TRUE, :date, :time_slot)";
+
+    // Prepare the query
+    $stmt = $connexion->prepare($query);
+
+    // Bind parameters
+    $stmt->bindParam(':client_id', $client_id, PDO::PARAM_INT);
+    $stmt->bindParam(':employee_id', $employee_id, PDO::PARAM_INT);
+    $stmt->bindParam(':motive_id', $motive_id, PDO::PARAM_INT);
+    $stmt->bindParam(':date', $date);
+    $stmt->bindParam(':time_slot', $time_slot);
+
+    // Execute the query and check for success
+    $success = $stmt->execute();
+
+    if (!$success) {
+        // Handle error
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+    } else {
+        // Success message
+        echo "RDV record created successfully!";
+    }
+}
+
+
+
+
