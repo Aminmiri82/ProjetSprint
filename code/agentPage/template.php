@@ -29,6 +29,9 @@
     .occupied {
       background-color: #ff9999; 
     }
+    .busy{
+        background-color: blueviolet;
+    }
   </style>
     </head>
     

@@ -25,11 +25,22 @@ function showPrompt(day, time, occupiedData) {
         entry.date === formattedDate && entry.time_slot === formattedTime
     );
 
-    const slotInfo = occupiedSlot ? Object.entries(occupiedSlot).map(([key, value]) => `${key}: ${value}`).join('\n') : '';
-    const message = occupiedSlot ? `Occupied:\n${slotInfo}\nDate: ${formattedDate}` : `You clicked on ${time} on ${day}, ${formattedDate}`;
+    let message;
+    if (occupiedSlot) {
+        if (occupiedSlot.approved === '1') {
+            const slotInfo = Object.entries(occupiedSlot).map(([key, value]) => `${key}: ${value}`).join('\n');
+            message = `Occupied:\n${slotInfo}\nDate: ${formattedDate}, Time: ${formattedTime}`;
+        } else if (occupiedSlot.approved === '0') {
+            message = `This slot is busy:\nDate: ${formattedDate}, Time: ${formattedTime}`;
+        }
+    } else {
+        message = `You clicked on ${time} on ${day}, ${formattedDate}`;
+    }
 
     alert(message);
 }
+
+
 
 function createButton(id, text, clickHandler) {
     const button = document.createElement('button');
@@ -109,11 +120,23 @@ function createWeeklyPlanner(occupiedData) {
             td.addEventListener('click', () => showPrompt(day, formattedTime, occupiedData));
 
             const isOccupied = occupiedData.some(entry =>
-                entry.date === formattedDate && entry.time_slot === formattedTime
+                entry.date === formattedDate && entry.time_slot === formattedTime && entry.approved === '1' // Check if approved is '1' (as a string)
             );
+
+            const isBusy = occupiedData.some(entry =>
+                entry.date === formattedDate &&
+                entry.time_slot === formattedTime &&
+                entry.approved === '0'  // Check if approved is '0' (as a string)
+            );
+            
+            
+
+            console.log(`Date: ${formattedDate}, Time: ${formattedTime}, isOccupied: ${isOccupied}, isBusy: ${isBusy}`); // Debug
 
             if (isOccupied) {
                 td.classList.add('occupied');
+            } else if (isBusy) {
+                td.classList.add('busy');
             }
 
             row.appendChild(td);
@@ -179,7 +202,10 @@ function updateWeek(offset) {
     } else {
         fetch('rdvTest.php')
             .then(response => response.json())
-            .then(data => createWeeklyPlanner(data))
+            .then(data => {
+                console.log('Raw Data:', data);  // Log the raw data
+                createWeeklyPlanner(data);
+            })
             .catch(error => console.error('Error fetching data:', error));
     }
 }
@@ -187,7 +213,10 @@ function updateWeek(offset) {
 function fetchAppointments(employeeId) {
     fetch(`rdvTest.php?employee_id=${employeeId}`)
         .then(response => response.json())
-        .then(data => createWeeklyPlanner(data))
+        .then(data => {
+            console.log('Raw Data:', data);  // Log the raw data
+            createWeeklyPlanner(data);
+        })
         .catch(error => console.error('Error fetching data:', error));
 }
 
@@ -206,5 +235,8 @@ document.getElementById('plannerForm').addEventListener('submit', function (even
 // Initial fetch
 fetch('rdvTest.php')
     .then(response => response.json())
-    .then(data => createWeeklyPlanner(data))
+    .then(data => {
+        console.log('Raw Data:', data);  // Log the raw data
+        createWeeklyPlanner(data);
+    })
     .catch(error => console.error('Error fetching data:', error));

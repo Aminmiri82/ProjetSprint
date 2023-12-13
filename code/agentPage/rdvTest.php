@@ -42,6 +42,7 @@ foreach ($result as &$row) {
 }
 
 if ($result) {
+    error_log(print_r($result, true)); 
     echo json_encode($result);
 } else {
     echo json_encode(['error' => 'Failed to fetch data']);
