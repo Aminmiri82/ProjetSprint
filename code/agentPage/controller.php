@@ -167,3 +167,11 @@ function ctladdRdv($client_id, $employee_id, $motive_id, $date, $time_slot){
         echo "please fill in all the fields";
     }
 }
+
+function ctlgetDocumentsByMotiveId($motive_id){
+    if (!empty($motive_id)) {
+        return getDocumentsByMotiveId($motive_id);
+    }else{
+        echo "please fill in all the fields";
+    }
+}

@@ -16,7 +16,16 @@ function getConnect(){
     return $connexion;
 }
 
-$query = "SELECT * FROM rdv WHERE employee_id = :employeeId";
+$query = "SELECT r.client_id, r.employee_id, r.motive_id, r.approved, r.date, r.time_slot, m.motive_name, 
+                 GROUP_CONCAT(DISTINCT d.documents_id) AS document_ids, 
+                 GROUP_CONCAT(DISTINCT d.document_name SEPARATOR ', ') AS document_names
+          FROM sprint_database.rdv r
+          INNER JOIN sprint_database.motive m ON r.motive_id = m.motive_id
+          INNER JOIN sprint_database.motive_documents md ON m.motive_id = md.motive_id
+          INNER JOIN sprint_database.documents d ON md.documents_id = d.documents_id
+          WHERE r.employee_id = :employeeId
+          GROUP BY r.rdv_id, r.client_id, r.employee_id, r.motive_id, r.approved, r.date, r.time_slot, m.motive_name";
+
 $connexion = getConnect();
 $stmt = $connexion->prepare($query);
 $stmt->bindParam(':employeeId', $employeeId, PDO::PARAM_INT);
@@ -24,7 +33,12 @@ $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($result as &$row) {
+    // Format the time_slot to 'H:i' format
     $row['time_slot'] = date('H:i', strtotime($row['time_slot']));
+
+    // Optionally split document_ids and document_names into arrays if needed
+    // $row['document_ids'] = explode(',', $row['document_ids']);
+    // $row['document_names'] = explode(', ', $row['document_names']);
 }
 
 if ($result) {
@@ -34,4 +48,6 @@ if ($result) {
 }
 
 $stmt->closeCursor();
+
+
 

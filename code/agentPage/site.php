@@ -48,6 +48,7 @@ try {
         showClientInfo($info);
         showEverything($contrat);
         showEverything($account);
+        echo $assigned_employee;
         
         
         
@@ -120,6 +121,8 @@ try {
         $formattedDate = date('Y-m-d', strtotime($date));
         $time = $_POST['time'];
         ctladdRdv($client_id, $employee_id, $motive_id, $formattedDate, $time);
+        $needed_documents = ctlgetDocumentsByMotiveId($motive_id);
+        showEverything($needed_documents);
     }
     $headercontent = ctlshowUsername();
     $contenu = ctlafficheracceuil();

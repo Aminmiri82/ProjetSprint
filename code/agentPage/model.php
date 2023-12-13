@@ -580,6 +580,34 @@ function addRdv($client_id, $employee_id, $motive_id, $date, $time_slot) {
     }
 }
 
+function getDocumentsByMotiveId($motive_id) {
+    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+
+    // SQL query to select document details based on motive_id
+    $query = "
+        SELECT d.documents_id, d.document_name
+        FROM sprint_database.motive m
+        INNER JOIN sprint_database.motive_documents md ON md.motive_id = m.motive_id
+        INNER JOIN sprint_database.documents d ON d.documents_id = md.documents_id
+        WHERE m.motive_id = :motive_id;
+    ";
+
+    // Prepare and bind parameters
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':motive_id', $motive_id, PDO::PARAM_INT);
+    
+    // Execute the query
+    $stmt->execute();
+
+    // Fetch results
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Close the statement
+    $stmt->closeCursor();
+
+    return $result;
+}
+
 
 
 
