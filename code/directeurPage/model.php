@@ -21,7 +21,144 @@ function userExists($username, $password) {
     // If the count is greater than 0, the user exists
     return ($result['count'] > 0);
 }
-function userRole($username){
-    $connexion = getConnect();
-    
+function updateEmployeeCredentials($employee_id, $new_username, $new_password) {
+    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+
+    // SQL query to update the username and password for the specified employee_id
+    $query = "UPDATE sprint_database.employee 
+              SET username = :new_username, password = :new_password 
+              WHERE employee_id = :employee_id";
+
+    // Prepare the query
+    $stmt = $connexion->prepare($query);
+
+    // Bind parameters
+    $stmt->bindParam(':employee_id', $employee_id, PDO::PARAM_INT);
+    $stmt->bindParam(':new_username', $new_username);
+    $stmt->bindParam(':new_password', $new_password);  // Consider hashing the password
+
+    // Execute the query and check for success
+    $success = $stmt->execute();
+
+    if (!$success) {
+        // Handle error
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+    } else {
+        // Success message
+        echo "Employee credentials updated successfully!";
+    }
 }
+function addMotive($text_box, $type) {
+    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+
+    // Determine the motive name based on the type
+    if ($type == 0) {
+        $motive_name = "Opening a new " . $text_box . " account";
+    } else if ($type == 1) {
+        $motive_name = "Opening a new " . $text_box . " contract";
+    } else {
+        echo "Invalid type provided.";
+        return null;
+    }
+
+    // SQL query to insert a new record into the motive table
+    $query = "INSERT INTO sprint_database.motive (motive_name) VALUES (:motive_name)";
+
+    // Prepare the query
+    $stmt = $connexion->prepare($query);
+
+    // Bind parameters
+    $stmt->bindParam(':motive_name', $motive_name);
+
+    // Execute the query and check for success
+    $success = $stmt->execute();
+
+    if (!$success) {
+        // Handle error
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+        return null;
+    } else {
+        // Get the last inserted ID (motive_id)
+        $motive_id = $connexion->lastInsertId();
+        echo "Motive added successfully with ID: " . $motive_id;
+        return $motive_id;
+    }
+}
+
+function addCompteType($type_name, $motive_id) {
+    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+
+    // SQL query to insert a new record into the comptetype table
+    $query = "INSERT INTO sprint_database.comptetype (type_name, motive_id) 
+              VALUES (:type_name, :motive_id)";
+
+    // Prepare the query
+    $stmt = $connexion->prepare($query);
+
+    // Bind parameters
+    $stmt->bindParam(':type_name', $type_name);
+    $stmt->bindParam(':motive_id', $motive_id);
+
+    // Execute the query and check for success
+    $success = $stmt->execute();
+
+    if (!$success) {
+        // Handle error
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+    } else {
+        // Success message
+        echo "Compte type added successfully!";
+    }
+}
+function updateCompteType($comptetype_id, $text_box) {
+    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+
+    // SQL query to update the type_name for the specified comptetype_id
+    $query = "UPDATE sprint_database.comptetype 
+              SET type_name = :type_name 
+              WHERE comptetype_id = :comptetype_id";
+
+    // Prepare the query
+    $stmt = $connexion->prepare($query);
+
+    // Bind parameters
+    $stmt->bindParam(':comptetype_id', $comptetype_id, PDO::PARAM_INT);
+    $stmt->bindParam(':type_name', $text_box);
+
+    // Execute the query and check for success
+    $success = $stmt->execute();
+
+    if (!$success) {
+        // Handle error
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+        return null;
+    } else {
+        // Success message
+        echo "Compte type updated successfully!";
+    }
+}
+
+function deleteCompteTypeById($comptetype_id) {
+    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+
+    // SQL query to delete the row with the specified comptetype_id
+    $query = "DELETE FROM sprint_database.comptetype WHERE comptetype_id = :comptetype_id";
+
+    // Prepare and bind parameters
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':comptetype_id', $comptetype_id, PDO::PARAM_INT);
+
+    // Execute the query and check for success
+    $success = $stmt->execute();
+
+    if (!$success) {
+        // Handle error
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+    } else {
+        // Success message
+        echo "Compte type with ID $comptetype_id deleted successfully!";
+    }
+}
+
+
+
