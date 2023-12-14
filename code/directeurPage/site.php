@@ -26,6 +26,19 @@ try {
             ctldeleteCompteTypeById($comptetype_id);
         }
     }
+    if (isset($_POST['modify_Contrat_types'])) {
+        $contrattype_id = $_POST['Contrat_type'];
+        $action = $_POST['actionC'];
+        $text_box = $_POST['text_box'];
+        if ($action == "add") {
+            $motive_id = ctladdMotive($text_box, 1);
+            ctladdContratType($text_box, $motive_id);
+        }elseif ($action == "change") {
+            ctlupdateContratType($contrattype_id, $text_box);
+        }elseif ($action == "delete") {
+            ctldeleteContratTypeById($contrattype_id);
+        }
+    }
     ctlafficheracceuil();
 } 
 catch (Exception $e) {

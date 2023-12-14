@@ -159,6 +159,80 @@ function deleteCompteTypeById($comptetype_id) {
         echo "Compte type with ID $comptetype_id deleted successfully!";
     }
 }
+function addContratType($contrattype_name, $motive_id) {
+    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+
+    // SQL query to insert a new record into the contrattype table
+    $query = "INSERT INTO sprint_database.contrattype (contrattype_name, motive_id) 
+              VALUES (:contrattype_name, :motive_id)";
+
+    // Prepare the query
+    $stmt = $connexion->prepare($query);
+
+    // Bind parameters
+    $stmt->bindParam(':contrattype_name', $contrattype_name);
+    $stmt->bindParam(':motive_id', $motive_id, PDO::PARAM_INT);
+
+    // Execute the query and check for success
+    $success = $stmt->execute();
+
+    if (!$success) {
+        // Handle error
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+    } else {
+        // Success message
+        echo "Contrat type added successfully!";
+    }
+}
+function updateContratType($contrattype_id, $text_box) {
+    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+
+    // SQL query to update the contrattype_name for the specified contrattype_id
+    $query = "UPDATE sprint_database.contrattype 
+              SET contrattype_name = :contrattype_name 
+              WHERE contrattype_id = :contrattype_id";
+
+    // Prepare the query
+    $stmt = $connexion->prepare($query);
+
+    // Bind parameters
+    $stmt->bindParam(':contrattype_id', $contrattype_id, PDO::PARAM_INT);
+    $stmt->bindParam(':contrattype_name', $text_box);
+
+    // Execute the query and check for success
+    $success = $stmt->execute();
+
+    if (!$success) {
+        // Handle error
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+    } else {
+        // Success message
+        echo "Contrat type updated successfully!";
+    }
+}
+function deleteContratTypeById($contrattype_id) {
+    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+
+    // SQL query to delete the row with the specified contrattype_id
+    $query = "DELETE FROM sprint_database.contrattype WHERE contrattype_id = :contrattype_id";
+
+    // Prepare and bind parameters
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':contrattype_id', $contrattype_id, PDO::PARAM_INT);
+
+    // Execute the query and check for success
+    $success = $stmt->execute();
+
+    if (!$success) {
+        // Handle error
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+    } else {
+        // Success message
+        echo "Contrat type with ID $contrattype_id deleted successfully!";
+    }
+}
+
+
 
 
 

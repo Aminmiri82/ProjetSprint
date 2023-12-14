@@ -54,3 +54,25 @@ function ctldeleteCompteTypeById($comptetype_id){
         echo "please fill in all the fields";
     }
 }
+
+function ctladdContratType($contrattype_name, $motive_id){
+    if (!empty($contrattype_name)) {
+        addContratType($contrattype_name, $motive_id);
+    }else{
+        echo "please fill in all the fields";
+    }
+}
+function ctlupdateContratType($contrattype_id, $text_box){
+    if (!empty($contrattype_id) && !empty($text_box)) {
+        updateContratType($contrattype_id, $text_box);
+    }else{
+        echo "please fill in all the fields";
+    }
+}
+function ctldeleteContratTypeById($contrattype_id){
+    if (!empty($contrattype_id)) {
+        deleteContratTypeById($contrattype_id);
+    }else{
+        echo "please fill in all the fields";
+    }
+}
