@@ -231,6 +231,155 @@ function deleteContratTypeById($contrattype_id) {
         echo "Contrat type with ID $contrattype_id deleted successfully!";
     }
 }
+function addDocumentAndGetId($document_name) {
+    $connexion = getConnect();  
+
+    // SQL query to insert a new record into the documents table
+    $query = "INSERT INTO sprint_database.documents (document_name) VALUES (:document_name)";
+
+    // Prepare the query
+    $stmt = $connexion->prepare($query);
+
+    // Bind parameters
+    $stmt->bindParam(':document_name', $document_name);
+
+    // Execute the query and check for success
+    $success = $stmt->execute();
+
+    if (!$success) {
+        // Handle error
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+        return null;
+    } else {
+        // Get the last inserted ID (documents_id)
+        $documents_id = $connexion->lastInsertId();
+        echo "Document added successfully with ID: " . $documents_id;
+        return $documents_id;
+    }
+}
+function addMotiveDocument($motive_id, $documents_id) {
+    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+
+    // SQL query to insert a new record into the motive_documents table
+    $query = "INSERT INTO sprint_database.motive_documents (motive_id, documents_id) 
+              VALUES (:motive_id, :documents_id)";
+
+    // Prepare the query
+    $stmt = $connexion->prepare($query);
+
+    // Bind parameters
+    $stmt->bindParam(':motive_id', $motive_id, PDO::PARAM_INT);
+    $stmt->bindParam(':documents_id', $documents_id, PDO::PARAM_INT);
+
+    // Execute the query and check for success
+    $success = $stmt->execute();
+
+    if (!$success) {
+        // Handle error
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+    } else {
+        // Success message
+        echo "Motive document association added successfully!";
+    }
+}
+function updateDocumentName($documents_id, $new_name) {
+    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+
+    // SQL query to update the document_name for the specified documents_id
+    $query = "UPDATE sprint_database.documents 
+              SET document_name = :new_name 
+              WHERE documents_id = :documents_id";
+
+    // Prepare the query
+    $stmt = $connexion->prepare($query);
+
+    // Bind parameters
+    $stmt->bindParam(':documents_id', $documents_id, PDO::PARAM_INT);
+    $stmt->bindParam(':new_name', $new_name);
+
+    // Execute the query and check for success
+    $success = $stmt->execute();
+
+    if (!$success) {
+        // Handle error
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+    } else {
+        // Success message
+        echo "Document name updated successfully!";
+    }
+}
+function deleteMotiveDocumentSingle($motive_id, $documents_id) {
+    $connexion = getConnect(); 
+
+    // SQL query to delete the row where both motive_id and documents_id match
+    $query = "DELETE FROM sprint_database.motive_documents 
+              WHERE motive_id = :motive_id AND documents_id = :documents_id";
+
+    // Prepare and bind parameters
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':motive_id', $motive_id, PDO::PARAM_INT);
+    $stmt->bindParam(':documents_id', $documents_id, PDO::PARAM_INT);
+
+    // Execute the query and check for success
+    $success = $stmt->execute();
+
+    if (!$success) {
+        // Handle error
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+    } else {
+        // Success message
+        echo "Motive document association deleted successfully!";
+    }
+}
+function deleteDocumentAssociationMulti($documents_id) {
+    $connexion = getConnect(); 
+
+    // SQL query to delete all rows with the specified documents_id
+    $query = "DELETE FROM sprint_database.motive_documents 
+              WHERE documents_id = :documents_id";
+
+    // Prepare and bind parameters
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':documents_id', $documents_id, PDO::PARAM_INT);
+
+    // Execute the query and check for success
+    $success = $stmt->execute();
+
+    if (!$success) {
+        // Handle error
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+    } else {
+        // Success message
+        echo "All associations with documents_id $documents_id deleted successfully!";
+    }
+}
+
+function deleteDocumentById($documents_id) {
+    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+
+    // SQL query to delete the row with the specified documents_id
+    $query = "DELETE FROM sprint_database.documents WHERE documents_id = :documents_id";
+
+    // Prepare and bind parameters
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':documents_id', $documents_id, PDO::PARAM_INT);
+
+    // Execute the query and check for success
+    $success = $stmt->execute();
+
+    if (!$success) {
+        // Handle error
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+    } else {
+        // Success message
+        echo "Document with ID $documents_id deleted successfully!";
+    }
+}
+
+
+
+
+
 
 
 

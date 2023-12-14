@@ -39,6 +39,27 @@ try {
             ctldeleteContratTypeById($contrattype_id);
         }
     }
+
+    if (isset($_POST['modify_documents_list'])) {
+        $motive_id = $_POST['motive_id'];
+        $documents_id = $_POST['documents_id'];
+        $action = $_POST['actionM'];
+        $text_box = $_POST['text_boxM'];
+        if ($action == "add") {
+            $documents_id=ctladdDocumentAndGetId($text_box);
+            ctladdMotiveDocument($motive_id, $documents_id);
+        }elseif ($action == "add2"){
+            ctladdMotiveDocument($motive_id, $documents_id);
+            
+        }elseif ($action == "change") {
+            ctlupdateDocumentName($documents_id, $text_box);
+        }elseif ($action == "delete1") {
+            ctldeleteMotiveDocumentSingle($motive_id, $documents_id);
+        }elseif ($action == "delete2") {
+            ctldeleteDocumentAssociationMulti($documents_id);
+            ctldeleteDocumentById($documents_id);
+        }
+    }
     ctlafficheracceuil();
 } 
 catch (Exception $e) {

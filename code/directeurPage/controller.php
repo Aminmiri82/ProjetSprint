@@ -76,3 +76,45 @@ function ctldeleteContratTypeById($contrattype_id){
         echo "please fill in all the fields";
     }
 }
+function ctladdDocumentAndGetId($document_name){
+    if (!empty($document_name)) {
+        return addDocumentAndGetId($document_name);
+    }else{
+        echo "please fill in all the fields";
+    }
+}
+function ctladdMotiveDocument($motive_id, $documents_id){
+    if (!empty($motive_id) && !empty($documents_id)) {
+        addMotiveDocument($motive_id, $documents_id);
+    }else{
+        echo "please fill in all the fields";
+    }
+}
+function ctlupdateDocumentName($documents_id, $new_name){
+    if (!empty($documents_id) && !empty($new_name)) {
+        updateDocumentName($documents_id, $new_name);
+    }else{
+        echo "please fill in all the fields";
+    }
+}
+function ctldeleteMotiveDocumentSingle($motive_id, $documents_id){
+    if (!empty($motive_id) && !empty($documents_id)) {
+        deleteMotiveDocumentSingle($motive_id, $documents_id);
+    }else{
+        echo "please fill in all the fields";
+    }
+}
+function ctldeleteDocumentAssociationMulti($documents_id){
+    if (!empty($documents_id)) {
+        deleteDocumentAssociationMulti($documents_id);
+    }else{
+        echo "please fill in all the fields";
+    }
+}
+function ctldeleteDocumentById($documents_id){
+    if (!empty($documents_id)) {
+        deleteDocumentById($documents_id);
+    }else{
+        echo "please fill in all the fields";
+    }
+}

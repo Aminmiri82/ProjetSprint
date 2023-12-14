@@ -114,3 +114,19 @@ foreach ($result as $row) {
 }
 return $options;
 }
+
+function returnDocumentOptions() {
+  $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+
+  $query = "SELECT documents_id, document_name FROM sprint_database.documents";  
+  $stmt = $connexion->prepare($query); 
+  $stmt->execute();
+
+  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  $options = '';
+  foreach ($result as $row) {
+      $options .= '<option value="' . htmlspecialchars($row['documents_id']) . '">' . htmlspecialchars($row['document_name']) . '</option>';
+  }
+  return $options;
+}

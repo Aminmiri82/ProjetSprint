@@ -3,7 +3,7 @@
     <head>
       <title>Ma page</title>
       <meta charset="utf-8">
-	  <link rel="stylesheet"  href="style.css" />
+	  
       <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     </head>
     
@@ -70,6 +70,39 @@
                 </form>
             </fieldset>
         </div>
+        <div>
+            <fieldset>
+                <legend>add/modify/delete documents</legend>
+                <form id="modify_document_list"action="site.php" method="post">
+                    <label for="motive">Curent motive list: </label>
+                        <select id="dynamicSelectMotive" name="motive_id">
+                            <option value="">Select an option</option>
+                        </select>
+                    <label for="documents_id">Curent document list: </label>
+                        <select id="dynamicSelectDocument" name="documents_id">
+                            <option value="">Select an option</option>
+                        </select>
+                    <br>
+                    <label for="actionM">Action: </label>
+                    <label for="addM">Add new document needed for a rdv</label>
+				    <input type="radio" name="actionM" id="addM" value="add">
+                    <label for="add2M">Add existing document needed for a rdv</label>
+				    <input type="radio" name="actionM" id="add2M" value="add2">
+				    <label for="changeM">chnage the chosen document's name</label>
+				    <input type="radio" name="actionM" id="changeM" value="change">
+				    <label for="deleteM1">Delete the chosen document for this rdv</label>
+				    <input type="radio" name="actionM" id="deleteM1" value="delete1">
+                    <label for="deleteM2">Delete the chosen document for all rdv's</label>
+				    <input type="radio" name="actionM" id="deleteM2" value="delete2">
+                    <br>
+                    <label for="text_box">text box:</label>
+                    <input type="text" name="text_boxM" id="text_boxM" placeholder="text box">
+                    <input type="submit" name="modify_documents_list" value="Go!">
+                    
+
+                </form>
+            </fieldset>
+        </div>
 
 
    
@@ -78,6 +111,8 @@
             $('#dynamicSelectEmployeeLogin').load('get_options_employee.php');
             $('#dynamicSelectAccountTypeModify').load('get_options_comptetype.php');
             $('#dynamicSelectContratTypeModify').load('get_options_contrattype.php');
+            $('#dynamicSelectMotive').load('get_options_motive.php');
+            $('#dynamicSelectDocument').load('get_options_document.php');
         });
     </script>
     <?php
