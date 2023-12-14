@@ -54,6 +54,20 @@ try {
         ctlassignClientToCompte($client_id, $compte_id);
         ctlassignCompteTypeToCompte($compte_id, $comptetype_id);
     }
+    if (isset($_POST['cancel_account'])){
+        $client_id = $_POST['client_id'];
+        $compte_id = $_POST['compte_id'];
+        ctldeleteCompteTypeAssignmentById($compte_id);
+        ctldeleteClientCompteAssignment($client_id, $compte_id);
+        ctldeleteCompteById($compte_id);
+    }
+    if (isset($_POST['cancel_contract'])){
+        $client_id = $_POST['client_id'];
+        $contrat_id = $_POST['contract_id'];
+        ctldeleteContratTypeAssignmentById($contrat_id);
+        ctldeleteClientContratAssignment($client_id, $contrat_id);
+        ctldeleteContratById($contrat_id);
+    }
 
   
     

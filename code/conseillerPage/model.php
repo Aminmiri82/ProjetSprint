@@ -441,3 +441,157 @@ function assignCompteTypeToCompte($compte_id, $comptetype_id) {
     $stmt->closeCursor();
 }
 
+function deleteCompteTypeAssignmentById($compte_id) {
+    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+
+    // SQL query to delete rows with the specified compte_id
+    $query = "DELETE FROM sprint_database.comptetype_compte_assignment WHERE compte_id = :compte_id";
+
+    // Prepare and bind parameters
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':compte_id', $compte_id, PDO::PARAM_INT);
+
+    // Execute the query and check for success
+    $success = $stmt->execute();
+
+    if (!$success) {
+        // Handle error
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+    } else {
+        // Success message
+        echo "Rows with compte_id $compte_id deleted successfully!";
+    }
+
+    // Close the statement
+    $stmt->closeCursor();
+}
+
+function deleteCompteById($compte_id) {
+    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+
+    // SQL query to delete the account with the specified compte_id
+    $query = "DELETE FROM sprint_database.compte WHERE compte_id = :compte_id";
+
+    // Prepare and bind parameters
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':compte_id', $compte_id, PDO::PARAM_INT);
+
+    // Execute the query and check for success
+    $success = $stmt->execute();
+
+    if (!$success) {
+        // Handle error
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+    } else {
+        // Success message
+        echo "Account with compte_id $compte_id deleted successfully!";
+    }
+
+    // Close the statement
+    $stmt->closeCursor();
+}
+
+
+function deleteClientCompteAssignment($client_id, $compte_id) {
+    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+
+    // SQL query to delete the row where both client_id and compte_id match
+    $query = "DELETE FROM sprint_database.client_compte_assignment 
+              WHERE client_id = :client_id AND compte_id = :compte_id";
+
+    // Prepare and bind parameters
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':client_id', $client_id, PDO::PARAM_INT);
+    $stmt->bindParam(':compte_id', $compte_id, PDO::PARAM_INT);
+
+    // Execute the query and check for success
+    $success = $stmt->execute();
+
+    if (!$success) {
+        // Handle error
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+    } else {
+        // Success message
+        echo "Assignment with client_id $client_id and compte_id $compte_id deleted successfully!";
+    }
+
+    // Close the statement
+    $stmt->closeCursor();
+}
+
+function deleteContratTypeAssignmentById($contrat_id) {
+    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+
+    // SQL query to delete rows with the specified compte_id
+    $query = "DELETE FROM sprint_database.contrattype_contrat_assignemnt WHERE contrat_id = :contrat_id";
+
+    // Prepare and bind parameters
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':contrat_id', $contrat_id, PDO::PARAM_INT);
+
+    // Execute the query and check for success
+    $success = $stmt->execute();
+
+    if (!$success) {
+        // Handle error
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+    } else {
+        // Success message
+        echo "Rows with contrat_id $contrat_id deleted successfully!";
+    }
+
+    // Close the statement
+    $stmt->closeCursor();
+}
+function deleteContratById($contrat_id) {
+    $connexion = getConnect();  
+
+    // SQL query to delete the account with the specified contrat_id
+    $query = "DELETE FROM sprint_database.contrat WHERE contrat_id = :contrat_id";
+
+    // Prepare and bind parameters
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':contrat_id', $contrat_id, PDO::PARAM_INT);
+
+    // Execute the query and check for success
+    $success = $stmt->execute();
+
+    if (!$success) {
+        // Handle error
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+    } else {
+        // Success message
+        echo "Account with contrat_id $contrat_id deleted successfully!";
+    }
+
+    // Close the statement
+    $stmt->closeCursor();
+}
+
+
+function deleteClientContratAssignment($client_id, $contrat_id) {
+    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+
+    // SQL query to delete the row where both client_id and compte_id match
+    $query = "DELETE FROM sprint_database.client_contrat_assignment 
+              WHERE client_id = :client_id AND contrat_id = :contrat_id";
+
+    // Prepare and bind parameters
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':client_id', $client_id, PDO::PARAM_INT);
+    $stmt->bindParam(':contrat_id', $contrat_id, PDO::PARAM_INT);
+
+    // Execute the query and check for success
+    $success = $stmt->execute();
+
+    if (!$success) {
+        // Handle error
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+    } else {
+        // Success message
+        echo "Assignment with client_id $client_id and contrat_id $contrat_id deleted successfully!";
+    }
+
+    // Close the statement
+    $stmt->closeCursor();
+}

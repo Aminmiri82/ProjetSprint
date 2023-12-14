@@ -4,7 +4,7 @@
       <title>Ma page</title>
       <meta charset="utf-8">
       <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
- <style>
+      <style>
     table {
       width: 100%;
       border-collapse: collapse;
@@ -28,6 +28,9 @@
 
     .occupied {
       background-color: #ff9999; 
+    }
+    .busy{
+        background-color: blueviolet;
     }
   </style>
     </head>
@@ -131,7 +134,71 @@
             </fieldset>
 
         </div>
+        <div>
+            <fieldset>
+                <legend>cancel an contract or account</legend>
+                <form id="cancel_account"action="site.php" method="post">
+                    <label for="dynamicSelectClientCancelAccount">client_id:</label>
+                    <select id="dynamicSelectClientCancelAccount" name="client_id">
+                        <option value="">Select an option</option>
+                    </select>
+                    <label for="dynamicSelectAccountCancel"> account id :</label>
+                    <select id="dynamicSelectAccountCancel" name="compte_id">
+                        <option value="">Select an option</option>
+                    </select>
+                    <input type="submit" value="cancel account" name= "cancel_account" />
+                </form>
+                <form id="cancel_contract" action="site.php" method="post">
+                    <label for="dynamicSelectClientCancelContract">client_id:</label>
+                    <select id="dynamicSelectClientCancelContract" name="client_id">
+                        <option value="">Select an option</option>
+                    </select>
+                    <label for="dynamicSelectContractCancel">contract id:</label>
+                    <select id="dynamicSelectContractCancel" name="contract_id">
+                        <option value="">Select an option</option>
+                    </select>
+                    <input type="submit" value="cancel contract" name= "cancel_contract" />
+
+                </form>
+
+
+            </fieldset>
+        </div>
+        <div>
+    <fieldset>
+        <legend>planner</legend>
+        <form id="plannerForm" action="rdvTest.php" method="get">
+            <label for="employee">Employee's planner: </label>
+            <select id="dynamicSelectEmployeePlanner" name="employee_id">
+                <option value="">Select an option</option>
+            </select>
+            <input type="submit" value="See planner" id="employee_choice">
+        </form>
         <div id="planner-container"></div>
+        <form id="add_rdv" action="site.php" method="post">
+            <label for="client_id">choose clinet:</label>
+            <select id="dynamicSelectClientRDV" name="client_id">
+                <option value="">Select an option</option>
+            </select>
+            <label for="employee_id">choose employee:</label>
+            <select id="dynamicSelectEmployeeRDV" name="employee_id">
+                <option value="">Select an option</option>
+            </select>
+            <label for="motive_id">chosee motive:</label>
+            <select id="dynamicSelectMotiveRDV" name="motive_id">
+                <option value="">Select an option</option>
+            </select>
+            <label for="date">choose date:</label>
+            <input type="date" name="date">
+            <label for="time">choose time:</label>
+            <input type="time" name="time">
+            <input type="submit" value="add rdv" name= "add_rdv" />
+        </form>
+
+
+
+    </fieldset>
+    </div>
     <script>
         $(document).ready(function() {
             $('#dynamicSelectClientForContrat').load('get_options_client.php');
@@ -139,6 +206,33 @@
             $('#dynamicSelectClientForAccount').load('get_options_client.php');
             $('#dynamicSelectAccountType').load('get_options_comptetype.php');
             
+            $('#dynamicSelectClientCancelAccount').load('get_options_client.php');
+            $('#dynamicSelectClientCancelAccount').change(function() {
+                var client_id = $(this).val();
+                if (client_id) {
+                    $('#dynamicSelectAccountCancel').load('get_options_account.php?client_id=' + client_id);
+                } else {
+                    $('#dynamicSelectAccountCancel').html('<option value="">Select an account</option>');
+                }
+            });
+
+            $('#dynamicSelectClientCancelContract').load('get_options_client.php');
+            $('#dynamicSelectClientCancelContract').change(function() {
+                var client_id = $(this).val();
+                if (client_id) {
+                    $('#dynamicSelectContractCancel').load('get_options_contract.php?client_id=' + client_id);
+                } else {
+                    $('#dynamicSelectContractCancel').html('<option value="">Select a contract</option>');
+                }
+            });
+
+            $('#dynamicSelectEmployeePlanner').load('get_options_employee.php');
+            $('#dynamicSelectClientPlanner').load('get_options_client.php');
+
+            $('#dynamicSelectClientRDV').load('get_options_client.php');
+            $('#dynamicSelectEmployeeRDV').load('get_options_employee.php');
+            $('#dynamicSelectMotiveRDV').load('get_options_motive.php');
+
             console.log("options loaded");
         });
     </script>  

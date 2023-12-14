@@ -116,48 +116,7 @@ function ctlchangeOverdraft($account_id, $new_overdraft){
         echo "please fill in all the fields";
     }
 }
-function ctldeleteCompteTypeAssignmentById($compte_id){
-    if (!empty($compte_id)) {
-        deleteCompteTypeAssignmentById($compte_id);
-    }else{
-        echo "please fill in all the fields";
-    }
-}
-function ctldeleteCompteById($compte_id){
-    if (!empty($compte_id)) {
-        deleteCompteById($compte_id);
-    }else{
-        echo "please fill in all the fields";
-    }
-}
-function ctldeleteClientCompteAssignment($client_id, $compte_id){
-    if (!empty($client_id) && !empty($compte_id)) {
-        deleteClientCompteAssignment($client_id, $compte_id);
-    }else{
-        echo "please fill in all the fields";
-    }
-}
-function ctldeleteContratTypeAssignmentById($contrat_id) {
-    if (!empty($contrat_id)) {
-        deleteContratTypeAssignmentById($contrat_id);
-    }else{
-        echo "please fill in all the fields";
-    }
-}
-function ctldeleteContratById($contrat_id) {
-    if (!empty($contrat_id)) {
-        deleteContratById($contrat_id);
-    }else{
-        echo "please fill in all the fields";
-    }
-}
-function ctldeleteClientContratAssignment($client_id, $contrat_id) {
-    if (!empty($client_id) && !empty($contrat_id)) {
-        deleteClientContratAssignment($client_id, $contrat_id);
-    }else{
-        echo "please fill in all the fields";
-    }
-}
+
 
 
 function ctladdRdv($client_id, $employee_id, $motive_id, $date, $time_slot){
