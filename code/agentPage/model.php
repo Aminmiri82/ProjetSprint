@@ -581,8 +581,7 @@ function addRdv($client_id, $employee_id, $motive_id, $date, $time_slot) {
 }
 
 function getDocumentsByMotiveId($motive_id) {
-    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
-
+    $connexion = getConnect();  
     // SQL query to select document details based on motive_id
     $query = "
         SELECT d.documents_id, d.document_name
