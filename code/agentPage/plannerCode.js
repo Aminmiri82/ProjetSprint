@@ -64,6 +64,18 @@ function createWeeklyPlanner(occupiedData) {
     const navCell = document.createElement('td');
     navCell.colSpan = 8;
 
+   // Input field for date
+    const dateInput = document.createElement('input');
+    dateInput.type = 'date';
+    navCell.appendChild(dateInput);
+
+    // Button to go to the week of the specified date
+    const goToDateButton = createButton('goToDateButton', 'Go to Date', () => goToDate(dateInput.value, occupiedData));
+    navCell.appendChild(goToDateButton);
+
+
+
+
     // Input field for week
     const weekInput = document.createElement('input');
     weekInput.type = 'number';
@@ -71,7 +83,6 @@ function createWeeklyPlanner(occupiedData) {
     weekInput.max = 52; // Assuming there are 52 weeks in a year
     weekInput.value = getWeekNumber(currentWeekStart);
     navCell.appendChild(weekInput);
- 
     // Button to go to the specified week
     const goToWeekButton = createButton('goToWeekButton', 'Go to Week', () => goToWeek(weekInput.value));
     navCell.appendChild(goToWeekButton);
@@ -162,6 +173,19 @@ function getWeekNumber(date) {
     return getISOWeekNumber(date);
 }
 
+function goToDate(dateString, occupiedData) {
+    if (dateString) {
+        const selectedDate = new Date(dateString);
+        currentWeekStart = new Date(selectedDate);
+        currentWeekStart.setDate(selectedDate.getDate() - selectedDate.getDay() + (selectedDate.getDay() === 0 ? -6 : 1));
+        currentWeekStart.setHours(0, 0, 0, 0);
+
+        console.log('Updated Week to Date:', new Date(currentWeekStart).toISOString().split('T')[0]);
+        createWeeklyPlanner(occupiedData);
+    } else {
+        alert('Please enter a valid date.');
+    }
+}
 
 
 function goToWeek(weekNumber) {
