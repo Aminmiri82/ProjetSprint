@@ -152,3 +152,11 @@ function ctldeleteClientContratAssignment($client_id, $contrat_id) {
         echo "please fill in all the fields";
     }
 }
+
+function ctladdBlockTime($employee_id, $date, $time_slot){
+    if (!empty($employee_id) && !empty($date) && !empty($time_slot)) {
+        addBlockTime($employee_id, $date, $time_slot);
+    }else{
+        echo "please fill in all the fields";
+    }
+}

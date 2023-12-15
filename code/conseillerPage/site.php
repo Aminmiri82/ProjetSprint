@@ -68,6 +68,12 @@ try {
         ctldeleteClientContratAssignment($client_id, $contrat_id);
         ctldeleteContratById($contrat_id);
     }
+    if (isset($_POST['block_time'])){
+        $employee_id = $_POST['employee_id'];
+        $date = $_POST['date'];
+        $time_slot = $_POST['time_slot'];
+        ctladdBlockTime($employee_id, $date, $time_slot);
+    }
 
   
     

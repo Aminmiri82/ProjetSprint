@@ -20,11 +20,12 @@ $query = "SELECT r.client_id, r.employee_id, r.motive_id, r.approved, r.date, r.
                  GROUP_CONCAT(DISTINCT d.documents_id) AS document_ids, 
                  GROUP_CONCAT(DISTINCT d.document_name SEPARATOR ', ') AS document_names
           FROM sprint_database.rdv r
-          INNER JOIN sprint_database.motive m ON r.motive_id = m.motive_id
-          INNER JOIN sprint_database.motive_documents md ON m.motive_id = md.motive_id
-          INNER JOIN sprint_database.documents d ON md.documents_id = d.documents_id
+          LEFT JOIN sprint_database.motive m ON r.motive_id = m.motive_id
+          LEFT JOIN sprint_database.motive_documents md ON m.motive_id = md.motive_id
+          LEFT JOIN sprint_database.documents d ON md.documents_id = d.documents_id
           WHERE r.employee_id = :employeeId
           GROUP BY r.rdv_id, r.client_id, r.employee_id, r.motive_id, r.approved, r.date, r.time_slot, m.motive_name";
+
 
 $connexion = getConnect();
 $stmt = $connexion->prepare($query);

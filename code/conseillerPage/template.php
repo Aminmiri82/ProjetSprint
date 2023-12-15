@@ -164,7 +164,7 @@
 
             </fieldset>
         </div>
-        <div>
+    <div>
     <fieldset>
         <legend>planner</legend>
         <form id="plannerForm" action="rdvTest.php" method="get">
@@ -194,10 +194,22 @@
             <input type="time" name="time">
             <input type="submit" value="add rdv" name= "add_rdv" />
         </form>
-
-
-
     </fieldset>
+    </div>
+    <div>
+        <fieldset>
+            <legend>block time for work</legend>
+            <form id="block_time" action="site.php" method="post">
+                <label for="employee_id">choose employee:</label>
+                <select id="dynamicSelectEmployeeBlock" name="employee_id">
+                    <option value="">Select an option</option>
+                </select>
+                <label for="date">choose date:</label>
+                <input type="date" name="date">
+                <label for="time">choose time slot:</label>
+                <input type="time" name="time_slot">
+                <input type="submit" value="block time" name= "block_time" />
+        </fieldset>
     </div>
     <script>
         $(document).ready(function() {
@@ -232,6 +244,8 @@
             $('#dynamicSelectClientRDV').load('get_options_client.php');
             $('#dynamicSelectEmployeeRDV').load('get_options_employee.php');
             $('#dynamicSelectMotiveRDV').load('get_options_motive.php');
+
+            $('#dynamicSelectEmployeeBlock').load('get_options_employee.php');
 
             console.log("options loaded");
         });

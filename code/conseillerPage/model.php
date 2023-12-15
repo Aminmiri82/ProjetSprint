@@ -595,3 +595,31 @@ function deleteClientContratAssignment($client_id, $contrat_id) {
     // Close the statement
     $stmt->closeCursor();
 }
+
+function addBlockTime($employee_id, $date, $time_slot) {
+    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+
+    // SQL query to insert a new record into the rdv table
+    $query = "INSERT INTO sprint_database.rdv (employee_id, `date`, time_slot, approved) 
+              VALUES (:employee_id, :date, :time_slot, 0)";
+
+    // Prepare the query
+    $stmt = $connexion->prepare($query);
+
+    // Bind parameters
+    $stmt->bindParam(':employee_id', $employee_id, PDO::PARAM_INT);
+    $stmt->bindParam(':date', $date);
+    $stmt->bindParam(':time_slot', $time_slot);
+
+    // Execute the query and check for success
+    $success = $stmt->execute();
+
+    if (!$success) {
+        // Handle error
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+    } else {
+        // Success message
+        echo "RDV record created successfully with approval set to false!";
+    }
+}
+
