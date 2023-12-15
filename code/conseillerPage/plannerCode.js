@@ -175,17 +175,26 @@ function getWeekNumber(date) {
 
 function goToDate(dateString, occupiedData) {
     if (dateString) {
-        const selectedDate = new Date(dateString);
-        currentWeekStart = new Date(selectedDate);
-        currentWeekStart.setDate(selectedDate.getDate() - selectedDate.getDay() + (selectedDate.getDay() === 0 ? -6 : 1));
-        currentWeekStart.setHours(0, 0, 0, 0);
+        let selectedDate = new Date(dateString);
+        selectedDate.setHours(0, 0, 0, 0); // Set time to the start of the day
 
-        console.log('Updated Week to Date:', new Date(currentWeekStart).toISOString().split('T')[0]);
+        // Calculate the start of the week for the selected date
+        let day = selectedDate.getDay();
+        let diff = day === 0 ? -6 : 1 - day; // Adjust for week start on Monday
+        selectedDate.setDate(selectedDate.getDate() + diff);
+
+        currentWeekStart = new Date(selectedDate); // Update the currentWeekStart
+
+        console.log('Selected Date:', dateString);
+        console.log('Updated Week to Date:', currentWeekStart.toISOString().split('T')[0]);
         createWeeklyPlanner(occupiedData);
     } else {
         alert('Please enter a valid date.');
     }
 }
+
+
+
 
 
 function goToWeek(weekNumber) {

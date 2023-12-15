@@ -20,6 +20,28 @@ function returnemployeeOptions(){
     }
     return $options;
 }
+function returnEmployeesWithRole() {
+  $connexion = getConnect();  
+  $query = "
+      SELECT e.employee_id, e.last_name 
+      FROM employee e
+      INNER JOIN employee_role_assignment era ON e.employee_id = era.employee_id
+      WHERE era.role_id = 2
+  ";  
+  $stmt = $connexion->prepare($query); 
+  $stmt->execute();
+
+  $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  $options = '';
+  foreach ($result as $row) {
+      $options .= '<option value="' . htmlspecialchars($row['employee_id']) . '">' . htmlspecialchars($row['last_name']) . '</option>';
+  }
+  return $options;
+}
+
+
+
 function returnClientOptions(){
     $connexion = getConnect();
     $query = "SELECT client_id, last_name FROM client";  

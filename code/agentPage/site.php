@@ -24,7 +24,7 @@ try {
         $profession = $_POST['profession'];
         $family_situation = $_POST['family_situation'];
         $birthdate= $_POST['birthday'];
-        modifyClient($client_id, $first_name, $last_name, $street_number, $street_name, $postal_code, $tel, $mail, $profession, $family_situation, $birthdate);
+        ctlmodifyClient($client_id, $first_name, $last_name, $street_number, $street_name, $postal_code, $tel, $mail, $profession, $family_situation, $birthdate);
     }
     if (isset($_POST['add_a_client'])){
         $first_name = $_POST['first_name'];

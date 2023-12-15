@@ -67,7 +67,7 @@
                 <label> family situation: </label>
                 <input type='text' name='family_situation' />
                 <label> birthday: </label>
-                <input type='text' name='birthday' />
+                <input type='date' name='birthday' />
                 <input type='submit' value='add a client' name= 'add_a_client' /> <input type='reset' value='tout effacer' name= 'tout effacer' />
                 </form>
             </fieldset>

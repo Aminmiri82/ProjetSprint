@@ -3,6 +3,7 @@
     <head>
       <title>Ma page</title>
       <meta charset="utf-8">
+      
       <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
       <style>
     table {
@@ -75,7 +76,7 @@
                     <label> family situation: </label>
                     <input type='text' name='family_situation' />
                     <label> birthday: </label>
-                    <input type='text' name='birthday' />
+                    <input type='date' name='birthday' />
                     <input type='submit' value='modify' name= 'modify' /> <input type='reset' value='tout effacer' name= 'tout effacer' />
                 </form>  
                 </div>  
@@ -105,7 +106,7 @@
                 <label> family situation: </label>
                 <input type='text' name='family_situation' />
                 <label> birthday: </label>
-                <input type='text' name='birthday' />
+                <input type='date' name='birthday' />
                 <input type='submit' value='add a client' name= 'add_a_client' /> <input type='reset' value='tout effacer' name= 'tout effacer' />
                 </form>
             </fieldset>
@@ -175,7 +176,7 @@
                      <label for="last_name"> client's last name: </label>
                      <input type="text" name="last_name" />
                      <label for="birthday"> client's birthday: </label>
-                     <input type="text" name="birthday" />
+                     <input type="date" name="birthday" />
                      <input type="submit" value="search" name= "search_name" /> <input type="reset" value="tout effacer" name= "tout effacer" />
                 </form>
             </fieldset>
@@ -236,7 +237,7 @@
             <label for="date">choose date:</label>
             <input type="date" name="date">
             <label for="time">choose time:</label>
-            <input type="time" name="time">
+            <input type="time" name="time" min="09:00" max="18:00" step="3600">
             <input type="submit" value="add rdv" name= "add_rdv" />
         </form>
 
@@ -247,7 +248,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#dynamicSelectEmployee').load('get_options_employee.php');
+            $('#dynamicSelectEmployee').load('get_options_employee_withRole.php');
             $('#dynamicSelectClient').load('get_options_client.php');
 
             $('#dynamicSelectEmployeePlanner').load('get_options_employee.php');
