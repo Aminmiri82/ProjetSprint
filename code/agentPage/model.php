@@ -82,36 +82,47 @@ function getEmployeeByClientId($client_id) {
 function modifyClient($client_id, $first_name, $last_name, $street_number, $street_name, $postal_code, $tel, $mail, $profession, $family_situation, $birthdate) {
     $connexion = getConnect();
 
-    $query = "UPDATE sprint_database.client
-              SET first_name = :first_name,
-                  last_name = :last_name,
-                  street_number = :street_number,
-                  street_name = :street_name,
-                  postal_code = :postal_code,
-                  tel = :tel,
-                  mail = :mail,
-                  proffession = :profession,
-                  family_situation = :family_situation,
-                  birthdate = :birthdate
-              WHERE client_id = :client_id";
+    // Start of the query
+    $query = "UPDATE sprint_database.client SET ";
+    $params = [];
+    $paramTypes = [];
 
-  
+    // Function to add a field to the query
+    function addField(&$query, &$params, &$paramTypes, $fieldName, $fieldValue, $pdoType) {
+        if (!empty($fieldValue)) {
+            if (!empty($params)) {
+                $query .= ", ";
+            }
+            $query .= "$fieldName = :$fieldName";
+            $params[":$fieldName"] = $fieldValue;
+            $paramTypes[":$fieldName"] = $pdoType;
+        }
+    }
+
+    // Add fields to the query
+    addField($query, $params, $paramTypes, 'first_name', $first_name, PDO::PARAM_STR);
+    addField($query, $params, $paramTypes, 'last_name', $last_name, PDO::PARAM_STR);
+    addField($query, $params, $paramTypes, 'street_number', $street_number, PDO::PARAM_INT);
+    addField($query, $params, $paramTypes, 'street_name', $street_name, PDO::PARAM_STR);
+    addField($query, $params, $paramTypes, 'postal_code', $postal_code, PDO::PARAM_INT);
+    addField($query, $params, $paramTypes, 'tel', $tel, PDO::PARAM_INT);
+    addField($query, $params, $paramTypes, 'mail', $mail, PDO::PARAM_STR);
+    addField($query, $params, $paramTypes, 'profession', $profession, PDO::PARAM_STR);
+    addField($query, $params, $paramTypes, 'family_situation', $family_situation, PDO::PARAM_STR);
+    addField($query, $params, $paramTypes, 'birthdate', $birthdate, PDO::PARAM_STR);
+
+    // Finish the query
+    $query .= " WHERE client_id = :client_id";
+    $params[':client_id'] = $client_id;
+    $paramTypes[':client_id'] = PDO::PARAM_INT;
+
+    // Prepare and execute the statement
     $stmt = $connexion->prepare($query);
 
-   
-    $stmt->bindParam(':client_id', $client_id, PDO::PARAM_INT);
-    $stmt->bindParam(':first_name', $first_name, PDO::PARAM_STR);
-    $stmt->bindParam(':last_name', $last_name, PDO::PARAM_STR);
-    $stmt->bindParam(':street_number', $street_number, PDO::PARAM_INT);
-    $stmt->bindParam(':street_name', $street_name, PDO::PARAM_STR);
-    $stmt->bindParam(':postal_code', $postal_code, PDO::PARAM_INT);
-    $stmt->bindParam(':tel', $tel, PDO::PARAM_INT);
-    $stmt->bindParam(':mail', $mail, PDO::PARAM_STR);
-    $stmt->bindParam(':profession', $profession, PDO::PARAM_STR);
-    $stmt->bindParam(':family_situation', $family_situation, PDO::PARAM_STR);
-    $stmt->bindParam(':birthdate', $birthdate, PDO::PARAM_STR);
+    foreach ($params as $param => $value) {
+        $stmt->bindParam($param, $params[$param], $paramTypes[$param]);
+    }
 
-    
     $success = $stmt->execute();
 
     if (!$success) {
@@ -122,6 +133,8 @@ function modifyClient($client_id, $first_name, $last_name, $street_number, $stre
 
     $stmt->closeCursor();
 }
+
+
 function addNewClient($first_name, $last_name, $street_number, $street_name, $postal_code, $tel, $mail, $profession, $family_situation, $birthdate) {
     $connexion = getConnect();
 

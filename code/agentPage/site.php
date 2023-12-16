@@ -1,6 +1,7 @@
 <?php
 require_once("controller.php");
 try {
+    
     if (isset($_POST['login'])) {
         $username = $_POST['user_name'];
         $password = $_POST['password'];
@@ -9,7 +10,8 @@ try {
     }
     if (isset($_POST['search'])){
         $client_id = $_POST['client_id'];
-        ctlClientModification($client_id);
+        $current_info= ctlgetClientInfoById($client_id);
+        $current_info_M=ctlshowClientInfo($current_info);
 
     }
     if (isset($_POST['modify'])){
@@ -41,14 +43,14 @@ try {
     }
     if (isset($_POST['viewEverythinng'])){
         $client_id = $_POST['client_id'];
-        $info= getClientInfoById($client_id);
+        $info= ctlgetClientInfoById($client_id);
         $account = ctlgetCompteTypeInfoByClientId($client_id);
         $contrat = ctlgetContractInfoByAccountId($client_id);
         $assigned_employee = ctlgetEmployeeByClientId($client_id);
-        showClientInfo($info);
-        showEverything($contrat);
-        showEverything($account);
-        echo $assigned_employee;
+        $personal_info_E=ctlshowClientInfo($info);
+        $contracts_info_E=ctlshowAccountsInPossesion($contrat);
+        $accounts_info_E = ctlshowAccountsInPossesion($account);
+        $assigned_employee_E=ctlshowString($assigned_employee);
         
         
         
@@ -57,12 +59,16 @@ try {
         $client_id = $_POST['client_id'];
         $accounts_in_possesion=  ctlgetAccountsById($client_id);
         $accounts_in_users_possesion= ctlshowAccountsInPossesion($accounts_in_possesion);
+
+        
     }
     if (isset($_POST['deposit'])){
         $account_id = $_POST['account_id'];
         $amount = $_POST['amount'];
         $current_balance = ctlgetAccountBalance($account_id);
         ctldeposit($account_id, $amount, $current_balance);
+    
+        
     }
     if (isset($_POST['withdraw'])){
         $account_id = $_POST['account_id'];
@@ -70,13 +76,15 @@ try {
         $current_balance = ctlgetAccountBalance($account_id);
         $overdraft = ctlgetOverdraft($account_id);
         ctlwithdraw($account_id, $amount, $current_balance, $overdraft);
+        
+
     }
     if (isset($_POST['search_name'])){
         $last_name = $_POST['last_name'];
         $birthdate = $_POST['birthday'];
         $client_id=ctlgetClientIdByLastNameAndBirthday($last_name, $birthdate);
         $info= getClientInfoById($client_id);
-        showClientInfo($info);
+        $client_info_BD= ctlshowClientInfo($info);
     }
     if (isset($_POST['submit'])) {
         $selected_employee = $_POST['selectedEmployee'];
@@ -109,7 +117,7 @@ try {
         $time = $_POST['time'];
         ctladdRdv($client_id, $employee_id, $motive_id, $formattedDate, $time);
         $needed_documents = ctlgetDocumentsByMotiveId($motive_id);
-        showEverything($needed_documents);
+        $requierd_documents_rdv= ctlshowEverything($needed_documents);
     }
     $headercontent = ctlshowUsername();
     $contenu = ctlafficheracceuil();

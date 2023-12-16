@@ -29,10 +29,7 @@ function ctllogin($username, $password) {
 function ctlgetrole($username){
     return getRoleIdByUsername($username);
 }
-function ctlClientModification($client_id){
-    $clientInfo = getClientInfoById($client_id);
-    showClientInfo($clientInfo);
-}
+
 function ctlgetClientInfoById($client_id){
     return getClientInfoById($client_id);
 }
@@ -44,14 +41,19 @@ function ctlshowUsername(){
     return showUsername();
     
 }
+function ctlshowEverything($everything){
+    return showEverything($everything);
+    
+}
 
 
 function ctlmodifyClient($client_id, $first_name, $last_name, $street_number, $street_name, $postal_code, $tel, $mail, $profession, $family_situation, $birthdate){
-    if (!empty($client_id) && !empty($first_name) && !empty($last_name) && !empty($street_number) && !empty($street_name) && !empty($postal_code) && !empty($tel) && !empty($mail) && !empty($profession) && !empty($family_situation) && !empty($birthdate)) {
+    if (!empty($client_id)){
         modifyClient($client_id, $first_name, $last_name, $street_number, $street_name, $postal_code, $tel, $mail, $profession, $family_situation, $birthdate);
     }else{
-        echo "please fill in all the fields";
+        echo "please fill in the cleint id field";
     }
+   
 }
 function ctladdNewClient($first_name, $last_name, $street_number, $street_name, $postal_code, $tel, $mail, $profession, $family_situation, $birthdate){
     if (!empty($first_name) && !empty($last_name) && !empty($street_number) && !empty($street_name) && !empty($postal_code) && !empty($tel) && !empty($mail) && !empty($profession) && !empty($family_situation) && !empty($birthdate)) {
@@ -62,6 +64,12 @@ function ctladdNewClient($first_name, $last_name, $street_number, $street_name, 
 }
 function ctlgetAccountsById($client_id){
     return getAccountsById($client_id);
+}
+function ctlshowClientInfo($clientInfo){
+    return showClientInfo($clientInfo);
+}
+function ctlshowString($string){
+    return showString($string);
 }
 function ctlshowAccountsInPossesion($accounts_in_possesion){
     return showAccountsInPossesion($accounts_in_possesion);

@@ -25,31 +25,42 @@ function showUsername(){
 
 }
 function showClientInfo($clientInfo){
+    $content = '';
+
     if ($clientInfo) {
-        echo "<ul>";
+        $content .= "<ul>";
         foreach ($clientInfo as $key => $value) {
-            echo "<li><strong>$key:</strong> $value</li>";
+            $content .= "<li><strong>$key:</strong> $value</li>";
         }
-        echo "</ul>";
+        $content .= "</ul>";
     } else {
-        echo "Client not found";
+        $content = "Client not found";
     }
+
+    return $content;
 }
+
 function showEverything($everything){
+    $content = '';
     if ($everything) {
-        echo '<ul>';
+        $content .= '<ul>';
         foreach ($everything as $row) {
-            echo '<li>';
+            $content .= '<li>';
             foreach ($row as $key => $value) {
-                echo '<strong>' . $key . ':</strong> ' . $value . ' | ';
+                $content .= '<strong>' . htmlspecialchars($key) . ':</strong> ' . htmlspecialchars($value) . ' | ';
             }
-            echo '</li>';
+            // Remove the trailing ' | ' for each line
+            $content = rtrim($content, ' | ');
+            $content .= '</li>';
         }
-        echo '</ul>';
+        $content .= '</ul>';
     } else {
-        echo 'Client not found.';
+        $content = 'No entries found.';
     }
+
+    return $content;
 }
+
 function showContractInfo($result) {
     if ($result !== false) {
         echo '<ul>';
