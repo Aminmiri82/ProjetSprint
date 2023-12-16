@@ -7,6 +7,12 @@ try {
         ctllogin ($username, $password);
 
     }
+    if (isset($_POST['logout'])) {
+        $_SESSION = array();
+        session_destroy();
+        header('Location: ../loginPage/site.php');
+        exit();
+    }
     if (isset($_POST['change_employee_login'])) {
         $employee_id = $_POST['employee_id'];
         $new_username = $_POST['new_username'];

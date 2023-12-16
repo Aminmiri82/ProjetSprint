@@ -8,7 +8,12 @@ try {
 
     }
    
-
+    if (isset($_POST['logout'])) {
+        $_SESSION = array();
+        session_destroy();
+        header('Location: ../loginPage/site.php');
+        exit();
+    }
     if (isset($_POST['add_a_client'])){
         $first_name = $_POST['first_name'];
         $last_name = $_POST['last_name'];

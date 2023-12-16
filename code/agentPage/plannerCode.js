@@ -1,6 +1,6 @@
 var DateTime = luxon.DateTime;
 
-// Global variables to keep track of the current date and week start
+
 let currentDate = DateTime.local();
 let currentWeekStart = currentDate.startOf('week');
 

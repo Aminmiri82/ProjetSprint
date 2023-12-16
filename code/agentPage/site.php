@@ -8,6 +8,12 @@ try {
         ctllogin ($username, $password);
 
     }
+    if (isset($_POST['logout'])) {
+        $_SESSION = array();
+        session_destroy();
+        header('Location: ../loginPage/site.php');
+        exit();
+    }
     if (isset($_POST['search'])){
         $client_id = $_POST['client_id'];
         $current_info= ctlgetClientInfoById($client_id);

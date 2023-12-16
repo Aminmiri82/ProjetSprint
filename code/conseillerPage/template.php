@@ -3,6 +3,7 @@
     <head>
       <title>Ma page</title>
       <meta charset="utf-8">
+      <script src="luxon.js"></script>
       <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
       <style>
     table {
@@ -43,6 +44,9 @@
             <h1>hello mr.<?php echo $headercontent; 
             ?>
             </h1>
+            <form action="site.php" method="post">
+                <input type="submit" value="log out" name="logout">
+            </form>
         </header>
         <div>
             <fieldset>
