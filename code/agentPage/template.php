@@ -3,37 +3,10 @@
     <head>
       <title>Ma page</title>
       <meta charset="utf-8">
+      <link rel="stylesheet" type="text/css" href="styles.css"> 
       <script src="luxon.js"></script>
       <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-      <style>
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
 
-    th, td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: center;
-    }
-
-    th {
-      background-color: #f2f2f2;
-    }
-
-    td:hover {
-      background-color: #e6e6e6;
-      cursor: pointer;
-    }
-
-    .occupied {
-      background-color: #ff9999; 
-    }
-    .busy{
-        background-color: blueviolet;
-    }
-  </style>
     </head>
     
 	<body>	
@@ -51,7 +24,7 @@
         <div>
             <fieldset>
                 <legend>modify a client's info</legend>
-                <form id="modify a client" action="site.php" method="post">
+                <form id="see_a_client" action="site.php" method="post">
                      <label> client's id: </label>
                      <input type="text" name="client_id" />
                      <input type="submit" value="search" name= "search" /> <input type="reset" value="tout effacer" name= "tout effacer" />
@@ -61,7 +34,7 @@
                 <div>
                 <label> new info: </label>
                 <br>
-                <form id='modify a client' action='site.php' method='post'>
+                <form id='modify_a_client' action='site.php' method='post'>
                     <label> client id:</label>
                     <input type='text' name='client_id' />
                     <label> first name: </label>
@@ -93,7 +66,7 @@
         <div>
             <fieldset>
                 <legend>add a client</legend>
-                <form id="add a client "action="site.php" method="post">
+                <form id="add_a_client "action="site.php" method="post">
                 <label> first name: </label>
                 <input type='text' name='first_name' />
                 <label> last name: </label>
@@ -142,7 +115,7 @@
         <div>
             <fieldset>
                 <legend>view all of a clients information</legend>
-                <form id="view a client" action="site.php" method="post">
+                <form id="view_a_client" action="site.php" method="post">
                      <label> client's id: </label>
                      <input type="text" name="client_id" />
                      <input type="submit" value="search" name= "viewEverythinng" /> <input type="reset" value="tout effacer" name= "tout effacer" />
@@ -191,7 +164,7 @@
         <div>
             <fieldset>
                 <legend>search for a client using their name and birthday</legend>
-                <form id="search for a client" action="site.php" method="post">
+                <form id="search_for_a_client" action="site.php" method="post">
                      <label for="last_name"> client's last name: </label>
                      <input type="text" name="last_name" />
                      <label for="birthday"> client's birthday: </label>
@@ -205,14 +178,14 @@
         <div>
             <fieldset>
                 <legend>change an accounts overdraft</legend>
-                <form id="show the accounts" action="site.php" method="post">
+                <form id="show_the_accounts" action="site.php" method="post">
                      <label> client's id: </label>
                      <input type="text" name="client_id" />
                      <input type="submit" value="search for accounts" name= "search_for_accounts_for_overdraft" />
                      <p><label> accounts in their possession: </label></p>
                      <?php echo $accounts_in_users_possesion_overdraft; ?>
                 </form>
-                <form id="change the overdraft"action="site.php" method="post">
+                <form id="change_the_overdraft"action="site.php" method="post">
                     <label for="account_id"> account id :</label>
                     <input type="text" name="account_id" />
                     <label for="overdraft"> overdraft :</label>

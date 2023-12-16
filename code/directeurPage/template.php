@@ -3,6 +3,7 @@
     <head>
       <title>Ma page</title>
       <meta charset="utf-8">
+      <link rel="stylesheet" type="text/css" href="styles.css"> 
 	  
       <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     </head>

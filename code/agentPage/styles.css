@@ -1,0 +1,164 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #0D1117;
+    color: #C9D1D9;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: #161B22;
+    color: #58A6FF;
+    padding: 1em 0;
+    text-align: center;
+    border-bottom: 1px solid #30363D;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em; /* Larger and more prominent */
+    font-weight: bold;
+}
+
+form {
+    margin: 10px 0;
+    padding: 10px;
+    background: #21262D;
+    border-radius: 6px;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.form-row label {
+    color: #8B949E;
+    text-align: right;
+    line-height: 2.2;
+}
+
+.form-row input[type="text"],
+.form-row input[type="date"],
+.form-row input[type="time"],
+.form-row select {
+    padding: 6px; /* Reduced padding */
+    border: 1px solid #30363D;
+    background: #161B22;
+    color: #C9D1D9;
+    border-radius: 4px;
+    width: 100%;
+    transition: all 0.3s; /* Smooth transition */
+}
+
+.form-row input[type="text"]:hover,
+.form-row input[type="date"]:hover,
+.form-row input[type="time"]:hover,
+.form-row select:hover {
+    background: #1B1F24; /* Hover effect */
+    border-color: #58A6FF;
+}
+
+.form-row input[type="submit"],
+.form-row input[type="reset"] {
+    background: linear-gradient(145deg, #238636, #2EA043); /* Gradient background */
+    color: #fff;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 6px; /* Rounded corners */
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Button shadow */
+}
+
+.form-row input[type="submit"]:hover,
+.form-row input[type="reset"]:hover {
+    background: linear-gradient(145deg, #2EA043, #34B14A); /* Hover effect */
+}
+
+fieldset {
+    border: 1px solid #30363D;
+    margin-bottom: 10px; /* Reduced margin */
+    padding: 8px; /* Reduced padding */
+    border-radius: 6px;
+}
+
+legend {
+    background: #161B22;
+    color: #58A6FF;
+    padding: 3px 6px; /* Slightly reduced padding */
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+/* Adjust the inner elements of the fieldset */
+fieldset .form-row {
+    margin-bottom: 8px; /* Reduced margin between rows */
+}
+
+fieldset .form-row label,
+fieldset .form-row input[type="text"],
+fieldset .form-row input[type="date"],
+fieldset .form-row input[type="time"],
+fieldset .form-row select {
+    padding: 6px; /* Reduced padding for internal elements */
+}
+
+
+legend {
+    background: #161B22;
+    color: #58A6FF;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 1.1em;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #21262D;
+    margin-top: 5px;
+}
+
+th, td {
+    padding: 8px;
+    border: 1px solid #30363D;
+    text-align: left;
+    color: #C9D1D9;
+}
+
+th {
+    background-color: #161B22;
+    font-weight: bold; /* Make header bold */
+}
+
+td:hover {
+    background-color: #30363D; /* Hover effect */
+}
+
+.occupied, .busy {
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+}
+
+.occupied {
+    background-color: #DA3633;
+}
+
+.busy {
+    background-color: #8957E5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr; /* Stack labels and inputs on smaller screens */
+    }
+}

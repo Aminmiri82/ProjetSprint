@@ -3,7 +3,7 @@
     <head>
       <title>Ma page</title>
       <meta charset="utf-8">
-	  <link rel="stylesheet"  href="style.css" />
+      <link rel="stylesheet" type="text/css" href="styles.css"> 
 	  
     </head>
     
