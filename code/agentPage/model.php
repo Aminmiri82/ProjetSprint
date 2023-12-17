@@ -62,14 +62,14 @@ function getEmployeeByClientId($client_id, $detailLevel = 0) {
     $connexion = getConnect(); 
 
     if ($detailLevel == 0) {
-        // Query to fetch only the assigned employee_id
+    
         $query = "
             SELECT eca.employee_id
             FROM sprint_database.employee_client_assignment eca
             WHERE eca.client_id = :client_id;
         ";
     } else {
-        // Query to fetch both employee_id and employee's last_name
+       
         $query = "
             SELECT eca.employee_id, e.last_name
             FROM sprint_database.employee_client_assignment eca
@@ -97,12 +97,12 @@ function getEmployeeByClientId($client_id, $detailLevel = 0) {
 function modifyClient($client_id, $first_name, $last_name, $street_number, $street_name, $postal_code, $tel, $mail, $profession, $family_situation, $birthdate) {
     $connexion = getConnect();
 
-    // Start of the query
+    
     $query = "UPDATE sprint_database.client SET ";
     $params = [];
     $paramTypes = [];
 
-    // Function to add a field to the query
+   
     function addField(&$query, &$params, &$paramTypes, $fieldName, $fieldValue, $pdoType) {
         if (!empty($fieldValue)) {
             if (!empty($params)) {
@@ -114,7 +114,7 @@ function modifyClient($client_id, $first_name, $last_name, $street_number, $stre
         }
     }
 
-    // Add fields to the query
+
     addField($query, $params, $paramTypes, 'first_name', $first_name, PDO::PARAM_STR);
     addField($query, $params, $paramTypes, 'last_name', $last_name, PDO::PARAM_STR);
     addField($query, $params, $paramTypes, 'street_number', $street_number, PDO::PARAM_INT);
@@ -126,12 +126,12 @@ function modifyClient($client_id, $first_name, $last_name, $street_number, $stre
     addField($query, $params, $paramTypes, 'family_situation', $family_situation, PDO::PARAM_STR);
     addField($query, $params, $paramTypes, 'birthdate', $birthdate, PDO::PARAM_STR);
 
-    // Finish the query
+
     $query .= " WHERE client_id = :client_id";
     $params[':client_id'] = $client_id;
     $paramTypes[':client_id'] = PDO::PARAM_INT;
 
-    // Prepare and execute the statement
+
     $stmt = $connexion->prepare($query);
 
     foreach ($params as $param => $value) {
@@ -381,11 +381,11 @@ function assignEmployeeToClient($employee_id, $client_id) {
               (:employee_id, :client_id)";
     $stmt = $connexion->prepare($query);
 
-    // Bind parameters
+
     $stmt->bindParam(':employee_id', $employee_id, PDO::PARAM_INT);
     $stmt->bindParam(':client_id', $client_id, PDO::PARAM_INT);
 
-    // Execute the query
+
     $success = $stmt->execute();
 
     if (!$success) {
@@ -428,31 +428,31 @@ function changeOverdraft($account_id, $new_overdraft){
 
 function addRdv($client_id, $employee_id, $motive_id, $date, $time_slot) {
     try {
-        $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+        $connexion = getConnect();  
 
-        // SQL query to insert a new record into the rdv table
+
         $query = "INSERT INTO sprint_database.rdv (client_id, employee_id, motive_id, approved, `date`, time_slot) 
                   VALUES (:client_id, :employee_id, :motive_id, TRUE, :date, :time_slot)";
 
-        // Prepare the query
+
         $stmt = $connexion->prepare($query);
 
-        // Bind parameters
+
         $stmt->bindParam(':client_id', $client_id, PDO::PARAM_INT);
         $stmt->bindParam(':employee_id', $employee_id, PDO::PARAM_INT);
         $stmt->bindParam(':motive_id', $motive_id, PDO::PARAM_INT);
         $stmt->bindParam(':date', $date);
         $stmt->bindParam(':time_slot', $time_slot);
 
-        // Execute the query
+
         $stmt->execute();
         return ["success" => true, "message" => "RDV record created successfully!"];
     } catch (PDOException $e) {
-        // Custom error message for specific SQLSTATE code
+
         if ($e->getCode() == '45000') {
             return ["success" => false, "message" => "An appointment for this employee or client at the specified time already exists. Please choose a different time or person."];
         } else {
-            // Generic error message for other errors
+
             return ["success" => false, "message" => "Database error: " . $e->getMessage()];
         }
     }
@@ -460,7 +460,7 @@ function addRdv($client_id, $employee_id, $motive_id, $date, $time_slot) {
 
 function getDocumentsByMotiveId($motive_id) {
     $connexion = getConnect();  
-    // SQL query to select document details based on motive_id
+
     $query = "
         SELECT d.documents_id, d.document_name
         FROM sprint_database.motive m
@@ -469,17 +469,17 @@ function getDocumentsByMotiveId($motive_id) {
         WHERE m.motive_id = :motive_id;
     ";
 
-    // Prepare and bind parameters
+
     $stmt = $connexion->prepare($query);
     $stmt->bindParam(':motive_id', $motive_id, PDO::PARAM_INT);
     
-    // Execute the query
+
     $stmt->execute();
 
-    // Fetch results
+
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Close the statement
+
     $stmt->closeCursor();
 
     return $result;

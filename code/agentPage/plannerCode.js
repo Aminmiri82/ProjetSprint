@@ -55,7 +55,7 @@ function createWeeklyPlanner(occupiedData) {
     const hours = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
 
     const container = document.getElementById('planner-container');
-    container.innerHTML = ''; // Clear the container
+    container.innerHTML = ''; 
 
     const table = document.createElement('table');
 
@@ -63,12 +63,12 @@ function createWeeklyPlanner(occupiedData) {
     const navCell = document.createElement('td');
     navCell.colSpan = 8;
 
-   // Input field for date
+
     const dateInput = document.createElement('input');
     dateInput.type = 'date';
     navCell.appendChild(dateInput);
 
-    // Button to go to the week of the specified date
+
     const goToDateButton = createButton('goToDateButton', 'Go to Date', () => goToDate(dateInput.value, occupiedData));
     navCell.appendChild(goToDateButton);
     
@@ -76,14 +76,14 @@ function createWeeklyPlanner(occupiedData) {
 
 
 
-    // Input field for week
+
     const weekInput = document.createElement('input');
     weekInput.type = 'number';
     weekInput.min = 1;
-    weekInput.max = 52; // Assuming there are 52 weeks in a year
+    weekInput.max = 52; 
     weekInput.value = getWeekNumber(currentWeekStart);
     navCell.appendChild(weekInput);
-    // Button to go to the specified week
+    
     const goToWeekButton = createButton('goToWeekButton', 'Go to Week', () => goToWeek(weekInput.value));
     navCell.appendChild(goToWeekButton);
 
@@ -131,18 +131,18 @@ function createWeeklyPlanner(occupiedData) {
             td.addEventListener('click', () => showPrompt(day, formattedTime, occupiedData));
 
             const isOccupied = occupiedData.some(entry =>
-                entry.date === formattedDate && entry.time_slot === formattedTime && entry.approved === '1' // Check if approved is '1' (as a string)
+                entry.date === formattedDate && entry.time_slot === formattedTime && entry.approved === '1' 
             );
 
             const isBusy = occupiedData.some(entry =>
                 entry.date === formattedDate &&
                 entry.time_slot === formattedTime &&
-                entry.approved === '0'  // Check if approved is '0' (as a string)
+                entry.approved === '0'  
             );
             
             
 
-            console.log(`Date: ${formattedDate}, Time: ${formattedTime}, isOccupied: ${isOccupied}, isBusy: ${isBusy}`); // Debug
+            console.log(`Date: ${formattedDate}, Time: ${formattedTime}, isOccupied: ${isOccupied}, isBusy: ${isBusy}`); 
 
             if (isOccupied) {
                 td.classList.add('occupied');
@@ -195,7 +195,7 @@ function goToDate(dateString, occupiedData) {
         currentWeekStart = selectedDate.startOf('week');
 
         console.log('Updated Week to Date:', currentWeekStart.toISODate());
-        createWeeklyPlanner(occupiedData); // Refresh the planner with the new week
+        createWeeklyPlanner(occupiedData); 
     } else {
         alert('Please enter a valid date.');
     }
@@ -212,7 +212,7 @@ function updateWeek(offsetDays) {
     }
 
     console.log('Updated Week:', currentWeekStart.toISODate());
-    console.log('Current Date:', currentDate.toISO()); // Updated this line
+    console.log('Current Date:', currentDate.toISO()); 
     console.log('Current Week Start:', new Date(currentWeekStart).toISOString().split('T')[0]);
 
     const selectedEmployeeId = document.getElementById('dynamicSelectEmployeePlanner').value;
@@ -223,7 +223,7 @@ function updateWeek(offsetDays) {
         fetch('rdvTest.php')
             .then(response => response.json())
             .then(data => {
-                console.log('Raw Data:', data);  // Log the raw data
+                console.log('Raw Data:', data);  
                 createWeeklyPlanner(data);
             })
             .catch(error => console.error('Error fetching data:', error));
@@ -234,14 +234,14 @@ function fetchAppointments(employeeId) {
     fetch(`rdvTest.php?employee_id=${employeeId}`)
         .then(response => response.json())
         .then(data => {
-            console.log('Raw Data:', data);  // Log the raw data
+            console.log('Raw Data:', data); 
             createWeeklyPlanner(data);
         })
         .catch(error => console.error('Error fetching data:', error));
 }
 
 document.getElementById('plannerForm').addEventListener('submit', function (event) {
-    event.preventDefault(); // Prevent form submission and page reload
+    event.preventDefault(); 
 
     const selectedEmployeeId = document.getElementById('dynamicSelectEmployeePlanner').value;
 
@@ -252,11 +252,11 @@ document.getElementById('plannerForm').addEventListener('submit', function (even
     }
 });
 
-// Initial fetch
+
 fetch('rdvTest.php')
     .then(response => response.json())
     .then(data => {
-        console.log('Raw Data:', data);  // Log the raw data
+        console.log('Raw Data:', data);  
         createWeeklyPlanner(data);
     })
     .catch(error => console.error('Error fetching data:', error));

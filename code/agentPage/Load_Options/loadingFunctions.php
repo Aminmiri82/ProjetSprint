@@ -57,7 +57,7 @@ function returnClientOptions(){
     return $options;
 }
 function returnMotiveOptions(){
-  $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+  $connexion = getConnect();  
 
   $query = "SELECT motive_id, motive_name FROM sprint_database.motive";  
   $stmt = $connexion->prepare($query); 
@@ -75,7 +75,7 @@ function returnMotiveOptions(){
 
 function getAccounts($clientId) {
   $connexion = getConnect();
-  // Query to fetch compte_ids associated with the client_id
+ 
   $query = "SELECT compte_id FROM client_compte_assignment WHERE client_id = :clientId";
 
   $stmt = $connexion->prepare($query); 
@@ -92,7 +92,7 @@ function getAccounts($clientId) {
 }
 function getContracts($clientId) {
   $connexion = getConnect();
-  // Query to fetch compte_ids associated with the client_id
+
   $query = "SELECT contrat_id FROM client_contrat_assignment WHERE client_id = :clientId";
 
   $stmt = $connexion->prepare($query); 

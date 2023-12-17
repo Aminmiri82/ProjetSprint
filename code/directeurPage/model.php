@@ -18,40 +18,39 @@ function userExists($username, $password) {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $stmt->closeCursor();
     
-    // If the count is greater than 0, the user exists
+
     return ($result['count'] > 0);
 }
 function updateEmployeeCredentials($employee_id, $new_username, $new_password) {
-    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+    $connexion = getConnect(); 
 
-    // SQL query to update the username and password for the specified employee_id
+   
     $query = "UPDATE sprint_database.employee 
               SET username = :new_username, password = :new_password 
               WHERE employee_id = :employee_id";
 
-    // Prepare the query
+
     $stmt = $connexion->prepare($query);
 
-    // Bind parameters
+
     $stmt->bindParam(':employee_id', $employee_id, PDO::PARAM_INT);
     $stmt->bindParam(':new_username', $new_username);
-    $stmt->bindParam(':new_password', $new_password);  // Consider hashing the password
+    $stmt->bindParam(':new_password', $new_password); 
 
-    // Execute the query and check for success
+
     $success = $stmt->execute();
 
     if (!$success) {
-        // Handle error
+  
         echo "Error: " . implode(", ", $stmt->errorInfo());
     } else {
-        // Success message
+
         echo "Employee credentials updated successfully!";
     }
 }
 function addMotive($text_box, $type) {
-    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+    $connexion = getConnect();  
 
-    // Determine the motive name based on the type
     if ($type == 0) {
         $motive_name = "Opening a new " . $text_box . " account";
     } else if ($type == 1) {
@@ -61,24 +60,24 @@ function addMotive($text_box, $type) {
         return null;
     }
 
-    // SQL query to insert a new record into the motive table
+
     $query = "INSERT INTO sprint_database.motive (motive_name) VALUES (:motive_name)";
 
-    // Prepare the query
+
     $stmt = $connexion->prepare($query);
 
-    // Bind parameters
+
     $stmt->bindParam(':motive_name', $motive_name);
 
-    // Execute the query and check for success
+
     $success = $stmt->execute();
 
     if (!$success) {
-        // Handle error
+
         echo "Error: " . implode(", ", $stmt->errorInfo());
         return null;
     } else {
-        // Get the last inserted ID (motive_id)
+
         $motive_id = $connexion->lastInsertId();
         echo "Motive added successfully with ID: " . $motive_id;
         return $motive_id;
@@ -86,332 +85,428 @@ function addMotive($text_box, $type) {
 }
 
 function addCompteType($type_name, $motive_id) {
-    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+    $connexion = getConnect(); 
 
-    // SQL query to insert a new record into the comptetype table
+
     $query = "INSERT INTO sprint_database.comptetype (type_name, motive_id) 
               VALUES (:type_name, :motive_id)";
 
-    // Prepare the query
+
     $stmt = $connexion->prepare($query);
 
-    // Bind parameters
+
     $stmt->bindParam(':type_name', $type_name);
     $stmt->bindParam(':motive_id', $motive_id);
 
-    // Execute the query and check for success
+
     $success = $stmt->execute();
 
     if (!$success) {
-        // Handle error
+
         echo "Error: " . implode(", ", $stmt->errorInfo());
     } else {
-        // Success message
+
         echo "Compte type added successfully!";
     }
 }
 function updateCompteType($comptetype_id, $text_box) {
-    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+    $connexion = getConnect(); 
 
-    // SQL query to update the type_name for the specified comptetype_id
+
     $query = "UPDATE sprint_database.comptetype 
               SET type_name = :type_name 
               WHERE comptetype_id = :comptetype_id";
 
-    // Prepare the query
+
     $stmt = $connexion->prepare($query);
 
-    // Bind parameters
+
     $stmt->bindParam(':comptetype_id', $comptetype_id, PDO::PARAM_INT);
     $stmt->bindParam(':type_name', $text_box);
 
-    // Execute the query and check for success
+
     $success = $stmt->execute();
 
     if (!$success) {
-        // Handle error
+
         echo "Error: " . implode(", ", $stmt->errorInfo());
         return null;
     } else {
-        // Success message
+
         echo "Compte type updated successfully!";
     }
 }
+function deleteCompteTypeAndAssociations($comptetype_id) {
+    $connexion = getConnect(); 
+
+    try {
+       
+        $connexion->beginTransaction();
+
+        
+        $selectQuery = "SELECT compte_id FROM comptetype_compte_assignment WHERE comptetype_id = :comptetype_id";
+        $selectStmt = $connexion->prepare($selectQuery);
+        $selectStmt->bindParam(':comptetype_id', $comptetype_id, PDO::PARAM_INT);
+        $selectStmt->execute();
+        $compteIds = $selectStmt->fetchAll(PDO::FETCH_COLUMN);
+
+     
+        $query1 = "DELETE FROM comptetype_compte_assignment WHERE comptetype_id = :comptetype_id";
+        $stmt1 = $connexion->prepare($query1);
+        $stmt1->bindParam(':comptetype_id', $comptetype_id, PDO::PARAM_INT);
+        $stmt1->execute();
+
+        if ($compteIds) {
+ 
+            foreach ($compteIds as $compteId) {
+                $query2 = "DELETE FROM client_compte_assignment WHERE compte_id = :compte_id";
+                $stmt2 = $connexion->prepare($query2);
+                $stmt2->bindParam(':compte_id', $compteId, PDO::PARAM_INT);
+                $stmt2->execute();
+            }
+
+      
+            foreach ($compteIds as $compteId) {
+                $query3 = "DELETE FROM compte WHERE compte_id = :compte_id";
+                $stmt3 = $connexion->prepare($query3);
+                $stmt3->bindParam(':compte_id', $compteId, PDO::PARAM_INT);
+                $stmt3->execute();
+            }
+        }
+
+        
+        $connexion->commit();
+        echo "Compte type and associated records deleted successfully!";
+    } catch (PDOException $e) {
+  
+        $connexion->rollBack();
+        echo "Error: " . $e->getMessage();
+    }
+}
+
+
 
 function deleteCompteTypeById($comptetype_id) {
-    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+    $connexion = getConnect(); 
 
-    // SQL query to delete the row with the specified comptetype_id
+   
     $query = "DELETE FROM sprint_database.comptetype WHERE comptetype_id = :comptetype_id";
 
-    // Prepare and bind parameters
+    
     $stmt = $connexion->prepare($query);
     $stmt->bindParam(':comptetype_id', $comptetype_id, PDO::PARAM_INT);
 
-    // Execute the query and check for success
+
     $success = $stmt->execute();
 
     if (!$success) {
-        // Handle error
+     
         echo "Error: " . implode(", ", $stmt->errorInfo());
     } else {
-        // Success message
+
         echo "Compte type with ID $comptetype_id deleted successfully!";
     }
 }
 function addContratType($contrattype_name, $motive_id) {
-    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+    $connexion = getConnect();  
 
-    // SQL query to insert a new record into the contrattype table
+  
     $query = "INSERT INTO sprint_database.contrattype (contrattype_name, motive_id) 
               VALUES (:contrattype_name, :motive_id)";
 
-    // Prepare the query
+
     $stmt = $connexion->prepare($query);
 
-    // Bind parameters
+
     $stmt->bindParam(':contrattype_name', $contrattype_name);
     $stmt->bindParam(':motive_id', $motive_id, PDO::PARAM_INT);
 
-    // Execute the query and check for success
+
     $success = $stmt->execute();
 
     if (!$success) {
-        // Handle error
+
         echo "Error: " . implode(", ", $stmt->errorInfo());
     } else {
-        // Success message
+
         echo "Contrat type added successfully!";
     }
 }
 function updateContratType($contrattype_id, $text_box) {
-    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+    $connexion = getConnect(); 
 
-    // SQL query to update the contrattype_name for the specified contrattype_id
+
     $query = "UPDATE sprint_database.contrattype 
               SET contrattype_name = :contrattype_name 
               WHERE contrattype_id = :contrattype_id";
 
-    // Prepare the query
+
     $stmt = $connexion->prepare($query);
 
-    // Bind parameters
+
     $stmt->bindParam(':contrattype_id', $contrattype_id, PDO::PARAM_INT);
     $stmt->bindParam(':contrattype_name', $text_box);
 
-    // Execute the query and check for success
+
     $success = $stmt->execute();
 
     if (!$success) {
-        // Handle error
+
         echo "Error: " . implode(", ", $stmt->errorInfo());
     } else {
-        // Success message
+
         echo "Contrat type updated successfully!";
     }
 }
-function deleteContratTypeById($contrattype_id) {
-    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+function deleteContratTypeAndAssociations($contratTypeId) {
+    $connexion = getConnect();  
 
-    // SQL query to delete the row with the specified contrattype_id
+    try {
+
+        $connexion->beginTransaction();
+
+
+        $selectQuery = "SELECT contrat_id FROM contrattype_contrat_assignemnt WHERE contrat_type_id = :contratTypeId";
+        $selectStmt = $connexion->prepare($selectQuery);
+        $selectStmt->bindParam(':contratTypeId', $contratTypeId, PDO::PARAM_INT);
+        $selectStmt->execute();
+        $contratIds = $selectStmt->fetchAll(PDO::FETCH_COLUMN);
+
+
+        $query1 = "DELETE FROM contrattype_contrat_assignemnt WHERE contrat_type_id = :contratTypeId";
+        $stmt1 = $connexion->prepare($query1);
+        $stmt1->bindParam(':contratTypeId', $contratTypeId, PDO::PARAM_INT);
+        $stmt1->execute();
+
+        if ($contratIds) {
+
+            foreach ($contratIds as $contratId) {
+                $query2 = "DELETE FROM client_contrat_assignment WHERE contrat_id = :contratId";
+                $stmt2 = $connexion->prepare($query2);
+                $stmt2->bindParam(':contratId', $contratId, PDO::PARAM_INT);
+                $stmt2->execute();
+            }
+
+            foreach ($contratIds as $contratId) {
+                $query3 = "DELETE FROM contrat WHERE contrat_id = :contratId";
+                $stmt3 = $connexion->prepare($query3);
+                $stmt3->bindParam(':contratId', $contratId, PDO::PARAM_INT);
+                $stmt3->execute();
+            }
+        }
+
+      
+        $connexion->commit();
+        echo "Contrat type and associated records deleted successfully!";
+    } catch (PDOException $e) {
+
+        $connexion->rollBack();
+        echo "Error: " . $e->getMessage();
+    }
+}
+
+function deleteContratTypeById($contrattype_id) {
+    $connexion = getConnect(); 
+
+
     $query = "DELETE FROM sprint_database.contrattype WHERE contrattype_id = :contrattype_id";
 
-    // Prepare and bind parameters
+
     $stmt = $connexion->prepare($query);
     $stmt->bindParam(':contrattype_id', $contrattype_id, PDO::PARAM_INT);
 
-    // Execute the query and check for success
+
     $success = $stmt->execute();
 
     if (!$success) {
-        // Handle error
+
         echo "Error: " . implode(", ", $stmt->errorInfo());
     } else {
-        // Success message
+     
         echo "Contrat type with ID $contrattype_id deleted successfully!";
     }
 }
 function addDocumentAndGetId($document_name) {
     $connexion = getConnect();  
 
-    // SQL query to insert a new record into the documents table
+
     $query = "INSERT INTO sprint_database.documents (document_name) VALUES (:document_name)";
 
-    // Prepare the query
+
     $stmt = $connexion->prepare($query);
 
-    // Bind parameters
+
     $stmt->bindParam(':document_name', $document_name);
 
-    // Execute the query and check for success
+
     $success = $stmt->execute();
 
     if (!$success) {
-        // Handle error
+     
         echo "Error: " . implode(", ", $stmt->errorInfo());
         return null;
     } else {
-        // Get the last inserted ID (documents_id)
+        
         $documents_id = $connexion->lastInsertId();
         echo "Document added successfully with ID: " . $documents_id;
         return $documents_id;
     }
 }
 function addMotiveDocument($motive_id, $documents_id) {
-    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+    $connexion = getConnect();  
 
-    // SQL query to insert a new record into the motive_documents table
+
     $query = "INSERT INTO sprint_database.motive_documents (motive_id, documents_id) 
               VALUES (:motive_id, :documents_id)";
 
-    // Prepare the query
+
     $stmt = $connexion->prepare($query);
 
-    // Bind parameters
+  
     $stmt->bindParam(':motive_id', $motive_id, PDO::PARAM_INT);
     $stmt->bindParam(':documents_id', $documents_id, PDO::PARAM_INT);
 
-    // Execute the query and check for success
+
     $success = $stmt->execute();
 
     if (!$success) {
-        // Handle error
+
         echo "Error: " . implode(", ", $stmt->errorInfo());
     } else {
-        // Success message
+
         echo "Motive document association added successfully!";
     }
 }
 function updateDocumentName($documents_id, $new_name) {
-    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+    $connexion = getConnect(); 
 
-    // SQL query to update the document_name for the specified documents_id
+
     $query = "UPDATE sprint_database.documents 
               SET document_name = :new_name 
               WHERE documents_id = :documents_id";
 
-    // Prepare the query
+
     $stmt = $connexion->prepare($query);
 
-    // Bind parameters
+
     $stmt->bindParam(':documents_id', $documents_id, PDO::PARAM_INT);
     $stmt->bindParam(':new_name', $new_name);
 
-    // Execute the query and check for success
+
     $success = $stmt->execute();
 
     if (!$success) {
-        // Handle error
+
         echo "Error: " . implode(", ", $stmt->errorInfo());
     } else {
-        // Success message
+
         echo "Document name updated successfully!";
     }
 }
 function deleteMotiveDocumentSingle($motive_id, $documents_id) {
     $connexion = getConnect(); 
 
-    // SQL query to delete the row where both motive_id and documents_id match
+
     $query = "DELETE FROM sprint_database.motive_documents 
               WHERE motive_id = :motive_id AND documents_id = :documents_id";
 
-    // Prepare and bind parameters
+
     $stmt = $connexion->prepare($query);
     $stmt->bindParam(':motive_id', $motive_id, PDO::PARAM_INT);
     $stmt->bindParam(':documents_id', $documents_id, PDO::PARAM_INT);
 
-    // Execute the query and check for success
+
     $success = $stmt->execute();
 
     if (!$success) {
-        // Handle error
+
         echo "Error: " . implode(", ", $stmt->errorInfo());
     } else {
-        // Success message
+
         echo "Motive document association deleted successfully!";
     }
 }
 function deleteDocumentAssociationMulti($documents_id) {
     $connexion = getConnect(); 
 
-    // SQL query to delete all rows with the specified documents_id
+
     $query = "DELETE FROM sprint_database.motive_documents 
               WHERE documents_id = :documents_id";
 
-    // Prepare and bind parameters
+
     $stmt = $connexion->prepare($query);
     $stmt->bindParam(':documents_id', $documents_id, PDO::PARAM_INT);
 
-    // Execute the query and check for success
+
     $success = $stmt->execute();
 
     if (!$success) {
-        // Handle error
+
         echo "Error: " . implode(", ", $stmt->errorInfo());
     } else {
-        // Success message
+
         echo "All associations with documents_id $documents_id deleted successfully!";
     }
 }
 
 function deleteDocumentById($documents_id) {
-    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+    $connexion = getConnect();  
 
-    // SQL query to delete the row with the specified documents_id
+
     $query = "DELETE FROM sprint_database.documents WHERE documents_id = :documents_id";
 
-    // Prepare and bind parameters
+
     $stmt = $connexion->prepare($query);
     $stmt->bindParam(':documents_id', $documents_id, PDO::PARAM_INT);
 
-    // Execute the query and check for success
+
     $success = $stmt->execute();
 
     if (!$success) {
-        // Handle error
+
         echo "Error: " . implode(", ", $stmt->errorInfo());
     } else {
-        // Success message
+
         echo "Document with ID $documents_id deleted successfully!";
     }
 }
 
 function countContractsBetweenDates($startDate, $endDate) {
-    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+    $connexion = getConnect(); 
 
-    // SQL query to count contracts within the date range
+
     $query = "SELECT COUNT(*) FROM contrat 
               WHERE open_date >= :start_date AND open_date <= :end_date";
 
-    // Prepare the query
+
     $stmt = $connexion->prepare($query);
 
-    // Bind parameters
+
     $stmt->bindParam(':start_date', $startDate);
     $stmt->bindParam(':end_date', $endDate);
 
-    // Execute the query and fetch the result
+
     $stmt->execute();
     $count = $stmt->fetchColumn();
 
     return $count;
 }
 function countApprovedRdvsBetweenDates($startDate, $endDate) {
-    // Assuming getConnect() returns a PDO connection
+
     $connexion = getConnect();
 
-    // SQL query to count approved rdvs within the date range
+
     $query = "SELECT COUNT(*) FROM rdv 
               WHERE approved = 1 AND date BETWEEN :start_date AND :end_date";
 
-    // Prepare the query
+
     $stmt = $connexion->prepare($query);
 
-    // Bind parameters
+
     $stmt->bindParam(':start_date', $startDate);
     $stmt->bindParam(':end_date', $endDate);
 
-    // Execute the query and fetch the result
+
     $stmt->execute();
     $count = $stmt->fetchColumn();
 
@@ -419,38 +514,38 @@ function countApprovedRdvsBetweenDates($startDate, $endDate) {
 }
 
 function countUniqueClientsBeforeDate($endDate) {
-    // Assuming getConnect() returns a PDO connection
+
     $connexion = getConnect();
 
-    // SQL query to count unique client_ids for accounts opened before the end date
+
     $query = "SELECT COUNT(DISTINCT client_compte_assignment.client_id) as client_count 
               FROM client_compte_assignment 
               JOIN compte ON client_compte_assignment.compte_id = compte.compte_id 
               WHERE compte.open_date <= :end_date";
 
-    // Prepare the query
+
     $stmt = $connexion->prepare($query);
 
-    // Bind parameter
+
     $stmt->bindParam(':end_date', $endDate);
 
-    // Execute the query and fetch the result
+
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
     return $result['client_count'];
 }
 function calculateTotalBalance() {
-    // Assuming getConnect() returns a PDO connection
+
     $connexion = getConnect();
 
-    // SQL query to sum up all balances
+
     $query = "SELECT SUM(balance) as total_balance FROM compte";
 
-    // Prepare the query
+
     $stmt = $connexion->prepare($query);
 
-    // Execute the query and fetch the result
+
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 

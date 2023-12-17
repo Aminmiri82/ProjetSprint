@@ -4,7 +4,7 @@ require_once('connect.php');
 $employeeId = isset($_GET['employee_id']) ? intval($_GET['employee_id']) : null;
 
 if ($employeeId === null) {
-    // Handle the case where employee_id is not provided
+    
     echo json_encode(['error' => 'Employee ID not provided']);
     exit();
 }
@@ -34,12 +34,10 @@ $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($result as &$row) {
-    // Format the time_slot to 'H:i' format
+
     $row['time_slot'] = date('H:i', strtotime($row['time_slot']));
 
-    // Optionally split document_ids and document_names into arrays if needed
-    // $row['document_ids'] = explode(',', $row['document_ids']);
-    // $row['document_names'] = explode(', ', $row['document_names']);
+    
 }
 
 if ($result) {
