@@ -8,11 +8,12 @@ try {
         ctllogin ($username, $password);
 
     }
-    if (isset($_POST['logout'])) {
+        if (isset($_POST['logout'])) {
         $_SESSION = array();
         session_destroy();
         header('Location: ../loginPage/site.php');
         exit();
+        
     }
     if (isset($_POST['search'])){
         $client_id = $_POST['client_id'];
@@ -111,8 +112,8 @@ try {
    
     if (isset($_POST['get_assigned_employee'])){
         $client_id = $_POST['client_id'];
-        $assigned_employee = ctlgetEmployeeByClientId($client_id);
-        $employee_assigned_to_client = showString($assigned_employee);
+        $assigned_employee = ctlgetEmployeeByClientId($client_id,1);
+        $employee_assigned_to_client = ctlshowArray($assigned_employee);
     }
     if (isset($_POST['add_rdv'])){
         $client_id = $_POST['client_id'];

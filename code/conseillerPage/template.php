@@ -136,7 +136,17 @@
                 </form>
             </fieldset>
     <fieldset>
+    <fieldset>
         <legend>planner</legend>
+        <form id="get_assigned_employee"action="site.php" method="post">
+            <label for="client_id">choose clinet:</label>
+            <select id="dynamicSelectClientPlanner" name="client_id">
+                <option value="">Select an option</option>
+            </select>
+            <input type="submit" value="get assigned employee" name= "get_assigned_employee" />
+            <label for="assigned_employee">assigned employee is :</label>
+            <?php echo $employee_assigned_to_client; ?>
+        </form>
         <form id="plannerForm" action="rdvTest.php" method="get">
             <label for="employee">Employee's planner: </label>
             <select id="dynamicSelectEmployeePlanner" name="employee_id">
@@ -161,12 +171,15 @@
             <label for="date">choose date:</label>
             <input type="date" name="date">
             <label for="time">choose time:</label>
-            <input type="time" name="time">
+            <input type="time" name="time" min="09:00" max="18:00" step="3600">
             <input type="submit" value="add rdv" name= "add_rdv" />
         </form>
+        <label> requierd documents: </label>
+        <?php echo $requierd_documents_rdv; ?>
+
     </fieldset>
     </div>
-    <div id="planner-container"></div>
+    
     <div>
         <fieldset>
             <legend>block time for work</legend>
@@ -182,41 +195,42 @@
                 <input type="submit" value="block time" name= "block_time" />
         </fieldset>
     </div>
+    <div id="planner-container"></div>
     <script>
         $(document).ready(function() {
-            $('#dynamicSelectClientForContrat').load('get_options_client.php');
-            $('#dynamicSelectContratType').load('get_options_contrattype.php');
-            $('#dynamicSelectClientForAccount').load('get_options_client.php');
-            $('#dynamicSelectAccountType').load('get_options_comptetype.php');
+            $('#dynamicSelectClientForContrat').load('Load_Options/get_options_client.php');
+            $('#dynamicSelectContratType').load('Load_Options/get_options_contrattype.php');
+            $('#dynamicSelectClientForAccount').load('Load_Options/get_options_client.php');
+            $('#dynamicSelectAccountType').load('Load_Options/get_options_comptetype.php');
             
-            $('#dynamicSelectClientCancelAccount').load('get_options_client.php');
+            $('#dynamicSelectClientCancelAccount').load('Load_Options/get_options_client.php');
             $('#dynamicSelectClientCancelAccount').change(function() {
                 var client_id = $(this).val();
                 if (client_id) {
-                    $('#dynamicSelectAccountCancel').load('get_options_account.php?client_id=' + client_id);
+                    $('#dynamicSelectAccountCancel').load('Load_Options/get_options_account.php?client_id=' + client_id);
                 } else {
                     $('#dynamicSelectAccountCancel').html('<option value="">Select an account</option>');
                 }
             });
 
-            $('#dynamicSelectClientCancelContract').load('get_options_client.php');
+            $('#dynamicSelectClientCancelContract').load('Load_Options/get_options_client.php');
             $('#dynamicSelectClientCancelContract').change(function() {
                 var client_id = $(this).val();
                 if (client_id) {
-                    $('#dynamicSelectContractCancel').load('get_options_contract.php?client_id=' + client_id);
+                    $('#dynamicSelectContractCancel').load('Load_Options/get_options_contract.php?client_id=' + client_id);
                 } else {
                     $('#dynamicSelectContractCancel').html('<option value="">Select a contract</option>');
                 }
             });
 
-            $('#dynamicSelectEmployeePlanner').load('get_options_employee.php');
-            $('#dynamicSelectClientPlanner').load('get_options_client.php');
+            $('#dynamicSelectEmployeePlanner').load('Load_Options/get_options_employee_withRole.php');
+            $('#dynamicSelectClientPlanner').load('Load_Options/get_options_client.php');
 
-            $('#dynamicSelectClientRDV').load('get_options_client.php');
-            $('#dynamicSelectEmployeeRDV').load('get_options_employee.php');
-            $('#dynamicSelectMotiveRDV').load('get_options_motive.php');
+            $('#dynamicSelectClientRDV').load('Load_Options/get_options_client.php');
+            $('#dynamicSelectEmployeeRDV').load('Load_Options/get_options_employee_withRole.php');
+            $('#dynamicSelectMotiveRDV').load('Load_Options/get_options_motive.php');
 
-            $('#dynamicSelectEmployeeBlock').load('get_options_employee.php');
+            $('#dynamicSelectEmployeeBlock').load('Load_Options/get_options_employee_withRole.php');
 
             console.log("options loaded");
         });

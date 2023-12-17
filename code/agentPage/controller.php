@@ -51,6 +51,9 @@ function ctlshowClientInfo($clientInfo){
 function ctlshowString($string){
     return showString($string);
 }
+function ctlshowArray($array){
+    return showArray($array);
+}
 
 
 function ctlmodifyClient($client_id, $first_name, $last_name, $street_number, $street_name, $postal_code, $tel, $mail, $profession, $family_situation, $birthdate){
@@ -113,12 +116,9 @@ function ctlgetClientIdByLastNameAndBirthday($last_name, $birthdate){
         return getClientIdByLastNameAndBirthday($last_name, $birthdate);
         
 }
-function ctlgetEmployeeByClientId($client_id){
-    if (!empty($client_id)) {
-        return getEmployeeByClientId($client_id);
-    }else{ 
-        echo "please fill in all the fields";
-    }
+function ctlgetEmployeeByClientId($client_id, $detailLevel = 0) {
+
+    return getEmployeeByClientId($client_id, $detailLevel);
 }
 function ctlAssignEmployeeToClient($employee_id, $client_id){
     if (!empty($employee_id) && !empty($client_id)) {

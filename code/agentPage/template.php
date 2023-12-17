@@ -235,26 +235,26 @@
 
     <script>
         $(document).ready(function() {
-            $('#dynamicSelectEmployee').load('get_options_employee_withRole.php');
-            $('#dynamicSelectClient').load('get_options_client.php');
+            $('#dynamicSelectEmployee').load('Load_Options/get_options_employee_withRole.php');
+            $('#dynamicSelectClient').load('Load_Options/get_options_client.php');
 
 
             $('#clientIdInput').keyup(function() {
                 var client_id = $(this).val();
                 if (client_id) {
-                    $('#dynamicSelectAccountCancel').load('get_options_account.php?client_id=' + client_id);
+                    $('#dynamicSelectAccountCancel').load('Load_Options/get_options_account.php?client_id=' + client_id);
                 } else {
                     $('#dynamicSelectAccountCancel').html('<option value="">Select an account</option>');
                 }
             });
 
 
-            $('#dynamicSelectEmployeePlanner').load('get_options_employee.php');
-            $('#dynamicSelectClientPlanner').load('get_options_client.php');
+            $('#dynamicSelectEmployeePlanner').load('Load_Options/get_options_employee_withRole.php');
+            $('#dynamicSelectClientPlanner').load('Load_Options/get_options_client.php');
 
-            $('#dynamicSelectClientRDV').load('get_options_client.php');
-            $('#dynamicSelectEmployeeRDV').load('get_options_employee.php');
-            $('#dynamicSelectMotiveRDV').load('get_options_motive.php');
+            $('#dynamicSelectClientRDV').load('Load_Options/get_options_client.php');
+            $('#dynamicSelectEmployeeRDV').load('Load_Options/get_options_employee_withRole.php');
+            $('#dynamicSelectMotiveRDV').load('Load_Options/get_options_motive.php');
             
            
             

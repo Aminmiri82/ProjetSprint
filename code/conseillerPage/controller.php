@@ -39,6 +39,17 @@ function ctlshowUsername(){
     return showUsername();
     
 }
+function ctlshowEverything($everything){
+    return showEverything($everything);
+    
+}
+function ctlshowString($string){
+    return showString($string);
+}
+function ctlshowArray($array){
+    return showArray($array);
+}
+
 function ctladdNewClient($first_name, $last_name, $street_number, $street_name, $postal_code, $tel, $mail, $profession, $family_situation, $birthdate){
     if (!empty($first_name) && !empty($last_name) && !empty($street_number) && !empty($street_name) && !empty($postal_code) && !empty($tel) && !empty($mail) && !empty($profession) && !empty($family_situation) && !empty($birthdate)) {
         addNewClient($first_name, $last_name, $street_number, $street_name, $postal_code, $tel, $mail, $profession, $family_situation, $birthdate);
@@ -152,7 +163,25 @@ function ctldeleteClientContratAssignment($client_id, $contrat_id) {
         echo "please fill in all the fields";
     }
 }
+function ctlgetEmployeeByClientId($client_id, $detailLevel = 0) {
 
+    return getEmployeeByClientId($client_id, $detailLevel);
+}
+function ctladdRdv($client_id, $employee_id, $motive_id, $date, $time_slot){
+    if (!empty($client_id) && !empty($employee_id) && !empty($motive_id) && !empty($date) && !empty($time_slot)) {
+        addRdv($client_id, $employee_id, $motive_id, $date, $time_slot);
+    }else{
+        echo "please fill in all the fields";
+    }
+}
+
+function ctlgetDocumentsByMotiveId($motive_id){
+    if (!empty($motive_id)) {
+        return getDocumentsByMotiveId($motive_id);
+    }else{
+        echo "please fill in all the fields";
+    }
+}
 function ctladdBlockTime($employee_id, $date, $time_slot){
     if (!empty($employee_id) && !empty($date) && !empty($time_slot)) {
         addBlockTime($employee_id, $date, $time_slot);

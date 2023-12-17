@@ -58,25 +58,40 @@ function getClientInfoById($clientId) {
     $stmt->closeCursor();
     return $clientInfo;
 }
-function getEmployeeByClientId($client_id) {
+function getEmployeeByClientId($client_id, $detailLevel = 0) {
     $connexion = getConnect(); 
 
-    $query = "
-        SELECT eca.employee_id
-        FROM sprint_database.employee_client_assignment eca
-        WHERE eca.client_id = :client_id;
-    ";
+    if ($detailLevel == 0) {
+        // Query to fetch only the assigned employee_id
+        $query = "
+            SELECT eca.employee_id
+            FROM sprint_database.employee_client_assignment eca
+            WHERE eca.client_id = :client_id;
+        ";
+    } else {
+        // Query to fetch both employee_id and employee's last_name
+        $query = "
+            SELECT eca.employee_id, e.last_name
+            FROM sprint_database.employee_client_assignment eca
+            INNER JOIN sprint_database.employee e ON eca.employee_id = e.employee_id
+            WHERE eca.client_id = :client_id;
+        ";
+    }
 
     $stmt = $connexion->prepare($query);
     $stmt->bindParam(':client_id', $client_id, PDO::PARAM_INT);
     
     $stmt->execute();
 
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    $stmt->closeCursor();
-
-    return $result !== false ? $result['employee_id'] : null;
+    if ($detailLevel == 0) {
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result !== false ? $result['employee_id'] : null;
+    } else {
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result !== false ? $result : null;
+    }
 }
+
 
 
 function modifyClient($client_id, $first_name, $last_name, $street_number, $street_name, $postal_code, $tel, $mail, $profession, $family_situation, $birthdate) {

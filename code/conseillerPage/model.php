@@ -595,6 +595,94 @@ function deleteClientContratAssignment($client_id, $contrat_id) {
     // Close the statement
     $stmt->closeCursor();
 }
+function getEmployeeByClientId($client_id, $detailLevel = 0) {
+    $connexion = getConnect(); 
+
+    if ($detailLevel == 0) {
+        // Query to fetch only the assigned employee_id
+        $query = "
+            SELECT eca.employee_id
+            FROM sprint_database.employee_client_assignment eca
+            WHERE eca.client_id = :client_id;
+        ";
+    } else {
+        // Query to fetch both employee_id and employee's last_name
+        $query = "
+            SELECT eca.employee_id, e.last_name
+            FROM sprint_database.employee_client_assignment eca
+            INNER JOIN sprint_database.employee e ON eca.employee_id = e.employee_id
+            WHERE eca.client_id = :client_id;
+        ";
+    }
+
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':client_id', $client_id, PDO::PARAM_INT);
+    
+    $stmt->execute();
+
+    if ($detailLevel == 0) {
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result !== false ? $result['employee_id'] : null;
+    } else {
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result !== false ? $result : null;
+    }
+}
+function addRdv($client_id, $employee_id, $motive_id, $date, $time_slot) {
+    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+
+    // SQL query to insert a new record into the rdv table
+    $query = "INSERT INTO sprint_database.rdv (client_id, employee_id, motive_id, approved, `date`, time_slot) 
+              VALUES (:client_id, :employee_id, :motive_id, TRUE, :date, :time_slot)";
+
+    // Prepare the query
+    $stmt = $connexion->prepare($query);
+
+    // Bind parameters
+    $stmt->bindParam(':client_id', $client_id, PDO::PARAM_INT);
+    $stmt->bindParam(':employee_id', $employee_id, PDO::PARAM_INT);
+    $stmt->bindParam(':motive_id', $motive_id, PDO::PARAM_INT);
+    $stmt->bindParam(':date', $date);
+    $stmt->bindParam(':time_slot', $time_slot);
+
+    // Execute the query and check for success
+    $success = $stmt->execute();
+
+    if (!$success) {
+        // Handle error
+        echo "Error: " . implode(", ", $stmt->errorInfo());
+    } else {
+        // Success message
+        echo "RDV record created successfully!";
+    }
+}
+
+function getDocumentsByMotiveId($motive_id) {
+    $connexion = getConnect();  
+    // SQL query to select document details based on motive_id
+    $query = "
+        SELECT d.documents_id, d.document_name
+        FROM sprint_database.motive m
+        INNER JOIN sprint_database.motive_documents md ON md.motive_id = m.motive_id
+        INNER JOIN sprint_database.documents d ON d.documents_id = md.documents_id
+        WHERE m.motive_id = :motive_id;
+    ";
+
+    // Prepare and bind parameters
+    $stmt = $connexion->prepare($query);
+    $stmt->bindParam(':motive_id', $motive_id, PDO::PARAM_INT);
+    
+    // Execute the query
+    $stmt->execute();
+
+    // Fetch results
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Close the statement
+    $stmt->closeCursor();
+
+    return $result;
+}
 
 function addBlockTime($employee_id, $date, $time_slot) {
     $connexion = getConnect();  // Assuming getConnect() returns a PDO connection

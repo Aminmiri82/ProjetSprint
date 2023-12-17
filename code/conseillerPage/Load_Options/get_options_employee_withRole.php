@@ -1,5 +1,5 @@
 <?php
 require_once("loadingFunctions.php");
 
-$ans= returnemployeeOptions();
+$ans= returnEmployeesWithRole();
 echo $ans;

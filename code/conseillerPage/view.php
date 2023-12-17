@@ -36,19 +36,24 @@ function showClientInfo($clientInfo){
     }
 }
 function showEverything($everything){
+    $content = '';
     if ($everything) {
-        echo '<ul>';
+        $content .= '<ul>';
         foreach ($everything as $row) {
-            echo '<li>';
+            $content .= '<li>';
             foreach ($row as $key => $value) {
-                echo '<strong>' . $key . ':</strong> ' . $value . ' | ';
+                $content .= '<strong>' . htmlspecialchars($key) . ':</strong> ' . htmlspecialchars($value) . ' | ';
             }
-            echo '</li>';
+            // Remove the trailing ' | ' for each line
+            $content = rtrim($content, ' | ');
+            $content .= '</li>';
         }
-        echo '</ul>';
+        $content .= '</ul>';
     } else {
-        echo 'Client not found.';
+        $content = 'No entries found.';
     }
+
+    return $content;
 }
 function showContractInfo($result) {
     if ($result !== false) {
@@ -65,6 +70,26 @@ function showString($string){
     echo '<ul><li>';
     echo $string;
     echo '</li></ul>';
+}
+
+function showArray($array) {
+    $content = '';
+
+    if (is_array($array) && !empty($array)) {
+        $content .= '<ul>';
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $content .= '<li><strong>' . htmlspecialchars($key) . ':</strong> ' . showArray($value) . '</li>';
+            } else {
+                $content .= '<li><strong>' . htmlspecialchars($key) . ':</strong> ' . htmlspecialchars($value) . '</li>';
+            }
+        }
+        $content .= '</ul>';
+    } else {
+        $content = 'Empty or invalid array.';
+    }
+
+    return $content;
 }
 
 function showAccountsInPossesion($accounts_in_possesion){

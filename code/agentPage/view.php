@@ -79,6 +79,26 @@ function showString($string){
     
     return $content;
 }
+function showArray($array) {
+    $content = '';
+
+    if (is_array($array) && !empty($array)) {
+        $content .= '<ul>';
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $content .= '<li><strong>' . htmlspecialchars($key) . ':</strong> ' . showArray($value) . '</li>';
+            } else {
+                $content .= '<li><strong>' . htmlspecialchars($key) . ':</strong> ' . htmlspecialchars($value) . '</li>';
+            }
+        }
+        $content .= '</ul>';
+    } else {
+        $content = 'Empty or invalid array.';
+    }
+
+    return $content;
+}
+
 
 function showAccountsInPossesion($accounts_in_possesion){
     $content = '';

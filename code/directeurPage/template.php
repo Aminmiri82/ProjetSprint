@@ -166,11 +166,13 @@
    
     <script>  
         $(document).ready(function(){
-            $('#dynamicSelectEmployeeLogin').load('get_options_employee.php');
-            $('#dynamicSelectAccountTypeModify').load('get_options_comptetype.php');
-            $('#dynamicSelectContratTypeModify').load('get_options_contrattype.php');
-            $('#dynamicSelectMotive').load('get_options_motive.php');
-            $('#dynamicSelectDocument').load('get_options_document.php');
+            $('#dynamicSelectEmployeeLogin').load('Load_Options/get_options_employee.php');
+            
+            $('#dynamicSelectAccountTypeModify').load('Load_Options/get_options_comptetype.php');
+            $('#dynamicSelectContratTypeModify').load('Load_Options/get_options_contrattype.php');
+
+            $('#dynamicSelectMotive').load('Load_Options/get_options_motive.php');
+            $('#dynamicSelectDocument').load('Load_Options/get_options_document.php');
         });
     </script>
     <?php
