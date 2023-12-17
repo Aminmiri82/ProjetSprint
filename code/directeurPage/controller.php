@@ -12,8 +12,18 @@ function ctllogin($username, $password) {
     afficheracceuil();
 }
 function ctlafficheracceuil(){
-    afficheracceuil();
+    return afficheracceuil();
     
+}
+function ctlshowEverything($everything){
+    return showEverything($everything);
+    
+}
+function ctlshowClientInfo($clientInfo){
+    return showClientInfo($clientInfo);
+}
+function ctlshowString($string){
+    return showString($string);
 }
 function ctlupdateEmployeeCredentials($employee_id, $new_username, $new_password){
     if (!empty($employee_id) && !empty($new_username) && !empty($new_password)) {
@@ -117,4 +127,29 @@ function ctldeleteDocumentById($documents_id){
     }else{
         echo "please fill in all the fields";
     }
+}
+function ctlcountContractsBetweenDates($startDate, $endDate){
+    if (!empty($startDate) && !empty($endDate)) {
+        return countContractsBetweenDates($startDate, $endDate);
+    }else{
+        echo "please fill in all the fields";
+    }
+}
+function ctlcountApprovedRdvsBetweenDates($startDate, $endDate){
+    if (!empty($startDate) && !empty($endDate)) {
+        return countApprovedRdvsBetweenDates($startDate, $endDate);
+    }else{
+        echo "please fill in all the fields";
+    }
+}
+
+function ctlcountUniqueClientsBeforeDate($endDate){
+    if (!empty($endDate)) {
+        return countUniqueClientsBeforeDate($endDate);
+    }else{
+        echo "please fill in all the fields";
+    }
+}
+function ctlcalculateTotalBalance(){
+    return calculateTotalBalance();
 }

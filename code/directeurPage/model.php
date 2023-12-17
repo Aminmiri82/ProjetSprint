@@ -376,6 +376,90 @@ function deleteDocumentById($documents_id) {
     }
 }
 
+function countContractsBetweenDates($startDate, $endDate) {
+    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+
+    // SQL query to count contracts within the date range
+    $query = "SELECT COUNT(*) FROM contrat 
+              WHERE open_date >= :start_date AND open_date <= :end_date";
+
+    // Prepare the query
+    $stmt = $connexion->prepare($query);
+
+    // Bind parameters
+    $stmt->bindParam(':start_date', $startDate);
+    $stmt->bindParam(':end_date', $endDate);
+
+    // Execute the query and fetch the result
+    $stmt->execute();
+    $count = $stmt->fetchColumn();
+
+    return $count;
+}
+function countApprovedRdvsBetweenDates($startDate, $endDate) {
+    // Assuming getConnect() returns a PDO connection
+    $connexion = getConnect();
+
+    // SQL query to count approved rdvs within the date range
+    $query = "SELECT COUNT(*) FROM rdv 
+              WHERE approved = 1 AND date BETWEEN :start_date AND :end_date";
+
+    // Prepare the query
+    $stmt = $connexion->prepare($query);
+
+    // Bind parameters
+    $stmt->bindParam(':start_date', $startDate);
+    $stmt->bindParam(':end_date', $endDate);
+
+    // Execute the query and fetch the result
+    $stmt->execute();
+    $count = $stmt->fetchColumn();
+
+    return $count;
+}
+
+function countUniqueClientsBeforeDate($endDate) {
+    // Assuming getConnect() returns a PDO connection
+    $connexion = getConnect();
+
+    // SQL query to count unique client_ids for accounts opened before the end date
+    $query = "SELECT COUNT(DISTINCT client_compte_assignment.client_id) as client_count 
+              FROM client_compte_assignment 
+              JOIN compte ON client_compte_assignment.compte_id = compte.compte_id 
+              WHERE compte.open_date <= :end_date";
+
+    // Prepare the query
+    $stmt = $connexion->prepare($query);
+
+    // Bind parameter
+    $stmt->bindParam(':end_date', $endDate);
+
+    // Execute the query and fetch the result
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $result['client_count'];
+}
+function calculateTotalBalance() {
+    // Assuming getConnect() returns a PDO connection
+    $connexion = getConnect();
+
+    // SQL query to sum up all balances
+    $query = "SELECT SUM(balance) as total_balance FROM compte";
+
+    // Prepare the query
+    $stmt = $connexion->prepare($query);
+
+    // Execute the query and fetch the result
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $result['total_balance'];
+}
+
+
+
+
 
 
 

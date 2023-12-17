@@ -45,6 +45,12 @@ function ctlshowEverything($everything){
     return showEverything($everything);
     
 }
+function ctlshowClientInfo($clientInfo){
+    return showClientInfo($clientInfo);
+}
+function ctlshowString($string){
+    return showString($string);
+}
 
 
 function ctlmodifyClient($client_id, $first_name, $last_name, $street_number, $street_name, $postal_code, $tel, $mail, $profession, $family_situation, $birthdate){
@@ -65,12 +71,7 @@ function ctladdNewClient($first_name, $last_name, $street_number, $street_name, 
 function ctlgetAccountsById($client_id){
     return getAccountsById($client_id);
 }
-function ctlshowClientInfo($clientInfo){
-    return showClientInfo($clientInfo);
-}
-function ctlshowString($string){
-    return showString($string);
-}
+
 function ctlshowAccountsInPossesion($accounts_in_possesion){
     return showAccountsInPossesion($accounts_in_possesion);
 }

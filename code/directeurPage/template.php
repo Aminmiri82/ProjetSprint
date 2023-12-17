@@ -107,6 +107,60 @@
                 </form>
             </fieldset>
         </div>
+        <div class="fieldset-container">
+            <fieldset>
+                <legend>bank's stats:</legend>
+                <form id="Contract_stats"action="site.php" method="post">
+                    <label for="signed_contracts">show me the signed contracts between two dates:</label>
+                    <br>
+                    <label for="start_date">start date: </label>
+                    <input type="date" name="start_date" >
+                    <label for="end_date">end date: </label>
+                    <input type="date" name="end_date" >
+                    <input type="submit" name="Contract_stats" value="Go!">
+                </form>
+                <?php echo $C_stats; ?>
+            </fieldset>
+            <fieldset>
+                <legend>bank's stats:</legend>
+                <form id="rdv_stats"action="site.php" method="post">
+                    <label for="rdv_stats">show me the rdv's between two dates:</label>
+                    <br>
+                    <label for="start_date">start date: </label>
+                    <input type="date" name="start_date" >
+                    <label for="end_date">end date: </label>
+                    <input type="date" name="end_date" >
+                    <input type="submit" name="rdv_stats" value="Go!">
+                </form>
+                <?php echo $R_stats; ?>
+            </fieldset>
+        </div>
+        <div class="fieldset-container">
+            <fieldset>
+                <legend>bank's stats:</legend>
+                <form id="client_stats"action="site.php" method="post">
+                    <label for="client_stats">show me the number of clients before a date:</label>
+                    <br>
+                    <label for="end_date">before the date: </label>
+                    <input type="date" name="end_date" >
+                    <input type="submit" name="client_stats" value="Go!">
+                </form>
+                <?php echo $CL_stats; ?>
+            </fieldset>
+
+            <fieldset>
+                <legend>bank's stats:</legend>
+                <form id="account_stats"action="site.php" method="post">
+                    <label for="account_stats">show me the total balance of all accounts in a date:</label>
+                    <br>
+                    <label for="end_date">before the date: </label> 
+                    <input type="date" name="end_date" >
+                    <input type="submit" name="account_stats" value="Go!">
+                </form>
+                <?php echo $A_stats; ?>
+            </fieldset>
+        </div>
+
 
 
    

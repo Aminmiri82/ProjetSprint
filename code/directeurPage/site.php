@@ -66,7 +66,30 @@ try {
             ctldeleteDocumentById($documents_id);
         }
     }
-    ctlafficheracceuil();
+    if (isset($_POST['Contract_stats'])) {
+        $start_date = $_POST['start_date'];
+        $end_date = $_POST['end_date'];
+        $res=ctlcountContractsBetweenDates($start_date, $end_date);
+        $C_stats="the number of contracts signed between " . $start_date ." and " .  $end_date.  " is ".ctlshowString($res);
+    }
+    if (isset($_POST['rdv_stats'])) {
+        $start_date = $_POST['start_date'];
+        $end_date = $_POST['end_date'];
+        $res=ctlcountApprovedRdvsBetweenDates($start_date, $end_date);
+        $R_stats="the total number of rdv's between " . $start_date ." and " .  $end_date.  " is ".ctlshowString($res);
+    }
+    if (isset($_POST['client_stats'])) {
+        $end_date = $_POST['end_date'];
+        $res=ctlcountUniqueClientsBeforeDate($end_date);
+        $CL_stats="the total number of clients before " .  $end_date.  " was ".ctlshowString($res);
+    }
+    if (isset($_POST['account_stats'])) {
+        $end_date = $_POST['end_date'];
+        $res=ctlcalculateTotalBalance();
+        $A_stats="the total balance of all accounts before " .  $end_date.  " was ".ctlshowString($res);
+    }
+    $contenu = ctlafficheracceuil();
+    include_once('template.php');
 } 
 catch (Exception $e) {
     echo "Error: " . $e->getMessage();
