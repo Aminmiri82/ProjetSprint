@@ -14,7 +14,7 @@
     </header>
     
 	<body>	
-        <div>
+        <div class="fieldset-container">
             <fieldset>
                 <legend>chnage or add employees passwords</legend>
                 <form id="change_employee_login" action="site.php" method="post">
@@ -29,8 +29,7 @@
                     <input type="submit" name="change_employee_login" value="Change or add employee login">
                 </form>
             </fieldset>
-        </div>
-        <div>
+
             <fieldset>
                 <legend>add/modify/delete account types</legend>
                 <form id="modify account types" action="site.php" method="post">
@@ -53,7 +52,7 @@
                 </form>
             </fieldset>
         </div>
-        <div>
+        <div class="fieldset-container">
             <fieldset>
                 <legend>add/modify/delete contract types</legend>
                 <form id="modify contract types" action="site.php" method="post">
@@ -75,8 +74,7 @@
                     <input type="submit" name="modify_Contrat_types" value="Modify Contrcat types">
                 </form>
             </fieldset>
-        </div>
-        <div>
+
             <fieldset>
                 <legend>add/modify/delete documents</legend>
                 <form id="modify_document_list"action="site.php" method="post">

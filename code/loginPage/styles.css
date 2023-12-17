@@ -31,21 +31,29 @@ body {
     color: #C9D1D9;
     border-radius: 4px;
     width: 100%;
+    transition: all 0.3s; /* Smooth transition */
+}
+
+#login_form input[type="text"]:hover,
+#login_form input[type="password"]:hover {
+    background: #1B1F24; /* Hover effect */
+    border-color: #58A6FF;
 }
 
 #login_form input[type="submit"],
 #login_form input[type="reset"] {
-    background: #238636;
+    background: linear-gradient(145deg, #238636, #2EA043); /* Gradient background */
     color: #fff;
     border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
+    padding: 10px 12px;
+    border-radius: 6px; /* Rounded corners */
     cursor: pointer;
     transition: background-color 0.3s;
     width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Button shadow */
 }
 
 #login_form input[type="submit"]:hover,
 #login_form input[type="reset"]:hover {
-    background: #2EA043;
+    background: linear-gradient(145deg, #2EA043, #34B14A); /* Hover effect */
 }

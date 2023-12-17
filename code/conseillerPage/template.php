@@ -21,7 +21,7 @@
                 <input type="submit" value="log out" name="logout">
             </form>
         </header>
-        <div>
+        <div class="fieldset-container">
             <fieldset>
                 <legend>add a client</legend>
                 <form id="add a client "action="site.php" method="post">
@@ -48,9 +48,7 @@
                 <input type='submit' value='add a client' name= 'add_a_client' /> <input type='reset' value='tout effacer' name= 'tout effacer' />
                 </form>
             </fieldset>
-        </div>
-        
-        <div>
+
             <fieldset>
                 <legend>change an accounts overdraft</legend>
                 <form id="show the accounts" action="site.php" method="post">
@@ -69,7 +67,7 @@
                 </form>
             </fieldset>
         </div>   
-        <div>
+        <div class="fieldset-container">
             <fieldset>
                 <legend>sell a new contract</legend>
                 <form id="sell a new contract"action="site.php" method="post">
@@ -88,8 +86,7 @@
                     <input type="submit" value="sell a new contract" name= "sell_a_new_contract" /><input type='reset' value='tout effacer' name= 'tout effacer' />
                 </form>
             </fieldset>
-        </div> 
-        <div>
+
             <fieldset>
                 <legend>open a new account</legend>
                 <form id="open a new account"action="site.php" method="post">
@@ -111,7 +108,7 @@
             </fieldset>
 
         </div>
-        <div>
+        <div class="fieldset-container">
             <fieldset>
                 <legend>cancel an contract or account</legend>
                 <form id="cancel_account"action="site.php" method="post">
@@ -137,11 +134,7 @@
                     <input type="submit" value="cancel contract" name= "cancel_contract" />
 
                 </form>
-
-
             </fieldset>
-        </div>
-    <div>
     <fieldset>
         <legend>planner</legend>
         <form id="plannerForm" action="rdvTest.php" method="get">
@@ -151,7 +144,7 @@
             </select>
             <input type="submit" value="See planner" id="employee_choice">
         </form>
-        <div id="planner-container"></div>
+        
         <form id="add_rdv" action="site.php" method="post">
             <label for="client_id">choose clinet:</label>
             <select id="dynamicSelectClientRDV" name="client_id">
@@ -173,6 +166,7 @@
         </form>
     </fieldset>
     </div>
+    <div id="planner-container"></div>
     <div>
         <fieldset>
             <legend>block time for work</legend>

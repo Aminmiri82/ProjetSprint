@@ -21,7 +21,8 @@
                 <input type="submit" value="log out" name="logout">
             </form>
         </header>
-        <div>
+        
+        <div class="fieldset-container">
             <fieldset>
                 <legend>modify a client's info</legend>
                 <form id="see_a_client" action="site.php" method="post">
@@ -31,7 +32,7 @@
                 </form>
                 <label> current info: </label>
                 <?php echo $current_info_M; ?>
-                <div>
+                <br>
                 <label> new info: </label>
                 <br>
                 <form id='modify_a_client' action='site.php' method='post'>
@@ -50,7 +51,7 @@
                     <label> tel: </label>
                     <input type='text' name='tel' />
                     <label> mail: </label>
-                    <input type='text' name='mail' />
+                    <input type='email' name='mail' />
                     <label> profession: </label>
                     <input type='text' name='profession' />
                     <label> family situation: </label>
@@ -59,11 +60,11 @@
                     <input type='date' name='birthday' />
                     <input type='submit' value='modify' name= 'modify' /> <input type='reset' value='tout effacer' name= 'tout effacer' />
                 </form>  
-                </div>  
+                
 
             </fieldset>
-        </div>
-        <div>
+        
+        
             <fieldset>
                 <legend>add a client</legend>
                 <form id="add_a_client "action="site.php" method="post">
@@ -80,7 +81,7 @@
                 <label> tel: </label>
                 <input type='text' name='tel' />
                 <label> mail: </label>
-                <input type='text' name='mail' />
+                <input type='email' name='mail' />
                 <label> profession: </label>
                 <input type='text' name='profession' />
                 <label> family situation: </label>
@@ -91,7 +92,9 @@
                 </form>
             </fieldset>
         </div>
-        <div>
+        
+        <div class="fieldset-container">
+            
             <fieldset>
                 <legend>assign an employee to a client</legend>
                 <form id="assignForm" method="post" action="site.php">
@@ -103,16 +106,10 @@
                     <select  id="dynamicSelectClient" name="selectedClient">
                         <option>Select an option</option>
                     </select>
-                        
                     <button type="submit" name="submit">Submit</button>
-
-                    
                 </form>
-
-
             </fieldset>
-        </div>
-        <div>
+
             <fieldset>
                 <legend>view all of a clients information</legend>
                 <form id="view_a_client" action="site.php" method="post">
@@ -134,10 +131,10 @@
 
             </fieldset>
         </div>
-        <div>
+<div class="fieldset-container">
     <fieldset>
         <legend>Make Deposits or Withdraw</legend>
-        <div>
+        
             <form id="accountSelectionForm" action="site.php" method="post">
                 <label for="clientIdInput">Client ID:</label>
                 <input type="text" id="clientIdInput" name="client_id"/>
@@ -145,8 +142,7 @@
                 <p><label> accounts in their possession: </label></p>
                 <?php echo $accounts_in_users_possesion; ?>
             </form>
-        </div>
-        <div>
+       
             <form id="transactionForm" action="site.php" method="post">
                 <label for="dynamicSelectAccountCancel">Account ID:</label>
                 <select id="dynamicSelectAccountCancel" name="account_id">
@@ -157,11 +153,9 @@
                 <input type="submit" value="Deposit" name="deposit" />
                 <input type="submit" value="Withdraw" name="withdraw" />
             </form>
-        </div>
+        
     </fieldset>
-</div>
 
-        <div>
             <fieldset>
                 <legend>search for a client using their name and birthday</legend>
                 <form id="search_for_a_client" action="site.php" method="post">
@@ -175,7 +169,7 @@
                 <?php echo $client_info_BD; ?>
             </fieldset>
         </div>
-        <div>
+        <div class="fieldset-container">
             <fieldset>
                 <legend>change an accounts overdraft</legend>
                 <form id="show_the_accounts" action="site.php" method="post">
@@ -193,9 +187,7 @@
                     <input type="submit" value="change overdraft" name= "change_overdraft" />
                 </form>
             </fieldset>
-        </div>
 
-    <div>
     <fieldset>
         <legend>planner</legend>
         <form id="get_assigned_employee"action="site.php" method="post">
@@ -214,7 +206,7 @@
             </select>
             <input type="submit" value="See planner" id="employee_choice">
         </form>
-        <div id="planner-container"></div>
+        
         <form id="add_rdv" action="site.php" method="post">
             <label for="client_id">choose clinet:</label>
             <select id="dynamicSelectClientRDV" name="client_id">
@@ -237,10 +229,9 @@
         <label> requierd documents: </label>
         <?php echo $requierd_documents_rdv; ?>
 
-
-
     </fieldset>
     </div>
+    <div id="planner-container"></div>
 
     <script>
         $(document).ready(function() {
