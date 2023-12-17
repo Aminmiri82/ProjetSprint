@@ -139,7 +139,7 @@ function ctlchangeOverdraft($account_id, $new_overdraft){
 
 function ctladdRdv($client_id, $employee_id, $motive_id, $date, $time_slot){
     if (!empty($client_id) && !empty($employee_id) && !empty($motive_id) && !empty($date) && !empty($time_slot)) {
-        addRdv($client_id, $employee_id, $motive_id, $date, $time_slot);
+        return addRdv($client_id, $employee_id, $motive_id, $date, $time_slot);
     }else{
         echo "please fill in all the fields";
     }

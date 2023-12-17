@@ -122,9 +122,16 @@ try {
         $date = $_POST['date'];
         $formattedDate = date('Y-m-d', strtotime($date));
         $time = $_POST['time'];
-        ctladdRdv($client_id, $employee_id, $motive_id, $formattedDate, $time);
-        $needed_documents = ctlgetDocumentsByMotiveId($motive_id);
-        $requierd_documents_rdv= ctlshowEverything($needed_documents);
+        $result= ctladdRdv($client_id, $employee_id, $motive_id, $formattedDate, $time);
+        if ($result['success']) {
+            // Display success message
+            echo "<p class='success'>" . $result['message'] . "</p>";
+            $needed_documents = ctlgetDocumentsByMotiveId($motive_id);
+            $requierd_documents_rdv= ctlshowEverything($needed_documents);
+        } else {
+            // Display error message
+            echo "<p class='error'>" . $result['message'] . "</p>";
+        }
     }
     $headercontent = ctlshowUsername();
     $contenu = ctlafficheracceuil();

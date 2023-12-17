@@ -427,31 +427,34 @@ function changeOverdraft($account_id, $new_overdraft){
 
 
 function addRdv($client_id, $employee_id, $motive_id, $date, $time_slot) {
-    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+    try {
+        $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
 
-    // SQL query to insert a new record into the rdv table
-    $query = "INSERT INTO sprint_database.rdv (client_id, employee_id, motive_id, approved, `date`, time_slot) 
-              VALUES (:client_id, :employee_id, :motive_id, TRUE, :date, :time_slot)";
+        // SQL query to insert a new record into the rdv table
+        $query = "INSERT INTO sprint_database.rdv (client_id, employee_id, motive_id, approved, `date`, time_slot) 
+                  VALUES (:client_id, :employee_id, :motive_id, TRUE, :date, :time_slot)";
 
-    // Prepare the query
-    $stmt = $connexion->prepare($query);
+        // Prepare the query
+        $stmt = $connexion->prepare($query);
 
-    // Bind parameters
-    $stmt->bindParam(':client_id', $client_id, PDO::PARAM_INT);
-    $stmt->bindParam(':employee_id', $employee_id, PDO::PARAM_INT);
-    $stmt->bindParam(':motive_id', $motive_id, PDO::PARAM_INT);
-    $stmt->bindParam(':date', $date);
-    $stmt->bindParam(':time_slot', $time_slot);
+        // Bind parameters
+        $stmt->bindParam(':client_id', $client_id, PDO::PARAM_INT);
+        $stmt->bindParam(':employee_id', $employee_id, PDO::PARAM_INT);
+        $stmt->bindParam(':motive_id', $motive_id, PDO::PARAM_INT);
+        $stmt->bindParam(':date', $date);
+        $stmt->bindParam(':time_slot', $time_slot);
 
-    // Execute the query and check for success
-    $success = $stmt->execute();
-
-    if (!$success) {
-        // Handle error
-        echo "Error: " . implode(", ", $stmt->errorInfo());
-    } else {
-        // Success message
-        echo "RDV record created successfully!";
+        // Execute the query
+        $stmt->execute();
+        return ["success" => true, "message" => "RDV record created successfully!"];
+    } catch (PDOException $e) {
+        // Custom error message for specific SQLSTATE code
+        if ($e->getCode() == '45000') {
+            return ["success" => false, "message" => "An appointment for this employee or client at the specified time already exists. Please choose a different time or person."];
+        } else {
+            // Generic error message for other errors
+            return ["success" => false, "message" => "Database error: " . $e->getMessage()];
+        }
     }
 }
 
