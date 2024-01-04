@@ -143,7 +143,7 @@
                     <label for="client_stats">show me the number of clients before a date:</label>
                     <br>
                     <label for="end_date">before the date: </label>
-                    <input type="date" name="end_date" >
+                    <input type="date"  class="mr_fucking_annoyington" name="end_date">
                     <input type="submit" name="client_stats" value="Go!">
                 </form>
                 <?php echo $CL_stats; ?>
@@ -155,7 +155,8 @@
                     <label for="account_stats">show me the total balance of all accounts in a date:</label>
                     <br>
                     <label for="end_date">before the date: </label> 
-                    <input type="date" name="end_date" >
+                    
+                    <input type="date" class="mr_fucking_annoyington" name="end_date">
                     <input type="submit" name="account_stats" value="Go!">
                 </form>
                 <?php echo $A_stats; ?>
@@ -174,6 +175,7 @@
 
             $('#dynamicSelectMotive').load('Load_Options/get_options_motive.php');
             $('#dynamicSelectDocument').load('Load_Options/get_options_document.php');
+        
         });
     </script>
     <?php

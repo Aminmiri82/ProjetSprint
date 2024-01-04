@@ -189,7 +189,7 @@
                     <option value="">Select an option</option>
                 </select>
                 <label for="date">choose date:</label>
-                <input type="date" name="date">
+                <input type="date" id="mr_fucking_annoyington" name="date">
                 <label for="time">choose time slot:</label>
                 <input type="time" name="time_slot">
                 <label for="reason">reason for blocking this time slot:</label>
@@ -235,6 +235,17 @@
             $('#dynamicSelectEmployeeBlock').load('Load_Options/get_options_employee_withRole.php');
 
             console.log("options loaded");
+
+
+            //stupid ass bug fix
+            const input = document.getElementById('mr_fucking_annoyington');
+
+            input.addEventListener('mouseover', function() {
+                input.classList.add('permanent-hover');
+                setTimeout(function() {
+                    input.classList.remove('permanent-hover');
+                    }, 10000); //in ms
+            });
         });
     </script>  
     <script src="plannerCode.js"></script>

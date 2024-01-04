@@ -212,3 +212,9 @@ td:hover {
     background-color: #8957E5;
 }
 
+#mr_fucking_annoyington.permanent-hover {
+    margin-bottom: 90px !important;
+}
+#mr_fucking_annoyington:focus {
+    margin-bottom: 90px !important;
+}

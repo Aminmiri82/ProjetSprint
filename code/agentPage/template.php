@@ -6,6 +6,8 @@
       <link rel="stylesheet" type="text/css" href="styles.css"> 
       <script src="luxon.js"></script>
       <script src="jquery-3.7.1.min.js"></script>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+
 
     </head>
     
@@ -224,7 +226,7 @@
                 <option value="">Select an option</option>
             </select>
             <label for="date">choose date:</label>
-            <input type="date" name="date">
+            <input type="date" id="mr_fucking_annoyington" name="date">
             <label for="time">choose time:</label>
             <input type="time" name="time" min="09:00" max="18:00" step="3600">
             <input type="submit" value="add rdv" name= "add_rdv" />
@@ -264,6 +266,16 @@
            
             
             console.log("options loaded");
+            //stupid ass bug fix
+            const input = document.getElementById('mr_fucking_annoyington');
+
+            input.addEventListener('mouseover', function() {
+                input.classList.add('permanent-hover');
+                setTimeout(function() {
+                    input.classList.remove('permanent-hover');
+                    }, 10000); //in ms
+            });
+
         });
     </script>     
     <script src="plannerCode.js"></script> 
