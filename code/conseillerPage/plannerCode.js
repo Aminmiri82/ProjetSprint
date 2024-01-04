@@ -27,12 +27,14 @@ function showPrompt(day, time, occupiedData) {
         if (occupiedSlot.approved === '1') {
             fetchClientInfo(occupiedSlot.client_id, occupiedSlot, formattedDate, formattedTime);
         } else if (occupiedSlot.approved === '0') {
-            alert(`This slot is busy:\nDate: ${formattedDate}, Time: ${formattedTime}`);
+            const blockReason = occupiedSlot.block_reason ? occupiedSlot.block_reason : 'No reason provided';
+            alert(`This slot is blocked:\nDate: ${formattedDate}, Time: ${formattedTime}\nReason: ${blockReason}`);
         }
     } else {
         alert(`You clicked on ${time} on ${day}, ${formattedDate}`);
     }
 }
+
 
 function fetchClientInfo(client_id, occupiedSlot, date, time) {
     fetch(`synthese/getClientInfoById.php?client_id=${client_id}`)
@@ -97,7 +99,7 @@ function displayAllInfo(clientData, accountData, contractData, occupiedSlot, dat
     const contractInfo = contractData.customMessage ? contractData.customMessage : formatData(contractData, 'Contract Info', ['client_id']);
     const slotInfo = formatData(occupiedSlot, 'Slot Info', ['client_id', 'motive_id', 'document_ids']);
 
-    const message = `Occupied:\n${slotInfo}\n\n${clientInfo}\n\nAccount Info:\n${accountInfo}\n\nContract Info:\n${contractInfo}\n\nDate: ${date}, Time: ${time}`;
+    const message = `Occupied:\n${slotInfo}\n\n${clientInfo}\n\n\n${accountInfo}\n\n\n${contractInfo}\n\nDate: ${date}, Time: ${time}`;
     alert(message);
 }
 

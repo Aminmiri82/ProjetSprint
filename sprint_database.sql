@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost
--- Généré le : mer. 20 déc. 2023 à 13:14
--- Version du serveur : 10.4.28-MariaDB
--- Version de PHP : 8.0.28
+-- Host: localhost
+-- Generation Time: Jan 04, 2024 at 11:43 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `sprint_database`
+-- Database: `sprint_database`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `client`
+-- Table structure for table `client`
 --
 
 CREATE TABLE `client` (
@@ -42,7 +42,7 @@ CREATE TABLE `client` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='you might not need total balance and total overdraft';
 
 --
--- Déchargement des données de la table `client`
+-- Dumping data for table `client`
 --
 
 INSERT INTO `client` (`client_id`, `first_name`, `last_name`, `street_number`, `street_name`, `postal_code`, `tel`, `mail`, `proffession`, `family_situation`, `birthdate`) VALUES
@@ -56,7 +56,7 @@ INSERT INTO `client` (`client_id`, `first_name`, `last_name`, `street_number`, `
 -- --------------------------------------------------------
 
 --
--- Structure de la table `client_compte_assignment`
+-- Table structure for table `client_compte_assignment`
 --
 
 CREATE TABLE `client_compte_assignment` (
@@ -66,17 +66,18 @@ CREATE TABLE `client_compte_assignment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `client_compte_assignment`
+-- Dumping data for table `client_compte_assignment`
 --
 
 INSERT INTO `client_compte_assignment` (`compte_client_assignment_id`, `client_id`, `compte_id`) VALUES
 (10, 1, 10),
-(11, 1, 11);
+(11, 1, 11),
+(15, 3, 15);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `client_contrat_assignment`
+-- Table structure for table `client_contrat_assignment`
 --
 
 CREATE TABLE `client_contrat_assignment` (
@@ -86,7 +87,7 @@ CREATE TABLE `client_contrat_assignment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `client_contrat_assignment`
+-- Dumping data for table `client_contrat_assignment`
 --
 
 INSERT INTO `client_contrat_assignment` (`client_contrat_assignment_id`, `client_id`, `contrat_id`) VALUES
@@ -96,7 +97,7 @@ INSERT INTO `client_contrat_assignment` (`client_contrat_assignment_id`, `client
 -- --------------------------------------------------------
 
 --
--- Structure de la table `compte`
+-- Table structure for table `compte`
 --
 
 CREATE TABLE `compte` (
@@ -107,17 +108,18 @@ CREATE TABLE `compte` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `compte`
+-- Dumping data for table `compte`
 --
 
 INSERT INTO `compte` (`compte_id`, `balance`, `overdraft`, `open_date`) VALUES
 (10, 80, 100, '2023-12-18'),
-(11, 0, 100, '2023-12-04');
+(11, 0, 100, '2023-12-04'),
+(15, 0, 100, '2024-01-03');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `comptetype`
+-- Table structure for table `comptetype`
 --
 
 CREATE TABLE `comptetype` (
@@ -127,7 +129,7 @@ CREATE TABLE `comptetype` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `comptetype`
+-- Dumping data for table `comptetype`
 --
 
 INSERT INTO `comptetype` (`comptetype_id`, `type_name`, `motive_id`) VALUES
@@ -138,7 +140,7 @@ INSERT INTO `comptetype` (`comptetype_id`, `type_name`, `motive_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `comptetype_compte_assignment`
+-- Table structure for table `comptetype_compte_assignment`
 --
 
 CREATE TABLE `comptetype_compte_assignment` (
@@ -148,17 +150,18 @@ CREATE TABLE `comptetype_compte_assignment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `comptetype_compte_assignment`
+-- Dumping data for table `comptetype_compte_assignment`
 --
 
 INSERT INTO `comptetype_compte_assignment` (`comptetype_compte_assignment_id`, `compte_id`, `comptetype_id`) VALUES
 (11, 10, 3),
-(12, 11, 4);
+(12, 11, 4),
+(16, 15, 7);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `contrat`
+-- Table structure for table `contrat`
 --
 
 CREATE TABLE `contrat` (
@@ -168,7 +171,7 @@ CREATE TABLE `contrat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `contrat`
+-- Dumping data for table `contrat`
 --
 
 INSERT INTO `contrat` (`contrat_id`, `contrat_tarif`, `open_date`) VALUES
@@ -178,7 +181,7 @@ INSERT INTO `contrat` (`contrat_id`, `contrat_tarif`, `open_date`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `contrattype`
+-- Table structure for table `contrattype`
 --
 
 CREATE TABLE `contrattype` (
@@ -188,7 +191,7 @@ CREATE TABLE `contrattype` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `contrattype`
+-- Dumping data for table `contrattype`
 --
 
 INSERT INTO `contrattype` (`contrattype_id`, `contrattype_name`, `motive_id`) VALUES
@@ -198,7 +201,7 @@ INSERT INTO `contrattype` (`contrattype_id`, `contrattype_name`, `motive_id`) VA
 -- --------------------------------------------------------
 
 --
--- Structure de la table `contrattype_contrat_assignemnt`
+-- Table structure for table `contrattype_contrat_assignemnt`
 --
 
 CREATE TABLE `contrattype_contrat_assignemnt` (
@@ -208,7 +211,7 @@ CREATE TABLE `contrattype_contrat_assignemnt` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `contrattype_contrat_assignemnt`
+-- Dumping data for table `contrattype_contrat_assignemnt`
 --
 
 INSERT INTO `contrattype_contrat_assignemnt` (`contrattype_contrat_assignemnt_id`, `contrat_type_id`, `contrat_id`) VALUES
@@ -218,7 +221,7 @@ INSERT INTO `contrattype_contrat_assignemnt` (`contrattype_contrat_assignemnt_id
 -- --------------------------------------------------------
 
 --
--- Structure de la table `documents`
+-- Table structure for table `documents`
 --
 
 CREATE TABLE `documents` (
@@ -227,7 +230,7 @@ CREATE TABLE `documents` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `documents`
+-- Dumping data for table `documents`
 --
 
 INSERT INTO `documents` (`documents_id`, `document_name`) VALUES
@@ -241,7 +244,7 @@ INSERT INTO `documents` (`documents_id`, `document_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `employee`
+-- Table structure for table `employee`
 --
 
 CREATE TABLE `employee` (
@@ -253,7 +256,7 @@ CREATE TABLE `employee` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `employee`
+-- Dumping data for table `employee`
 --
 
 INSERT INTO `employee` (`employee_id`, `first_name`, `last_name`, `username`, `password`) VALUES
@@ -270,7 +273,7 @@ INSERT INTO `employee` (`employee_id`, `first_name`, `last_name`, `username`, `p
 -- --------------------------------------------------------
 
 --
--- Structure de la table `employee_client_assignment`
+-- Table structure for table `employee_client_assignment`
 --
 
 CREATE TABLE `employee_client_assignment` (
@@ -280,7 +283,7 @@ CREATE TABLE `employee_client_assignment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `employee_client_assignment`
+-- Dumping data for table `employee_client_assignment`
 --
 
 INSERT INTO `employee_client_assignment` (`employee_client_assignment_index`, `employee_id`, `client_id`) VALUES
@@ -294,7 +297,7 @@ INSERT INTO `employee_client_assignment` (`employee_client_assignment_index`, `e
 -- --------------------------------------------------------
 
 --
--- Structure de la table `employee_role_assignment`
+-- Table structure for table `employee_role_assignment`
 --
 
 CREATE TABLE `employee_role_assignment` (
@@ -304,7 +307,7 @@ CREATE TABLE `employee_role_assignment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `employee_role_assignment`
+-- Dumping data for table `employee_role_assignment`
 --
 
 INSERT INTO `employee_role_assignment` (`employee_role_assignment_id`, `employee_id`, `role_id`) VALUES
@@ -317,7 +320,7 @@ INSERT INTO `employee_role_assignment` (`employee_role_assignment_id`, `employee
 -- --------------------------------------------------------
 
 --
--- Structure de la table `motive`
+-- Table structure for table `motive`
 --
 
 CREATE TABLE `motive` (
@@ -326,7 +329,7 @@ CREATE TABLE `motive` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `motive`
+-- Dumping data for table `motive`
 --
 
 INSERT INTO `motive` (`motive_id`, `motive_name`) VALUES
@@ -342,7 +345,7 @@ INSERT INTO `motive` (`motive_id`, `motive_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `motive_documents`
+-- Table structure for table `motive_documents`
 --
 
 CREATE TABLE `motive_documents` (
@@ -352,7 +355,7 @@ CREATE TABLE `motive_documents` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `motive_documents`
+-- Dumping data for table `motive_documents`
 --
 
 INSERT INTO `motive_documents` (`motive_documents_id`, `motive_id`, `documents_id`) VALUES
@@ -369,7 +372,7 @@ INSERT INTO `motive_documents` (`motive_documents_id`, `motive_id`, `documents_i
 -- --------------------------------------------------------
 
 --
--- Structure de la table `rdv`
+-- Table structure for table `rdv`
 --
 
 CREATE TABLE `rdv` (
@@ -379,38 +382,41 @@ CREATE TABLE `rdv` (
   `motive_id` int(11) DEFAULT NULL,
   `approved` tinyint(1) DEFAULT NULL,
   `date` date DEFAULT NULL,
-  `time_slot` time DEFAULT NULL
+  `time_slot` time DEFAULT NULL,
+  `block_reason` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `rdv`
+-- Dumping data for table `rdv`
 --
 
-INSERT INTO `rdv` (`rdv_id`, `client_id`, `employee_id`, `motive_id`, `approved`, `date`, `time_slot`) VALUES
-(2, 5, 9, 3, 1, '2023-12-06', '10:00:00'),
-(6, 1, 9, 1, 1, '2023-12-13', '10:00:00'),
-(9, 1, 9, 4, 1, '2023-12-13', '09:00:00'),
-(10, 1, 9, 3, 1, '2023-12-15', '11:00:00'),
-(11, 1, 9, 4, 1, '2023-12-14', '16:00:00'),
-(17, 1, 9, 1, 1, '2023-12-12', '13:00:00'),
-(18, 1, 9, 1, 1, '2023-12-12', '14:00:00'),
-(19, 1, 9, 1, 1, '2023-12-12', '15:00:00'),
-(31, 6, 9, 2, 1, '2023-12-08', '10:00:00'),
-(32, 6, 9, 2, 1, '2023-12-21', '10:00:00'),
-(33, NULL, 9, NULL, 0, '2023-12-13', '11:00:00'),
-(35, 6, 9, 4, 1, '2023-12-15', '15:00:00'),
-(36, 1, 9, 4, 1, '2023-12-17', '10:00:00'),
-(37, 1, 9, 3, 1, '2023-12-17', '11:00:00'),
-(39, 1, 8, 1, 1, '2023-12-03', '09:00:00'),
-(40, 3, 8, 1, 1, '2023-12-17', '17:00:00'),
-(41, NULL, 8, NULL, 0, '2023-12-17', '16:00:00'),
-(42, 3, 8, 4, 1, '2023-12-17', '15:00:00'),
-(43, NULL, 8, NULL, 0, '2023-12-17', '11:00:00'),
-(44, 1, 9, 1, 1, '2023-12-15', '10:00:00'),
-(45, 1, 9, 1, 1, '2023-12-13', '12:00:00');
+INSERT INTO `rdv` (`rdv_id`, `client_id`, `employee_id`, `motive_id`, `approved`, `date`, `time_slot`, `block_reason`) VALUES
+(2, 5, 9, 3, 1, '2023-12-06', '10:00:00', NULL),
+(6, 1, 9, 1, 1, '2023-12-13', '10:00:00', NULL),
+(9, 1, 9, 4, 1, '2023-12-13', '09:00:00', NULL),
+(10, 1, 9, 3, 1, '2023-12-15', '11:00:00', NULL),
+(11, 1, 9, 4, 1, '2023-12-14', '16:00:00', NULL),
+(17, 1, 9, 1, 1, '2023-12-12', '13:00:00', NULL),
+(18, 1, 9, 1, 1, '2023-12-12', '14:00:00', NULL),
+(19, 1, 9, 1, 1, '2023-12-12', '15:00:00', NULL),
+(31, 6, 9, 2, 1, '2023-12-08', '10:00:00', NULL),
+(32, 6, 9, 2, 1, '2023-12-21', '10:00:00', NULL),
+(33, NULL, 9, NULL, 0, '2023-12-13', '11:00:00', NULL),
+(35, 6, 9, 4, 1, '2023-12-15', '15:00:00', NULL),
+(36, 1, 9, 4, 1, '2023-12-17', '10:00:00', NULL),
+(37, 1, 9, 3, 1, '2023-12-17', '11:00:00', NULL),
+(39, 1, 8, 1, 1, '2023-12-03', '09:00:00', NULL),
+(40, 3, 8, 1, 1, '2023-12-17', '17:00:00', NULL),
+(41, NULL, 8, NULL, 0, '2023-12-17', '16:00:00', NULL),
+(42, 3, 8, 4, 1, '2023-12-17', '15:00:00', NULL),
+(43, NULL, 8, NULL, 0, '2023-12-17', '11:00:00', NULL),
+(44, 1, 9, 1, 1, '2023-12-15', '10:00:00', NULL),
+(45, 1, 9, 1, 1, '2023-12-13', '12:00:00', NULL),
+(46, 3, 8, 1, 1, '2024-01-04', '12:00:00', NULL),
+(47, NULL, 8, NULL, 0, '2024-01-04', '13:00:00', NULL);
 
 --
--- Déclencheurs `rdv`
+-- Triggers `rdv`
 --
 DELIMITER $$
 CREATE TRIGGER `check_client_appointment` BEFORE INSERT ON `rdv` FOR EACH ROW BEGIN
@@ -446,7 +452,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Structure de la table `role_types`
+-- Table structure for table `role_types`
 --
 
 CREATE TABLE `role_types` (
@@ -455,7 +461,7 @@ CREATE TABLE `role_types` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `role_types`
+-- Dumping data for table `role_types`
 --
 
 INSERT INTO `role_types` (`role_id`, `role_name`) VALUES
@@ -464,17 +470,17 @@ INSERT INTO `role_types` (`role_id`, `role_name`) VALUES
 (3, 'directeur');
 
 --
--- Index pour les tables déchargées
+-- Indexes for dumped tables
 --
 
 --
--- Index pour la table `client`
+-- Indexes for table `client`
 --
 ALTER TABLE `client`
   ADD PRIMARY KEY (`client_id`);
 
 --
--- Index pour la table `client_compte_assignment`
+-- Indexes for table `client_compte_assignment`
 --
 ALTER TABLE `client_compte_assignment`
   ADD PRIMARY KEY (`compte_client_assignment_id`),
@@ -482,7 +488,7 @@ ALTER TABLE `client_compte_assignment`
   ADD KEY `unq_compte_client_assignment_compte_id` (`compte_id`);
 
 --
--- Index pour la table `client_contrat_assignment`
+-- Indexes for table `client_contrat_assignment`
 --
 ALTER TABLE `client_contrat_assignment`
   ADD PRIMARY KEY (`client_contrat_assignment_id`),
@@ -490,20 +496,20 @@ ALTER TABLE `client_contrat_assignment`
   ADD KEY `unq_client_contrat_assignment_contrat_id` (`contrat_id`);
 
 --
--- Index pour la table `compte`
+-- Indexes for table `compte`
 --
 ALTER TABLE `compte`
   ADD PRIMARY KEY (`compte_id`);
 
 --
--- Index pour la table `comptetype`
+-- Indexes for table `comptetype`
 --
 ALTER TABLE `comptetype`
   ADD PRIMARY KEY (`comptetype_id`),
   ADD UNIQUE KEY `unq_comptetype_motive_id` (`motive_id`);
 
 --
--- Index pour la table `comptetype_compte_assignment`
+-- Indexes for table `comptetype_compte_assignment`
 --
 ALTER TABLE `comptetype_compte_assignment`
   ADD PRIMARY KEY (`comptetype_compte_assignment_id`),
@@ -511,20 +517,20 @@ ALTER TABLE `comptetype_compte_assignment`
   ADD KEY `unq_comptetype_compte_assignment_comptetype_id` (`comptetype_id`);
 
 --
--- Index pour la table `contrat`
+-- Indexes for table `contrat`
 --
 ALTER TABLE `contrat`
   ADD PRIMARY KEY (`contrat_id`);
 
 --
--- Index pour la table `contrattype`
+-- Indexes for table `contrattype`
 --
 ALTER TABLE `contrattype`
   ADD PRIMARY KEY (`contrattype_id`),
   ADD UNIQUE KEY `unq_contrattype_motive_id` (`motive_id`);
 
 --
--- Index pour la table `contrattype_contrat_assignemnt`
+-- Indexes for table `contrattype_contrat_assignemnt`
 --
 ALTER TABLE `contrattype_contrat_assignemnt`
   ADD PRIMARY KEY (`contrattype_contrat_assignemnt_id`),
@@ -532,19 +538,19 @@ ALTER TABLE `contrattype_contrat_assignemnt`
   ADD KEY `unq_contrattype_contrat_assignemnt_contrat_type_id` (`contrat_type_id`);
 
 --
--- Index pour la table `documents`
+-- Indexes for table `documents`
 --
 ALTER TABLE `documents`
   ADD PRIMARY KEY (`documents_id`);
 
 --
--- Index pour la table `employee`
+-- Indexes for table `employee`
 --
 ALTER TABLE `employee`
   ADD PRIMARY KEY (`employee_id`);
 
 --
--- Index pour la table `employee_client_assignment`
+-- Indexes for table `employee_client_assignment`
 --
 ALTER TABLE `employee_client_assignment`
   ADD PRIMARY KEY (`employee_client_assignment_index`),
@@ -552,7 +558,7 @@ ALTER TABLE `employee_client_assignment`
   ADD KEY `unq_employee_client_assignment_employee_id` (`employee_id`);
 
 --
--- Index pour la table `employee_role_assignment`
+-- Indexes for table `employee_role_assignment`
 --
 ALTER TABLE `employee_role_assignment`
   ADD PRIMARY KEY (`employee_role_assignment_id`),
@@ -560,13 +566,13 @@ ALTER TABLE `employee_role_assignment`
   ADD KEY `unq_employee_role_assignment_role_id` (`role_id`);
 
 --
--- Index pour la table `motive`
+-- Indexes for table `motive`
 --
 ALTER TABLE `motive`
   ADD PRIMARY KEY (`motive_id`);
 
 --
--- Index pour la table `motive_documents`
+-- Indexes for table `motive_documents`
 --
 ALTER TABLE `motive_documents`
   ADD PRIMARY KEY (`motive_documents_id`),
@@ -574,7 +580,7 @@ ALTER TABLE `motive_documents`
   ADD KEY `unq_motive_documents_documents_id` (`documents_id`);
 
 --
--- Index pour la table `rdv`
+-- Indexes for table `rdv`
 --
 ALTER TABLE `rdv`
   ADD PRIMARY KEY (`rdv_id`),
@@ -583,184 +589,184 @@ ALTER TABLE `rdv`
   ADD KEY `unq_rdv_motive_id` (`motive_id`);
 
 --
--- Index pour la table `role_types`
+-- Indexes for table `role_types`
 --
 ALTER TABLE `role_types`
   ADD PRIMARY KEY (`role_id`);
 
 --
--- AUTO_INCREMENT pour les tables déchargées
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT pour la table `client`
+-- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
   MODIFY `client_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT pour la table `client_compte_assignment`
+-- AUTO_INCREMENT for table `client_compte_assignment`
 --
 ALTER TABLE `client_compte_assignment`
-  MODIFY `compte_client_assignment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `compte_client_assignment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
--- AUTO_INCREMENT pour la table `client_contrat_assignment`
+-- AUTO_INCREMENT for table `client_contrat_assignment`
 --
 ALTER TABLE `client_contrat_assignment`
   MODIFY `client_contrat_assignment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT pour la table `compte`
+-- AUTO_INCREMENT for table `compte`
 --
 ALTER TABLE `compte`
-  MODIFY `compte_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `compte_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
--- AUTO_INCREMENT pour la table `comptetype`
+-- AUTO_INCREMENT for table `comptetype`
 --
 ALTER TABLE `comptetype`
   MODIFY `comptetype_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT pour la table `comptetype_compte_assignment`
+-- AUTO_INCREMENT for table `comptetype_compte_assignment`
 --
 ALTER TABLE `comptetype_compte_assignment`
-  MODIFY `comptetype_compte_assignment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `comptetype_compte_assignment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
--- AUTO_INCREMENT pour la table `contrat`
+-- AUTO_INCREMENT for table `contrat`
 --
 ALTER TABLE `contrat`
   MODIFY `contrat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT pour la table `contrattype`
+-- AUTO_INCREMENT for table `contrattype`
 --
 ALTER TABLE `contrattype`
   MODIFY `contrattype_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT pour la table `contrattype_contrat_assignemnt`
+-- AUTO_INCREMENT for table `contrattype_contrat_assignemnt`
 --
 ALTER TABLE `contrattype_contrat_assignemnt`
   MODIFY `contrattype_contrat_assignemnt_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT pour la table `documents`
+-- AUTO_INCREMENT for table `documents`
 --
 ALTER TABLE `documents`
   MODIFY `documents_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT pour la table `employee`
+-- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
   MODIFY `employee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT pour la table `employee_client_assignment`
+-- AUTO_INCREMENT for table `employee_client_assignment`
 --
 ALTER TABLE `employee_client_assignment`
   MODIFY `employee_client_assignment_index` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT pour la table `employee_role_assignment`
+-- AUTO_INCREMENT for table `employee_role_assignment`
 --
 ALTER TABLE `employee_role_assignment`
   MODIFY `employee_role_assignment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT pour la table `motive`
+-- AUTO_INCREMENT for table `motive`
 --
 ALTER TABLE `motive`
   MODIFY `motive_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT pour la table `motive_documents`
+-- AUTO_INCREMENT for table `motive_documents`
 --
 ALTER TABLE `motive_documents`
   MODIFY `motive_documents_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
--- AUTO_INCREMENT pour la table `rdv`
+-- AUTO_INCREMENT for table `rdv`
 --
 ALTER TABLE `rdv`
-  MODIFY `rdv_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `rdv_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
--- AUTO_INCREMENT pour la table `role_types`
+-- AUTO_INCREMENT for table `role_types`
 --
 ALTER TABLE `role_types`
   MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- Contraintes pour les tables déchargées
+-- Constraints for dumped tables
 --
 
 --
--- Contraintes pour la table `client_compte_assignment`
+-- Constraints for table `client_compte_assignment`
 --
 ALTER TABLE `client_compte_assignment`
   ADD CONSTRAINT `fk_compte_client_assignment_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`client_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_compte_client_assignment_compte` FOREIGN KEY (`compte_id`) REFERENCES `compte` (`compte_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Contraintes pour la table `client_contrat_assignment`
+-- Constraints for table `client_contrat_assignment`
 --
 ALTER TABLE `client_contrat_assignment`
   ADD CONSTRAINT `fk_client_contrat_assignment_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`client_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_client_contrat_assignment_contrat` FOREIGN KEY (`contrat_id`) REFERENCES `contrat` (`contrat_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Contraintes pour la table `comptetype`
+-- Constraints for table `comptetype`
 --
 ALTER TABLE `comptetype`
   ADD CONSTRAINT `fk_comptetype_motive` FOREIGN KEY (`motive_id`) REFERENCES `motive` (`motive_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Contraintes pour la table `comptetype_compte_assignment`
+-- Constraints for table `comptetype_compte_assignment`
 --
 ALTER TABLE `comptetype_compte_assignment`
   ADD CONSTRAINT `fk_comptetype_compte_assignment_compte` FOREIGN KEY (`compte_id`) REFERENCES `compte` (`compte_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_comptetype_compte_assignment_comptetype` FOREIGN KEY (`comptetype_id`) REFERENCES `comptetype` (`comptetype_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Contraintes pour la table `contrattype`
+-- Constraints for table `contrattype`
 --
 ALTER TABLE `contrattype`
   ADD CONSTRAINT `fk_contrattype_motive` FOREIGN KEY (`motive_id`) REFERENCES `motive` (`motive_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Contraintes pour la table `contrattype_contrat_assignemnt`
+-- Constraints for table `contrattype_contrat_assignemnt`
 --
 ALTER TABLE `contrattype_contrat_assignemnt`
   ADD CONSTRAINT `fk_contrattype_contrat_assignemnt_contrat` FOREIGN KEY (`contrat_id`) REFERENCES `contrat` (`contrat_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_contrattype_contrat_assignemnt_contrattype` FOREIGN KEY (`contrat_type_id`) REFERENCES `contrattype` (`contrattype_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Contraintes pour la table `employee_client_assignment`
+-- Constraints for table `employee_client_assignment`
 --
 ALTER TABLE `employee_client_assignment`
   ADD CONSTRAINT `fk_employee_client_assignment_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`client_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_employee_client_assignment_employee` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`employee_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Contraintes pour la table `employee_role_assignment`
+-- Constraints for table `employee_role_assignment`
 --
 ALTER TABLE `employee_role_assignment`
   ADD CONSTRAINT `fk_employee_role_assignment_employee` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`employee_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_employee_role_assignment_role_types` FOREIGN KEY (`role_id`) REFERENCES `role_types` (`role_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Contraintes pour la table `motive_documents`
+-- Constraints for table `motive_documents`
 --
 ALTER TABLE `motive_documents`
   ADD CONSTRAINT `fk_motive_documents_documents` FOREIGN KEY (`documents_id`) REFERENCES `documents` (`documents_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_motive_documents_motive` FOREIGN KEY (`motive_id`) REFERENCES `motive` (`motive_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Contraintes pour la table `rdv`
+-- Constraints for table `rdv`
 --
 ALTER TABLE `rdv`
   ADD CONSTRAINT `fk_rdv_client` FOREIGN KEY (`client_id`) REFERENCES `client` (`client_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,

@@ -182,9 +182,9 @@ function ctlgetDocumentsByMotiveId($motive_id){
         echo "please fill in all the fields";
     }
 }
-function ctladdBlockTime($employee_id, $date, $time_slot){
-    if (!empty($employee_id) && !empty($date) && !empty($time_slot)) {
-        return addBlockTime($employee_id, $date, $time_slot);
+function ctladdBlockTime($employee_id, $date, $time_slot, $block_reason){
+    if (!empty($employee_id) && !empty($date) && !empty($time_slot) && !empty($block_reason)) {
+        return addBlockTime($employee_id, $date, $time_slot, $block_reason);
     }else{
         echo "please fill in all the fields";
     }

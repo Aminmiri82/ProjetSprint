@@ -102,7 +102,8 @@ try {
         $employee_id = $_POST['employee_id'];
         $date = $_POST['date'];
         $time_slot = $_POST['time_slot'];
-        $result= ctladdBlockTime($employee_id, $date, $time_slot);
+        $reason= $_POST['reason'];
+        $result= ctladdBlockTime($employee_id, $date, $time_slot, $reason);
         if ($result['success']) {
 
             echo "<p class='success'>" . $result['message'] . "</p>";

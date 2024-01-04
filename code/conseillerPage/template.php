@@ -192,6 +192,8 @@
                 <input type="date" name="date">
                 <label for="time">choose time slot:</label>
                 <input type="time" name="time_slot">
+                <label for="reason">reason for blocking this time slot:</label>
+                <input type="text" name="reason">
                 <input type="submit" value="block time" name= "block_time" />
         </fieldset>
     </div>

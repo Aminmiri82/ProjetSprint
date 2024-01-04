@@ -689,22 +689,19 @@ function getDocumentsByMotiveId($motive_id) {
     return $result;
 }
 
-function addBlockTime($employee_id, $date, $time_slot) {
+function addBlockTime($employee_id, $date, $time_slot, $block_reason) {
     try {
         $connexion = getConnect();  
 
-
-        $query = "INSERT INTO sprint_database.rdv (employee_id, `date`, time_slot, approved) 
-                  VALUES (:employee_id, :date, :time_slot, 0)";
-
+        $query = "INSERT INTO sprint_database.rdv (employee_id, `date`, time_slot, approved, block_reason) 
+                  VALUES (:employee_id, :date, :time_slot, 0, :block_reason)";
 
         $stmt = $connexion->prepare($query);
-
 
         $stmt->bindParam(':employee_id', $employee_id, PDO::PARAM_INT);
         $stmt->bindParam(':date', $date);
         $stmt->bindParam(':time_slot', $time_slot);
-
+        $stmt->bindParam(':block_reason', $block_reason);
 
         $stmt->execute();
         return ["success" => true, "message" => "Block time added successfully!"];
@@ -718,4 +715,5 @@ function addBlockTime($employee_id, $date, $time_slot) {
         }
     }
 }
+
 

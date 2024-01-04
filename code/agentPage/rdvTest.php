@@ -4,7 +4,6 @@ require_once('connect.php');
 $employeeId = isset($_GET['employee_id']) ? intval($_GET['employee_id']) : null;
 
 if ($employeeId === null) {
-    
     echo json_encode(['error' => 'Employee ID not provided']);
     exit();
 }
@@ -16,7 +15,7 @@ function getConnect(){
     return $connexion;
 }
 
-$query = "SELECT r.client_id, r.employee_id, r.motive_id, r.approved, r.date, r.time_slot, m.motive_name, 
+$query = "SELECT r.client_id, r.employee_id, r.motive_id, r.approved, r.date, r.time_slot, r.block_reason, m.motive_name, 
                  GROUP_CONCAT(DISTINCT d.documents_id) AS document_ids, 
                  GROUP_CONCAT(DISTINCT d.document_name SEPARATOR ', ') AS document_names
           FROM sprint_database.rdv r
@@ -24,8 +23,7 @@ $query = "SELECT r.client_id, r.employee_id, r.motive_id, r.approved, r.date, r.
           LEFT JOIN sprint_database.motive_documents md ON m.motive_id = md.motive_id
           LEFT JOIN sprint_database.documents d ON md.documents_id = d.documents_id
           WHERE r.employee_id = :employeeId
-          GROUP BY r.rdv_id, r.client_id, r.employee_id, r.motive_id, r.approved, r.date, r.time_slot, m.motive_name";
-
+          GROUP BY r.rdv_id, r.client_id, r.employee_id, r.motive_id, r.approved, r.date, r.time_slot, r.block_reason, m.motive_name";
 
 $connexion = getConnect();
 $stmt = $connexion->prepare($query);
@@ -34,10 +32,7 @@ $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($result as &$row) {
-
     $row['time_slot'] = date('H:i', strtotime($row['time_slot']));
-
-    
 }
 
 if ($result) {
@@ -48,6 +43,4 @@ if ($result) {
 }
 
 $stmt->closeCursor();
-
-
 

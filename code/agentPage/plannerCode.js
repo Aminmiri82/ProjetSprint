@@ -16,7 +16,6 @@ function formatDate(date) {
 function showPrompt(day, time, occupiedData) {
     const dayIndexValue = dayIndex(day);
     const dayDate = currentWeekStart.plus({ days: dayIndexValue });
-
     const formattedDate = dayDate.toISODate();
     const formattedTime = time;
 
@@ -24,19 +23,103 @@ function showPrompt(day, time, occupiedData) {
         entry.date === formattedDate && entry.time_slot === formattedTime
     );
 
-    let message;
     if (occupiedSlot) {
         if (occupiedSlot.approved === '1') {
-            const slotInfo = Object.entries(occupiedSlot).map(([key, value]) => `${key}: ${value}`).join('\n');
-            message = `Occupied:\n${slotInfo}\nDate: ${formattedDate}, Time: ${formattedTime}`;
+            fetchClientInfo(occupiedSlot.client_id, occupiedSlot, formattedDate, formattedTime);
         } else if (occupiedSlot.approved === '0') {
-            message = `This slot is busy:\nDate: ${formattedDate}, Time: ${formattedTime}`;
+            const blockReason = occupiedSlot.block_reason ? occupiedSlot.block_reason : 'No reason provided';
+            alert(`This slot is blocked:\nDate: ${formattedDate}, Time: ${formattedTime}\nReason: ${blockReason}`);
         }
     } else {
-        message = `You clicked on ${time} on ${day}, ${formattedDate}`;
+        alert(`You clicked on ${time} on ${day}, ${formattedDate}`);
     }
+}
 
+
+function fetchClientInfo(client_id, occupiedSlot, date, time) {
+    fetch(`synthese/getClientInfoById.php?client_id=${client_id}`)
+        .then(response => response.json())
+        .then(clientData => {
+            fetchAccounts(clientData.client_id, clientData, occupiedSlot, date, time);
+        })
+        .catch(error => {
+            console.error('Error fetching client data:', error);
+            alert('Error fetching client information.');
+        });
+}
+function fetchAccounts(client_id, clientData, occupiedSlot, date, time) {
+    fetch(`synthese/getAccountsById.php?client_id=${client_id}`)
+        .then(response => response.json())
+        .then(accountData => {
+            if (accountData.error || accountData.length === 0) {
+     
+                accountData = { customMessage: 'No accounts associated with this client.' };
+            }
+            fetchContractInfo(clientData.client_id, clientData, accountData, occupiedSlot, date, time);
+        })
+        .catch(error => {
+            console.error('Error fetching account data:', error);
+
+            fetchContractInfo(clientData.client_id, clientData, { customMessage: error.message }, occupiedSlot, date, time);
+        });
+}
+
+
+function fetchContractInfo(client_id, clientData, accountData, occupiedSlot, date, time) {
+    console.log(`Fetching contract info with client_id: ${client_id}`);
+
+    fetch(`synthese/getContractInfoByAccountId.php?client_id=${client_id}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Network response was not ok: ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then(contractData => {
+            if (contractData.error || contractData.length === 0) {
+
+                contractData = { customMessage: 'No contracts associated with this client.' };
+            }
+            console.log('Contract Data:', contractData);
+            displayAllInfo(clientData, accountData, contractData, occupiedSlot, date, time);
+        })
+        .catch(error => {
+            console.error('Error fetching contract data:', error);
+
+            displayAllInfo(clientData, accountData, { customMessage: error.message }, occupiedSlot, date, time);
+        });
+}
+
+
+
+
+function displayAllInfo(clientData, accountData, contractData, occupiedSlot, date, time) {
+    const clientInfo = formatData(clientData, 'Client Info');
+    const accountInfo = accountData.customMessage ? accountData.customMessage : formatData(accountData, 'Account Info', ['client_id']);
+    const contractInfo = contractData.customMessage ? contractData.customMessage : formatData(contractData, 'Contract Info', ['client_id']);
+    const slotInfo = formatData(occupiedSlot, 'Slot Info', ['client_id', 'motive_id', 'document_ids']);
+
+    const message = `Occupied:\n${slotInfo}\n\n${clientInfo}\n\n\n${accountInfo}\n\n\n${contractInfo}\n\nDate: ${date}, Time: ${time}`;
     alert(message);
+}
+
+
+
+
+function formatData(data, title, excludeKeys = []) {
+    if (Array.isArray(data)) {
+        return `${title}:\n` + data.map((item, index) => 
+            `Item ${index + 1}:\n` + Object.entries(item)
+            .filter(([key]) => !excludeKeys.includes(key))
+            .map(([key, value]) => `  ${key}: ${value}`)
+            .join('\n')
+        ).join('\n\n');
+    } else {
+        return `${title}:\n` + Object.entries(data)
+            .filter(([key]) => !excludeKeys.includes(key))
+            .map(([key, value]) => `${key}: ${value}`)
+            .join('\n');
+    }
 }
 
 
@@ -83,7 +166,7 @@ function createWeeklyPlanner(occupiedData) {
     weekInput.max = 52; 
     weekInput.value = getWeekNumber(currentWeekStart);
     navCell.appendChild(weekInput);
-    
+
     const goToWeekButton = createButton('goToWeekButton', 'Go to Week', () => goToWeek(weekInput.value));
     navCell.appendChild(goToWeekButton);
 
@@ -234,7 +317,7 @@ function fetchAppointments(employeeId) {
     fetch(`rdvTest.php?employee_id=${employeeId}`)
         .then(response => response.json())
         .then(data => {
-            console.log('Raw Data:', data); 
+            console.log('Raw Data:', data);  
             createWeeklyPlanner(data);
         })
         .catch(error => console.error('Error fetching data:', error));
