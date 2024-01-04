@@ -28,7 +28,7 @@ function showPrompt(day, time, occupiedData) {
             fetchClientInfo(occupiedSlot.client_id, occupiedSlot, formattedDate, formattedTime);
         } else if (occupiedSlot.approved === '0') {
             const blockReason = occupiedSlot.block_reason ? occupiedSlot.block_reason : 'No reason provided';
-            alert(`This slot is blocked:\nDate: ${formattedDate}, Time: ${formattedTime}\nReason: ${blockReason}`);
+            alert(`Date: ${formattedDate}, Time: ${formattedTime}\nThis slot is blocked\nReason: ${blockReason}`);
         }
     } else {
         alert(`You clicked on ${time} on ${day}, ${formattedDate}`);
@@ -97,9 +97,9 @@ function displayAllInfo(clientData, accountData, contractData, occupiedSlot, dat
     const clientInfo = formatData(clientData, 'Client Info');
     const accountInfo = accountData.customMessage ? accountData.customMessage : formatData(accountData, 'Account Info', ['client_id']);
     const contractInfo = contractData.customMessage ? contractData.customMessage : formatData(contractData, 'Contract Info', ['client_id']);
-    const slotInfo = formatData(occupiedSlot, 'Slot Info', ['client_id', 'motive_id', 'document_ids']);
+    const slotInfo = formatData(occupiedSlot, 'Slot Info', ['client_id', 'motive_id', 'approved', 'block_reason', 'date', 'time_slot']);
 
-    const message = `Occupied:\n${slotInfo}\n\n${clientInfo}\n\n\n${accountInfo}\n\n\n${contractInfo}\n\nDate: ${date}, Time: ${time}`;
+    const message = `Date: ${date}, Time: ${time} \nOccupied:\n${slotInfo}\n\n${clientInfo}\n\n\n${accountInfo}\n\n\n${contractInfo}\n\n`;
     alert(message);
 }
 
@@ -336,10 +336,3 @@ document.getElementById('plannerForm').addEventListener('submit', function (even
 });
 
 
-fetch('rdvTest.php')
-    .then(response => response.json())
-    .then(data => {
-        console.log('Raw Data:', data);  
-        createWeeklyPlanner(data);
-    })
-    .catch(error => console.error('Error fetching data:', error));

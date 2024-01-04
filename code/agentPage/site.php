@@ -133,7 +133,7 @@ try {
         }
     }
     $headercontent = ctlshowUsername();
-    $contenu = ctlafficheracceuil();
+    
     
     
     include_once('template.php');

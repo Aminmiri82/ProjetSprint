@@ -91,7 +91,7 @@ try {
         $A_stats="the total balance of all accounts before " .  $end_date.  " was ".ctlshowString($res);
     }
     $headercontent = ctlshowUsername();
-    $contenu = ctlafficheracceuil();
+    
     include_once('template.php');
 } 
 catch (Exception $e) {
