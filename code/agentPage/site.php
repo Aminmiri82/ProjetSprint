@@ -53,11 +53,11 @@ try {
         $info= ctlgetClientInfoById($client_id);
         $account = ctlgetCompteTypeInfoByClientId($client_id);
         $contrat = ctlgetContractInfoByAccountId($client_id);
-        $assigned_employee = ctlgetEmployeeByClientId($client_id);
+        $assigned_employee = ctlgetEmployeeByClientId($client_id,1 );
         $personal_info_E=ctlshowClientInfo($info);
         $contracts_info_E=ctlshowAccountsInPossesion($contrat);
         $accounts_info_E = ctlshowAccountsInPossesion($account);
-        $assigned_employee_E=ctlshowString($assigned_employee);
+        $assigned_employee_E=ctlshowArray($assigned_employee);
         
         
         
@@ -101,8 +101,7 @@ try {
     }
     if (isset($_POST['search_for_accounts_for_overdraft'])){
         $client_id = $_POST['client_id'];
-        $accounts_in_possesion=  ctlgetAccountsById($client_id);
-        $accounts_in_users_possesion_overdraft= ctlshowAccountsInPossesion($accounts_in_possesion);
+        // this literally does nothing lol
     }
     if (isset($_POST['change_overdraft'])){
         $account_id = $_POST['account_id'];
@@ -124,12 +123,12 @@ try {
         $time = $_POST['time'];
         $result= ctladdRdv($client_id, $employee_id, $motive_id, $formattedDate, $time);
         if ($result['success']) {
-            // Display success message
+          
             echo "<p class='success'>" . $result['message'] . "</p>";
             $needed_documents = ctlgetDocumentsByMotiveId($motive_id);
             $requierd_documents_rdv= ctlshowEverything($needed_documents);
         } else {
-            // Display error message
+            
             echo "<p class='error'>" . $result['message'] . "</p>";
         }
     }

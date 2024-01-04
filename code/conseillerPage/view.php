@@ -44,7 +44,7 @@ function showEverything($everything){
             foreach ($row as $key => $value) {
                 $content .= '<strong>' . htmlspecialchars($key) . ':</strong> ' . htmlspecialchars($value) . ' | ';
             }
-            // Remove the trailing ' | ' for each line
+           
             $content = rtrim($content, ' | ');
             $content .= '</li>';
         }

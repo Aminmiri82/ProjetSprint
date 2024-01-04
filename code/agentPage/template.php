@@ -140,7 +140,8 @@
                 <input type="text" id="clientIdInput" name="client_id"/>
                 <input type="submit" value="search" name= "search_for_accounts" />
                 <p><label> accounts in their possession: </label></p>
-                <?php echo $accounts_in_users_possesion; ?>
+                
+                <div class=account_info></div>
             </form>
        
             <form id="transactionForm" action="site.php" method="post">
@@ -243,8 +244,10 @@
                 var client_id = $(this).val();
                 if (client_id) {
                     $('#dynamicSelectAccountCancel').load('Load_Options/get_options_account.php?client_id=' + client_id);
+                    $('.account_info').load('Load_Options/get_options_account_info.php?client_id=' + client_id);
                 } else {
                     $('#dynamicSelectAccountCancel').html('<option value="">Select an account</option>');
+                    $('.account_info').html('');
                 }
             });
 

@@ -56,7 +56,13 @@ function ctlupdateCompteType($comptetype_id, $text_box){
         echo "please fill in all the fields";
     }
 }
-
+function ctldeleteCompteTypeAndAssociations($comptetype_id){
+    if (!empty($comptetype_id)) {
+        deleteCompteTypeAndAssociations($comptetype_id);
+    }else{
+        echo "please fill in all the fields";
+    }
+}
 function ctldeleteCompteTypeById($comptetype_id){
     if (!empty($comptetype_id)) {
         deleteCompteTypeById($comptetype_id);
@@ -75,6 +81,13 @@ function ctladdContratType($contrattype_name, $motive_id){
 function ctlupdateContratType($contrattype_id, $text_box){
     if (!empty($contrattype_id) && !empty($text_box)) {
         updateContratType($contrattype_id, $text_box);
+    }else{
+        echo "please fill in all the fields";
+    }
+}
+function ctldeleteContratTypeAndAssociations($contratTypeId) {
+    if (!empty($contratTypeId)) {
+        deleteContratTypeAndAssociations($contratTypeId);
     }else{
         echo "please fill in all the fields";
     }

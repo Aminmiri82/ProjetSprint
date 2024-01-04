@@ -29,6 +29,7 @@ try {
         }elseif ($action == "change") {
             ctlupdateCompteType($comptetype_id, $text_box);
         }elseif ($action == "delete") {
+            ctldeleteCompteTypeAndAssociations($comptetype_id);
             ctldeleteCompteTypeById($comptetype_id);
         }
     }
@@ -42,6 +43,7 @@ try {
         }elseif ($action == "change") {
             ctlupdateContratType($contrattype_id, $text_box);
         }elseif ($action == "delete") {
+            ctldeleteContratTypeAndAssociations($contrattype_id);
             ctldeleteContratTypeById($contrattype_id);
         }
     }

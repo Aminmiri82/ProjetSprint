@@ -234,11 +234,11 @@ function assignEmployeeToClient($employee_id, $client_id) {
               (:employee_id, :client_id)";
     $stmt = $connexion->prepare($query);
 
-    // Bind parameters
+  
     $stmt->bindParam(':employee_id', $employee_id, PDO::PARAM_INT);
     $stmt->bindParam(':client_id', $client_id, PDO::PARAM_INT);
 
-    // Execute the query
+
     $success = $stmt->execute();
 
     if (!$success) {
@@ -442,171 +442,171 @@ function assignCompteTypeToCompte($compte_id, $comptetype_id) {
 }
 
 function deleteCompteTypeAssignmentById($compte_id) {
-    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+    $connexion = getConnect();  
 
-    // SQL query to delete rows with the specified compte_id
+
     $query = "DELETE FROM sprint_database.comptetype_compte_assignment WHERE compte_id = :compte_id";
 
-    // Prepare and bind parameters
+
     $stmt = $connexion->prepare($query);
     $stmt->bindParam(':compte_id', $compte_id, PDO::PARAM_INT);
 
-    // Execute the query and check for success
+
     $success = $stmt->execute();
 
     if (!$success) {
-        // Handle error
+      
         echo "Error: " . implode(", ", $stmt->errorInfo());
     } else {
-        // Success message
+    
         echo "Rows with compte_id $compte_id deleted successfully!";
     }
 
-    // Close the statement
+
     $stmt->closeCursor();
 }
 
 function deleteCompteById($compte_id) {
-    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+    $connexion = getConnect();  
 
-    // SQL query to delete the account with the specified compte_id
+
     $query = "DELETE FROM sprint_database.compte WHERE compte_id = :compte_id";
 
-    // Prepare and bind parameters
+
     $stmt = $connexion->prepare($query);
     $stmt->bindParam(':compte_id', $compte_id, PDO::PARAM_INT);
 
-    // Execute the query and check for success
+
     $success = $stmt->execute();
 
     if (!$success) {
-        // Handle error
+  
         echo "Error: " . implode(", ", $stmt->errorInfo());
     } else {
-        // Success message
+   
         echo "Account with compte_id $compte_id deleted successfully!";
     }
 
-    // Close the statement
+
     $stmt->closeCursor();
 }
 
 
 function deleteClientCompteAssignment($client_id, $compte_id) {
-    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+    $connexion = getConnect();  
 
-    // SQL query to delete the row where both client_id and compte_id match
+
     $query = "DELETE FROM sprint_database.client_compte_assignment 
               WHERE client_id = :client_id AND compte_id = :compte_id";
 
-    // Prepare and bind parameters
+
     $stmt = $connexion->prepare($query);
     $stmt->bindParam(':client_id', $client_id, PDO::PARAM_INT);
     $stmt->bindParam(':compte_id', $compte_id, PDO::PARAM_INT);
 
-    // Execute the query and check for success
+
     $success = $stmt->execute();
 
     if (!$success) {
-        // Handle error
+     
         echo "Error: " . implode(", ", $stmt->errorInfo());
     } else {
-        // Success message
+        
         echo "Assignment with client_id $client_id and compte_id $compte_id deleted successfully!";
     }
 
-    // Close the statement
+  
     $stmt->closeCursor();
 }
 
 function deleteContratTypeAssignmentById($contrat_id) {
-    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+    $connexion = getConnect();  
 
-    // SQL query to delete rows with the specified compte_id
+
     $query = "DELETE FROM sprint_database.contrattype_contrat_assignemnt WHERE contrat_id = :contrat_id";
 
-    // Prepare and bind parameters
+
     $stmt = $connexion->prepare($query);
     $stmt->bindParam(':contrat_id', $contrat_id, PDO::PARAM_INT);
 
-    // Execute the query and check for success
+
     $success = $stmt->execute();
 
     if (!$success) {
-        // Handle error
+    
         echo "Error: " . implode(", ", $stmt->errorInfo());
     } else {
-        // Success message
+        
         echo "Rows with contrat_id $contrat_id deleted successfully!";
     }
 
-    // Close the statement
+
     $stmt->closeCursor();
 }
 function deleteContratById($contrat_id) {
     $connexion = getConnect();  
 
-    // SQL query to delete the account with the specified contrat_id
+
     $query = "DELETE FROM sprint_database.contrat WHERE contrat_id = :contrat_id";
 
-    // Prepare and bind parameters
+  
     $stmt = $connexion->prepare($query);
     $stmt->bindParam(':contrat_id', $contrat_id, PDO::PARAM_INT);
 
-    // Execute the query and check for success
+ 
     $success = $stmt->execute();
 
     if (!$success) {
-        // Handle error
+        
         echo "Error: " . implode(", ", $stmt->errorInfo());
     } else {
-        // Success message
+        
         echo "Account with contrat_id $contrat_id deleted successfully!";
     }
 
-    // Close the statement
+
     $stmt->closeCursor();
 }
 
 
 function deleteClientContratAssignment($client_id, $contrat_id) {
-    $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+    $connexion = getConnect();  
 
-    // SQL query to delete the row where both client_id and compte_id match
+
     $query = "DELETE FROM sprint_database.client_contrat_assignment 
               WHERE client_id = :client_id AND contrat_id = :contrat_id";
 
-    // Prepare and bind parameters
+
     $stmt = $connexion->prepare($query);
     $stmt->bindParam(':client_id', $client_id, PDO::PARAM_INT);
     $stmt->bindParam(':contrat_id', $contrat_id, PDO::PARAM_INT);
 
-    // Execute the query and check for success
+
     $success = $stmt->execute();
 
     if (!$success) {
-        // Handle error
+  
         echo "Error: " . implode(", ", $stmt->errorInfo());
     } else {
-        // Success message
+
         echo "Assignment with client_id $client_id and contrat_id $contrat_id deleted successfully!";
     }
 
-    // Close the statement
+
     $stmt->closeCursor();
 }
 function getEmployeeByClientId($client_id, $detailLevel = 0) {
     $connexion = getConnect(); 
 
     if ($detailLevel == 0) {
-        // Query to fetch only the assigned employee_id
+
         $query = "
             SELECT eca.employee_id
             FROM sprint_database.employee_client_assignment eca
             WHERE eca.client_id = :client_id;
         ";
     } else {
-        // Query to fetch both employee_id and employee's last_name
+
         $query = "
             SELECT eca.employee_id, e.last_name
             FROM sprint_database.employee_client_assignment eca
@@ -630,31 +630,31 @@ function getEmployeeByClientId($client_id, $detailLevel = 0) {
 }
 function addRdv($client_id, $employee_id, $motive_id, $date, $time_slot) {
     try {
-        $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+        $connexion = getConnect();  
 
-        // SQL query to insert a new record into the rdv table
+
         $query = "INSERT INTO sprint_database.rdv (client_id, employee_id, motive_id, approved, `date`, time_slot) 
                   VALUES (:client_id, :employee_id, :motive_id, TRUE, :date, :time_slot)";
 
-        // Prepare the query
+
         $stmt = $connexion->prepare($query);
 
-        // Bind parameters
+
         $stmt->bindParam(':client_id', $client_id, PDO::PARAM_INT);
         $stmt->bindParam(':employee_id', $employee_id, PDO::PARAM_INT);
         $stmt->bindParam(':motive_id', $motive_id, PDO::PARAM_INT);
         $stmt->bindParam(':date', $date);
         $stmt->bindParam(':time_slot', $time_slot);
 
-        // Execute the query
+
         $stmt->execute();
         return ["success" => true, "message" => "RDV record created successfully!"];
     } catch (PDOException $e) {
-        // Custom error message for specific SQLSTATE code
+
         if ($e->getCode() == '45000') {
             return ["success" => false, "message" => "An appointment for this employee or client at the specified time already exists. Please choose a different time or person."];
         } else {
-            // Generic error message for other errors
+
             return ["success" => false, "message" => "Database error: " . $e->getMessage()];
         }
     }
@@ -664,7 +664,7 @@ function addRdv($client_id, $employee_id, $motive_id, $date, $time_slot) {
 
 function getDocumentsByMotiveId($motive_id) {
     $connexion = getConnect();  
-    // SQL query to select document details based on motive_id
+
     $query = "
         SELECT d.documents_id, d.document_name
         FROM sprint_database.motive m
@@ -673,17 +673,17 @@ function getDocumentsByMotiveId($motive_id) {
         WHERE m.motive_id = :motive_id;
     ";
 
-    // Prepare and bind parameters
+
     $stmt = $connexion->prepare($query);
     $stmt->bindParam(':motive_id', $motive_id, PDO::PARAM_INT);
     
-    // Execute the query
+
     $stmt->execute();
 
-    // Fetch results
+
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Close the statement
+
     $stmt->closeCursor();
 
     return $result;
@@ -691,29 +691,29 @@ function getDocumentsByMotiveId($motive_id) {
 
 function addBlockTime($employee_id, $date, $time_slot) {
     try {
-        $connexion = getConnect();  // Assuming getConnect() returns a PDO connection
+        $connexion = getConnect();  
 
-        // SQL query to insert a new record into the rdv table with approved set to false
+
         $query = "INSERT INTO sprint_database.rdv (employee_id, `date`, time_slot, approved) 
                   VALUES (:employee_id, :date, :time_slot, 0)";
 
-        // Prepare the query
+
         $stmt = $connexion->prepare($query);
 
-        // Bind parameters
+
         $stmt->bindParam(':employee_id', $employee_id, PDO::PARAM_INT);
         $stmt->bindParam(':date', $date);
         $stmt->bindParam(':time_slot', $time_slot);
 
-        // Execute the query
+
         $stmt->execute();
         return ["success" => true, "message" => "Block time added successfully!"];
     } catch (PDOException $e) {
-        // Custom error message for specific SQLSTATE code
+
         if ($e->getCode() == '45000') {
             return ["success" => false, "message" => "An existing appointment or block time conflicts with the specified time. Please choose a different time."];
         } else {
-            // Generic error message for other errors
+
             return ["success" => false, "message" => "Database error: " . $e->getMessage()];
         }
     }
