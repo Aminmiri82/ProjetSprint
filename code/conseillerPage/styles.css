@@ -19,6 +19,11 @@ header h1 {
     margin: 0;
     font-size: 2em; /* Larger and more prominent */
     font-weight: bold;
+    text-align: left;
+}
+.logout-button{
+    
+    margin-left: 90%;
 }
 
 * {

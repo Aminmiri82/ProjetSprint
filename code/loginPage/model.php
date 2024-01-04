@@ -18,7 +18,7 @@ function userExists($username, $password) {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $stmt->closeCursor();
     
-    // If the count is greater than 0, the user exists
+   
     return ($result['count'] > 0);
 }
 function getRoleIdByUsername($username) {
@@ -41,7 +41,56 @@ function getRoleIdByUsername($username) {
     if ($result) {
         return $result['role_id'];
     } else {
-        // Handle the case when no role is found for the given username
+ 
         return null;
     }
 }
+function getEmployeeFullNameByUsername($username) {
+    $connexion = getConnect();  
+
+
+    $query = "SELECT first_name, last_name FROM employee WHERE username = :username";
+
+
+    $stmt = $connexion->prepare($query);
+
+   
+    $stmt->bindParam(':username', $username);
+
+ 
+    $stmt->execute();
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result) {
+        return $result['first_name'] . ' ' . $result['last_name'];
+    } else {
+        return 'No employee found with that username.';
+    }
+}
+function getRoleNameById($roleId) {
+    $connexion = getConnect();  
+
+    
+    $query = "SELECT role_name FROM role_types WHERE role_id = :roleId";
+
+
+    $stmt = $connexion->prepare($query);
+
+
+    $stmt->bindParam(':roleId', $roleId, PDO::PARAM_INT);
+
+  
+    $stmt->execute();
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result) {
+        return $result['role_name'];
+    } else {
+        return null;  
+    }
+}
+
+
+

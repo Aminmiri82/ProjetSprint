@@ -12,6 +12,20 @@ function afficheracceuil(){
     return $contenu;
 
 }
+function showUsername(){
+    $headercontent= "";
+    if (isset($_SESSION['username'])) {
+        $username = $_SESSION['username'];
+        $role = $_SESSION['role'];
+        $name = $_SESSION['name'];
+        $role_name = $_SESSION['role_name'];
+        
+    }
+    $headercontent = "$name ! you are in the $role_name page." ;
+    
+    return $headercontent;
+
+}
 
 function showClientInfo($clientInfo){
     $content = '';

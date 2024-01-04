@@ -13,14 +13,16 @@
 
 
 
-        <header>
-            <h1>hello mr.<?php echo $headercontent; 
-            ?>
-            </h1>
-            <form action="site.php" method="post">
-                <input type="submit" value="log out" name="logout">
-            </form>
-        </header>
+    <header>
+    <h1>hello there <?php echo $headercontent; 
+        ?>
+    </h1>
+    <form action="site.php" method="post">
+        <input type="submit" value="LOG OUT" name="logout" class="logout-button">
+    </form>
+    </header>
+
+
         
         <div class="fieldset-container">
             <fieldset>

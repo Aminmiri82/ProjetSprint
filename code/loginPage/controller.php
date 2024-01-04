@@ -5,9 +5,13 @@ require_once("view.php");
 function ctllogin($username, $password) {
     if (userExists($username, $password)) {
         $role = ctlgetrole($username);
+        $name=getEmployeeFullNameByUsername($username);
+        $role_name = getRoleNameById($role);
         session_start();
         $_SESSION['username'] = $username;
         $_SESSION['role'] = $role;
+        $_SESSION['name'] = $name;
+        $_SESSION['role_name'] = $role_name;
         if ($role == 1) {
             header('Location: ../agentPage/site.php');
             exit();

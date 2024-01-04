@@ -11,6 +11,10 @@ function ctllogin($username, $password) {
     }
     afficheracceuil();
 }
+function ctlshowUsername(){
+    return showUsername();
+    
+}
 function ctlafficheracceuil(){
     return afficheracceuil();
     
