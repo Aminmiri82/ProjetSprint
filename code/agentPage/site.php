@@ -101,7 +101,8 @@ try {
     }
     if (isset($_POST['search_for_accounts_for_overdraft'])){
         $client_id = $_POST['client_id'];
-        // this literally does nothing lol
+        $accounts_in_possesion=  ctlgetAccountsById($client_id);
+        $accounts_in_users_possesion_overdraft= ctlshowAccountsInPossesion($accounts_in_possesion);
     }
     if (isset($_POST['change_overdraft'])){
         $account_id = $_POST['account_id'];

@@ -16,9 +16,7 @@
 
 
     <header>
-    <h1>hello there <?php echo $headercontent; 
-        ?>
-    </h1>
+    <h1>hello there <?php echo $headercontent; ?> </h1>
     <form action="site.php" method="post">
         <input type="submit" value="LOG OUT" name="logout" class="logout-button">
     </form>

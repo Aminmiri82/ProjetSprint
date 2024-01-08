@@ -52,9 +52,9 @@ function addMotive($text_box, $type) {
     $connexion = getConnect();  
 
     if ($type == 0) {
-        $motive_name = "Opening a new " . $text_box . " account";
+        $motive_name = "Opening a new " . $text_box ;
     } else if ($type == 1) {
-        $motive_name = "Opening a new " . $text_box . " contract";
+        $motive_name = "Opening a new " . $text_box ;
     } else {
         echo "Invalid type provided.";
         return null;

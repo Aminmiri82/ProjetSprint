@@ -111,10 +111,12 @@ function getAccountsInfoById($client_id) {
   $connexion = getConnect();  
 
   $query = "
-      SELECT c.compte_id, c.balance, c.overdraft, cca.client_id, c1.last_name
-      FROM sprint_database.compte c 
-          INNER JOIN sprint_database.client_compte_assignment cca ON (cca.compte_id = c.compte_id)  
-          INNER JOIN sprint_database.client c1 ON (c1.client_id = cca.client_id)  
+      SELECT c.compte_id, c.balance, c.overdraft, cca.client_id, c1.last_name, ct.type_name
+      FROM sprint_database.compte c
+      INNER JOIN sprint_database.client_compte_assignment cca ON cca.compte_id = c.compte_id
+      INNER JOIN sprint_database.client c1 ON c1.client_id = cca.client_id
+      LEFT JOIN sprint_database.comptetype_compte_assignment cca2 ON cca2.compte_id = c.compte_id
+      LEFT JOIN sprint_database.comptetype ct ON ct.comptetype_id = cca2.comptetype_id
       WHERE cca.client_id = :client_id;
   ";
 
@@ -125,11 +127,10 @@ function getAccountsInfoById($client_id) {
   $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
   $stmt->closeCursor();
 
-  
   if ($result) {
-      $html = '<table><tr><th>Account ID</th><th>Balance</th><th>Overdraft</th><th>Client ID</th><th>Last Name</th></tr>';
+      $html = '<table><tr><th>Account ID</th><th>Balance</th><th>Overdraft</th><th>Client ID</th><th>Last Name</th><th>Account Type</th></tr>';
       foreach ($result as $row) {
-          $html .= '<tr><td>' . htmlspecialchars($row['compte_id']) . '</td><td>' . htmlspecialchars($row['balance']) . '</td><td>' . htmlspecialchars($row['overdraft']) . '</td><td>' . htmlspecialchars($row['client_id']) . '</td><td>' . htmlspecialchars($row['last_name']) . '</td></tr>';
+          $html .= '<tr><td>' . htmlspecialchars($row['compte_id']) . '</td><td>' . htmlspecialchars($row['balance']) . '</td><td>' . htmlspecialchars($row['overdraft']) . '</td><td>' . htmlspecialchars($row['client_id']) . '</td><td>' . htmlspecialchars($row['last_name']) . '</td><td>' . htmlspecialchars($row['type_name']) . '</td></tr>';
       }
       $html .= '</table>';
   } else {
@@ -138,3 +139,4 @@ function getAccountsInfoById($client_id) {
 
   echo $html; 
 }
+
